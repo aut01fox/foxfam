@@ -9,11 +9,21 @@
     .slide { display: none; padding: 60px 20px 20px; min-height: 100vh; box-sizing: border-box; }
     .slide.active { display: block; }
     h2 { text-align: center; margin-bottom: 10px; }
-    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); height: 100%; }
-    .calendar-row { display: contents; }
+    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: calc(100vh - 100px); }
     .calendar-grid .day { border: 1px solid #ccc; font-size: 1.25em; }
     .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; }
-    .hour-label { font-weight: bold; text-align: right; padding-right: 10px; border-right: 1px solid #ccc; background-color: #f8f8f8; font-size: 0.75em; }
+    .hour-label {
+      font-weight: bold;
+      text-align: right;
+      padding-right: 10px;
+      border-right: 1px solid #ccc;
+      background-color: #f8f8f8;
+      font-size: 0.75em;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-left: 4px;
+    }
     .day-label { font-weight: bold; text-align: center; background-color: #eee; padding: 6px; border: 1px solid #ccc; font-size: 1em; }
 
     .dinner, .birthdays, .chores { max-width: 600px; margin: 0 auto; font-size: 1.1em; }
@@ -74,50 +84,44 @@
       return `${h}:${m} ${ampm}`;
     }
 
-function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  // Header row
-  containerElement.innerHTML += `<div class="hour-label"></div>`;
-  days.forEach(day => {
-    containerElement.innerHTML += `<div class="day-label">${day}</div>`;
-  });
+      // Header row
+      containerElement.innerHTML += `<div class="hour-label"></div>`;
+      days.forEach(day => {
+        containerElement.innerHTML += `<div class="day-label">${day}</div>`;
+      });
 
-  // Block tracker: blocked[day][time] = true
-  const blocked = {};
-  days.forEach(day => blocked[day] = {});
+      const blocked = {};
+      days.forEach(day => blocked[day] = {});
 
-  for (let t = startHour * 2; t <= endHour * 2; t++) {
-    const hour = Math.floor(t / 2);
-    const minute = t % 2 === 0 ? 0 : 30;
-    const label = formatTime(hour, minute);
+      for (let t = startHour * 2; t <= endHour * 2; t++) {
+        const hour = Math.floor(t / 2);
+        const minute = t % 2 === 0 ? 0 : 30;
+        const label = formatTime(hour, minute);
 
-    containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
+        containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
 
-    days.forEach(day => {
-      if (blocked[day][label]) {
-        // This slot is part of a spanned event from an earlier time
-        return;
+        days.forEach(day => {
+          if (blocked[day][label]) return;
+
+          const event = (calendarData || []).find(e => e.day === day && e.time === label);
+          if (event) {
+            const span = event.duration || 1;
+            containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
+
+            for (let offset = 1; offset < span; offset++) {
+              const blockTime = new Date(0, 0, 0, hour, minute + offset * 30);
+              const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
+              blocked[day][blockLabel] = true;
+            }
+          } else {
+            containerElement.innerHTML += `<div class="day"></div>`;
+          }
+        });
       }
-
-      const event = (calendarData || []).find(e => e.day === day && e.time === label);
-      if (event) {
-        const span = event.duration || 1;
-        containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
-
-        // Mark future times as blocked
-        for (let offset = 1; offset < span; offset++) {
-          const blockTime = new Date(0, 0, 0, hour, minute + offset * 30);
-          const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-          blocked[day][blockLabel] = true;
-        }
-      } else {
-        containerElement.innerHTML += `<div class="day"></div>`;
-      }
-    });
-  }
-}
-
+    }
 
     fetch("assets/data.json")
       .then(res => res.json())
@@ -146,4 +150,5 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   </script>
 </body>
 </html>
+
 
