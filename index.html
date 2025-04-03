@@ -9,7 +9,8 @@
     .slide { display: none; padding: 60px 20px 20px; min-height: 100vh; box-sizing: border-box; }
     .slide.active { display: block; }
     h2 { text-align: center; margin-bottom: 10px; }
-    .calendar-grid { display: grid; grid-template-columns: 120px repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: 100%; }
+    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: 100%; }
+    .calendar-row { display: contents; }
     .calendar-grid .day { border: 1px solid #ccc; font-size: 1.25em; }
     .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; }
     .hour-label { font-weight: bold; text-align: right; padding-right: 10px; border-right: 1px solid #ccc; background-color: #f8f8f8; font-size: 0.75em; }
@@ -76,10 +77,11 @@
     function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-      let headerRow = `<div class="hour-label"></div>`;
+      let headerRow = `<div class="calendar-row"><div class="hour-label"></div>`;
       days.forEach(day => {
         headerRow += `<div class="day-label">${day}</div>`;
       });
+      headerRow += `</div>`;
       containerElement.innerHTML += headerRow;
 
       for (let t = startHour * 2; t <= endHour * 2; t++) {
@@ -87,7 +89,7 @@
         const minute = t % 2 === 0 ? 0 : 30;
         const label = formatTime(hour, minute);
 
-        let row = `<div class="hour-label">${label}</div>`;
+        let row = `<div class="calendar-row"><div class="hour-label">${label}</div>`;
         days.forEach(day => {
           const event = (calendarData || []).find(e => e.day === day && e.time === label);
           if (event) {
@@ -97,6 +99,7 @@
             row += `<div class="day"></div>`;
           }
         });
+        row += `</div>`;
         containerElement.innerHTML += row;
       }
     }
@@ -128,3 +131,4 @@
   </script>
 </body>
 </html>
+
