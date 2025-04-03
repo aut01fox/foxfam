@@ -1,0 +1,63 @@
+{
+  "calendar": [
+    {
+      "day": "Monday",
+      "hour": 9,
+      "event": "Team Meeting"
+      "category": "Work"
+    },
+    {
+      "day": "Wednesday",
+      "hour": 14,
+      "event": "Doctor Appointment"
+    },
+    {
+      "day": "Friday",
+      "hour": 19,
+      "event": "Movie Night"
+    }
+  ],
+  "dinners": {
+    "Monday": "Tacos",
+    "Tuesday": "Spaghetti",
+    "Wednesday": "Grilled Cheese",
+    "Thursday": "Chicken Stir Fry",
+    "Friday": "Pizza",
+    "Saturday": "Leftovers",
+    "Sunday": "Roast Chicken"
+  },
+  "birthdays": [
+    {
+      "name": "Alex",
+      "date": "April 5"
+    },
+    {
+      "name": "Jamie",
+      "date": "April 6"
+    }
+  ],
+  "chores": {
+    "Monday": [
+      "Take out trash",
+      "Feed the dog"
+    ],
+    "Tuesday": [
+      "Laundry"
+    ],
+    "Wednesday": [
+      "Vacuum living room"
+    ],
+    "Thursday": [
+      "Water plants"
+    ],
+    "Friday": [
+      "Clean bathroom"
+    ],
+    "Saturday": [
+      "Grocery shopping"
+    ],
+    "Sunday": [
+      "Meal prep"
+    ]
+  }
+}
