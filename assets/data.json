@@ -2,21 +2,21 @@
   "calendar": [
     {
       "day": "Monday",
-      "hour": 9,
+      "time": "9:00 AM",
       "event": "Team Meeting",
       "duration": 2,
       "category": "work"
     },
     {
       "day": "Wednesday",
-      "hour": 14,
+      "time": "1:00 PM",
       "event": "Doctor Appointment",
       "duration": 3,
       "category": "appt"
     },
     {
       "day": "Friday",
-      "hour": 8,
+      "time": "8:30 AM",
       "event": "Breakfast Date",
       "duration": 1,
       "category": "house"
