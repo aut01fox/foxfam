@@ -12,8 +12,8 @@
     .calendar-grid { display: grid; grid-template-columns: 80px repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: 100%; }
     .calendar-grid .day { border: 1px solid #ccc; font-size: 0.9em; }
     .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; }
-    .hour-label { font-weight: bold; text-align: right; padding-right: 10px; border-right: 1px solid #ccc; background-color: #f8f8f8; }
-    .day-label { font-weight: bold; text-align: center; background-color: #eee; padding: 6px; border: 1px solid #ccc; }
+    .hour-label { font-weight: bold; text-align: right; padding-right: 10px; border-right: 1px solid #ccc; background-color: #f8f8f8; font-size: 1.2em; }
+    .day-label { font-weight: bold; text-align: center; background-color: #eee; padding: 6px; border: 1px solid #ccc; font-size: 0.75em; }
 
     .dinner, .birthdays, .chores { max-width: 600px; margin: 0 auto; font-size: 1.1em; }
     .reminder { font-size: 1.4em; text-align: center; margin-top: 100px; }
@@ -66,6 +66,13 @@
       showSlide(current);
     }, 30000);
 
+    function formatTime(hour, minute) {
+      const ampm = hour >= 12 ? "PM" : "AM";
+      const h = hour % 12 || 12;
+      const m = minute.toString().padStart(2, "0");
+      return `${h}:${m} ${ampm}`;
+    }
+
     function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -77,8 +84,8 @@
 
       for (let t = startHour * 2; t <= endHour * 2; t++) {
         const hour = Math.floor(t / 2);
-        const minute = t % 2 === 0 ? "00" : "30";
-        const label = `${hour}:${minute}`;
+        const minute = t % 2 === 0 ? 0 : 30;
+        const label = formatTime(hour, minute);
 
         let row = `<div class="hour-label">${label}</div>`;
         days.forEach(day => {
@@ -121,4 +128,3 @@
   </script>
 </body>
 </html>
-
