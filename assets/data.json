@@ -4,12 +4,13 @@
       "day": "Monday",
       "hour": 9,
       "event": "Team Meeting",
-      "category": "Work"
+      "category": "work"
     },
     {
       "day": "Wednesday",
       "hour": 14,
-      "event": "Doctor Appointment"
+      "event": "Doctor Appointment",
+      "category": "appt"
     },
     {
       "day": "Friday",
