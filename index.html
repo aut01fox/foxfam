@@ -9,19 +9,20 @@
     .slide { display: none; padding: 60px 20px 20px; min-height: 100vh; box-sizing: border-box; }
     .slide.active { display: block; }
     h2 { text-align: center; margin-bottom: 10px; }
-    .calendar-grid { display: grid; grid-template-columns: 80px repeat(7, 1fr); gap: 4px; }
-    .calendar-grid .day { border: 1px solid #ccc; padding: 6px; font-size: 0.9em; }
-    .event-block { padding: 8px; border-radius: 4px; margin-top: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; }
+    .calendar-grid { display: grid; grid-template-columns: 80px repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: 100%; }
+    .calendar-grid .day { border: 1px solid #ccc; font-size: 0.9em; }
+    .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; }
     .hour-label { font-weight: bold; text-align: right; padding-right: 10px; border-right: 1px solid #ccc; background-color: #f8f8f8; }
+    .day-label { font-weight: bold; text-align: center; background-color: #eee; padding: 6px; border: 1px solid #ccc; }
+
     .dinner, .birthdays, .chores { max-width: 600px; margin: 0 auto; font-size: 1.1em; }
     .reminder { font-size: 1.4em; text-align: center; margin-top: 100px; }
 
-    /* event-block category colors */
-    .appt { background-color: #ffd966; }  /* yellow */
-    .school { background-color: #d9ead3; }  /* green */
-    .work { background-color: #f9cb9c; }  /* orange */
-    .house { background-color: #a4c2f4; }  /* blue */
-    .other { background-color: #e0e0e0; }  /* grey */
+    .appt { background-color: #ffd966; }
+    .school { background-color: #d9ead3; }
+    .work { background-color: #f9cb9c; }
+    .house { background-color: #a4c2f4; }
+    .other { background-color: #e0e0e0; }
   </style>
 </head>
 <body>
@@ -68,19 +69,26 @@
     function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-      // Add header row
       let headerRow = `<div class="hour-label"></div>`;
       days.forEach(day => {
         headerRow += `<div class="day-label">${day}</div>`;
       });
-      containerElement.innerHTML += `<div class="calendar-header">${headerRow}</div>`;
+      containerElement.innerHTML += headerRow;
 
-      // Add hour rows
-      for (let hour = startHour; hour <= endHour; hour++) {
-        let row = `<div class="hour-label">${hour}:00</div>`;
+      for (let t = startHour * 2; t <= endHour * 2; t++) {
+        const hour = Math.floor(t / 2);
+        const minute = t % 2 === 0 ? "00" : "30";
+        const label = `${hour}:${minute}`;
+
+        let row = `<div class="hour-label">${label}</div>`;
         days.forEach(day => {
-          const event = (calendarData || []).find(e => e.day === day && e.hour === hour);
-          row += `<div class="day">${event ? `<div class="event-block ${event.category}">${event.event}</div>` : ""}</div>`;
+          const event = (calendarData || []).find(e => e.day === day && e.time === label);
+          if (event) {
+            const span = event.duration || 1;
+            row += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
+          } else {
+            row += `<div class="day"></div>`;
+          }
         });
         containerElement.innerHTML += row;
       }
@@ -92,8 +100,8 @@
         const calendarAM = document.getElementById("calendarAM");
         const calendarPM = document.getElementById("calendarPM");
 
-        buildCalendarSection(calendarAM, 7, 14, data.calendar);  // AM calendar
-        buildCalendarSection(calendarPM, 15, 22, data.calendar); // PM calendar
+        buildCalendarSection(calendarAM, 7, 14, data.calendar);
+        buildCalendarSection(calendarPM, 15, 22, data.calendar);
 
         const dinners = document.getElementById("dinners");
         Object.entries(data.dinners || {}).forEach(([day, meal]) => {
@@ -113,3 +121,4 @@
   </script>
 </body>
 </html>
+
