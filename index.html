@@ -74,35 +74,34 @@
       return `${h}:${m} ${ampm}`;
     }
 
-    function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
-      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-      let headerRow = `<div class="calendar-row"><div class="hour-label"></div>`;
-      days.forEach(day => {
-        headerRow += `<div class="day-label">${day}</div>`;
-      });
-      headerRow += `</div>`;
-      containerElement.innerHTML += headerRow;
+  // Add day headers
+  containerElement.innerHTML += `<div class="hour-label"></div>`; // top-left blank
+  days.forEach(day => {
+    containerElement.innerHTML += `<div class="day-label">${day}</div>`;
+  });
 
-      for (let t = startHour * 2; t <= endHour * 2; t++) {
-        const hour = Math.floor(t / 2);
-        const minute = t % 2 === 0 ? 0 : 30;
-        const label = formatTime(hour, minute);
+  // Add 16 time rows
+  for (let t = startHour * 2; t <= endHour * 2; t++) {
+    const hour = Math.floor(t / 2);
+    const minute = t % 2 === 0 ? 0 : 30;
+    const label = formatTime(hour, minute);
 
-        let row = `<div class="calendar-row"><div class="hour-label">${label}</div>`;
-        days.forEach(day => {
-          const event = (calendarData || []).find(e => e.day === day && e.time === label);
-          if (event) {
-            const span = event.duration || 1;
-            row += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
-          } else {
-            row += `<div class="day"></div>`;
-          }
-        });
-        row += `</div>`;
-        containerElement.innerHTML += row;
+    containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
+
+    days.forEach(day => {
+      const event = (calendarData || []).find(e => e.day === day && e.time === label);
+      if (event) {
+        const span = event.duration || 1;
+        containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
+      } else {
+        containerElement.innerHTML += `<div class="day"></div>`;
       }
-    }
+    });
+  }
+}
 
     fetch("assets/data.json")
       .then(res => res.json())
