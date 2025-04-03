@@ -4,18 +4,22 @@
       "day": "Monday",
       "hour": 9,
       "event": "Team Meeting",
+      "duration": 2,
       "category": "work"
     },
     {
       "day": "Wednesday",
       "hour": 14,
       "event": "Doctor Appointment",
+      "duration": 3,
       "category": "appt"
     },
     {
       "day": "Friday",
-      "hour": 19,
-      "event": "Movie Night"
+      "hour": 8,
+      "event": "Breakfast Date",
+      "duration": 1,
+      "category": "house"
     }
   ],
   "dinners": {
@@ -29,12 +33,12 @@
   },
   "birthdays": [
     {
-      "name": "Alex",
-      "date": "April 5"
+      "name": "Autumn",
+      "date": "Monday"
     },
     {
-      "name": "Jamie",
-      "date": "April 6"
+      "name": "Leon",
+      "date": "Wedneday"
     }
   ],
   "chores": {
