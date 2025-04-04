@@ -26,9 +26,9 @@
     }
     .day-label { font-weight: bold; text-align: center; background-color: #eee; padding: 6px; border: 1px solid #ccc; font-size: 1em; }
 
-    .dinner{ max-width: 600px; margin: 0 auto; font-size: 3em; }
-    .birthdays, .chores { max-width: 600px; margin: 0 auto; font-size: 3em; }
-    .reminder { font-size: 3em; text-align: center; margin-top: 100px; }
+    .dinner{ max-width: 600px; margin: 0 auto; font-size: 2em; }
+    .birthdays, .chores { max-width: 600px; margin: 0 auto; font-size: 2em; }
+    .reminder { font-size: 2em; text-align: center; margin-top: 100px; }
     .reminder h2 { font-size: 1em; font-weight: bold; }
     .reminder p { font-size: .8em; }
 
@@ -49,7 +49,7 @@
     <div class="slide" id="reminder-slide">
       <div class="reminder" id="reminderBox"></div>
     </div>
-    <div class="slide" id="chores-slide"><h2>Daily Chores</h2><div class="chores" id="chores"></div></div>
+    <div class="slide" id="chores-slide"><h2>Daily Tasks</h2><div class="chores" id="chores"></div></div>
   </div>
 
   <script>
@@ -136,12 +136,12 @@
 
         const dinners = document.getElementById("dinners");
         Object.entries(data.dinners || {}).forEach(([day, meal]) => {
-          dinners.innerHTML += `<p><strong>${day}:</strong> ${meal}</p>`;
+          dinners.innerHTML += `<p>${day}:<br>${meal}<br></p>`;
         });
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays || []).forEach(b => {
-          birthdays.innerHTML += `<p>${b.name} — ${b.date}</p>`;
+          birthdays.innerHTML += `<p>${b.name}<br><em>${b.date}</em><br></p>`;
         });
 
         const chores = document.getElementById("chores");
