@@ -136,12 +136,12 @@
 
         const dinners = document.getElementById("dinners");
         Object.entries(data.dinners || {}).forEach(([day, meal]) => {
-          dinners.innerHTML += `<p><strong>${day}:</strong><br>${meal}<br></p>`;
+          dinners.innerHTML += `<p>${day}:<br><em>${meal}</em><br></p>`;
         });
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays || []).forEach(b => {
-          birthdays.innerHTML += `<p>${b.name}<br><em>${b.date}</em><br></p>`;
+          birthdays.innerHTML += `<p>${b.name}  —  <em>${b.date}</em><br></p>`;
         });
 
         const chores = document.getElementById("chores");
