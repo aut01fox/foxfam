@@ -38,7 +38,7 @@
     },
     {
       "name": "Leon",
-      "date": "Wedneday"
+      "date": "Wednesday"
     }
   ],
   "chores": {
@@ -64,5 +64,15 @@
     "Sunday": [
       "Meal prep"
     ]
+  },
+  "reminders": {
+    "Monday": {
+      "title": "Reminder:",
+      "message": "Trash day tomorrow"
+    },
+    "Saturday": {
+      "title": "Heads up!",
+      "message": "Grocery day tomorrow. Make sure to add to the list."
+    }
   }
 }
