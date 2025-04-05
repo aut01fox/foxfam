@@ -143,7 +143,7 @@ fetch("assets/data.json")
     const calendarPM = document.getElementById("calendarPM");
 
     const splitEvents = [];
-    const cutoffBlock = 14 * 4 + 2; // 14:30 (2:30 PM) in 15-min blocks
+    const cutoffBlock = 14 * 4 + 4; // 3:00 PM = block 60
 
     (data.calendar || []).forEach(e => {
       const timeParts = e.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
@@ -159,12 +159,12 @@ fetch("assets/data.json")
       const span = e.duration || 1;
       const endBlock = startBlock + span;
 
-      if (endBlock <= cutoffBlock) {
-        splitEvents.push(e); // All in AM
+      if (endBlock <= cutoffBlock - 1) {
+        splitEvents.push(e); // Entirely in AM
       } else if (startBlock >= cutoffBlock) {
-        splitEvents.push(e); // All in PM
+        splitEvents.push(e); // Entirely in PM
       } else {
-        // Split across AM/PM boundary
+        // Split across 2:45–3:00 boundary
         const amSpan = cutoffBlock - startBlock;
         const pmSpan = span - amSpan;
 
@@ -172,15 +172,15 @@ fetch("assets/data.json")
         const ePM = {
           ...e,
           duration: pmSpan,
-          time: "2:30 PM" // always picks up here
+          time: "3:00 PM"
         };
 
         splitEvents.push(eAM, ePM);
       }
     });
 
-    buildCalendarSection(calendarAM, 7, 14, splitEvents);
-    buildCalendarSection(calendarPM, 15, 22, splitEvents);
+    buildCalendarSection(calendarAM, 7, 14, splitEvents);  // 7:00 AM – 2:45 PM
+    buildCalendarSection(calendarPM, 15, 22, splitEvents); // 3:00 PM – 10:45 PM
 
         const dinners = document.getElementById("dinners");
         const todayDinner = data.dinners?.[dayOfWeek];
