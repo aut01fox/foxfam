@@ -3,29 +3,29 @@
     {
       "day": "Monday",
       "time": "10:30 AM",
-      "duration": 2,
       "event": "Leo: OT",
+      "duration": 2,
       "category": "appt"
     },
     {
       "day": "Tuesday",
       "time": "6:00 PM",
-      "duration": 4,
       "event": "Cole: Tournament",
+      "duration": 4,
       "category": "house"
     },
     {
       "day": "Wednesday",
       "time": "12:00 PM",
-      "duration": 5,
       "event": "Leo: Preschool",
+      "duration": 5,
       "category": "school"
     },
     {
       "day": "Friday",
       "time": "12:00 PM",
-      "duration": 5,
       "event": "Leo: Preschool",
+      "duration": 5,
       "category": "school"
     }
   ],
