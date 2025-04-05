@@ -9,24 +9,21 @@
     .slide { display: none; padding: 60px 20px 0 20px; height: 100vh; box-sizing: border-box; overflow: hidden; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
-    .calendar-grid { position: relative; display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
-    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; position: relative; padding: 0; display: flex; flex-direction: row; align-items: stretch; height: 100%; }
-    .event-block { 
-      position: absolute;
-      padding: 0;
-      margin: 0;
-      border-radius: 4px;
-      box-sizing: border-box;
-      color: #000;
-      font-size: 0.75em;
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: auto repeat(21, 1fr); /* 7 days * 3 members */
+      grid-template-rows: auto repeat(32, 1fr);
+      gap: 0;
+      height: calc(100vh - 175px);
+    }
+    .day-label {
       font-weight: bold;
-      word-break: break-word;
-      white-space: normal;
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      background-color: #cdcdd1;
+      padding: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      grid-column: span 3;
     }
     .hour-label {
       font-weight: bold;
@@ -40,8 +37,21 @@
       justify-content: flex-end;
       padding-left: 4px;
     }
-    .day-label { font-weight: bold; text-align: center; background-color: #cdcdd1; padding: 6px; border: 1px solid #ccc; font-size: 1em; }
-
+    .event-block {
+      padding: 2px;
+      margin: 1px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: #000;
+      font-size: 0.75em;
+      font-weight: bold;
+      word-break: break-word;
+      white-space: normal;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .dinner {max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
     .birthdays, .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
     .reminder { font-size: 2em; text-align: center; margin-top: 100px; }
@@ -76,14 +86,7 @@
 
     const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
 
-    const slides = [
-      "calendar-am",
-      "calendar-pm",
-      "dinner-slide",
-      "birthday-slide",
-      "chores-slide"
-    ];
-
+    const slides = ["calendar-am", "calendar-pm", "dinner-slide", "birthday-slide", "chores-slide"];
     let current = 0;
     function showSlide(index) {
       slides.forEach(id => document.getElementById(id).classList.remove("active"));
@@ -107,60 +110,51 @@
       const members = ["Leo", "Autumn", "Cole"];
       containerElement.innerHTML = "";
 
-      let headerHTML = `<div class="hour-label"></div>`;
-      days.forEach(day => {
-        headerHTML += `<div class="day-label">${day}</div>`;
+      // Header row
+      containerElement.innerHTML += `<div class="hour-label"></div>`;
+      days.forEach(() => {
+        containerElement.innerHTML += `<div class="day-label">Day</div>`;
       });
-      containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
       const totalBlocks = (endHour - startHour) * 4 + 1;
 
       for (let t = 0; t < totalBlocks; t++) {
-        const currentHour = Math.floor((startHour * 4 + t) / 4);
+        const hour = Math.floor((startHour * 4 + t) / 4);
         const minute = ((startHour * 4 + t) % 4) * 15;
-        const label = formatTime(currentHour, minute);
+        const label = formatTime(hour, minute);
         const timeLabel = (minute === 0 || minute === 30) ? label : "";
 
-        let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
-        days.forEach(() => {
-          rowHTML += `<div class="day"></div>`;
-        });
-        containerElement.insertAdjacentHTML("beforeend", rowHTML);
+        containerElement.innerHTML += `<div class="hour-label">${timeLabel}</div>`;
+        for (let i = 0; i < 21; i++) {
+          containerElement.innerHTML += `<div class="day"></div>`;
+        }
       }
 
-      (calendarData || []).forEach(event => {
-        const daysToApply = Array.isArray(event.day) ? event.day : [event.day];
-        daysToApply.forEach(day => {
+      calendarData.forEach(event => {
+        const eventDays = Array.isArray(event.day) ? event.day : [event.day];
+        eventDays.forEach(day => {
           const dayIndex = days.indexOf(day);
           const memberIndex = members.indexOf(event.member);
           if (dayIndex === -1 || memberIndex === -1) return;
 
-          const timeParts = event.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
-          if (!timeParts) return;
-
-          let hour = parseInt(timeParts[1], 10);
-          const minute = parseInt(timeParts[2], 10);
-          const ampm = timeParts[3];
+          const match = event.time.match(/(\d+):(\d+)\s?(AM|PM)/);
+          if (!match) return;
+          let [_, h, m, ampm] = match;
+          let hour = parseInt(h);
+          let minute = parseInt(m);
           if (ampm === "PM" && hour !== 12) hour += 12;
           if (ampm === "AM" && hour === 12) hour = 0;
 
-          const startMinutes = hour * 60 + minute;
-          const baseMinutes = startHour * 60;
-          const blockIndex = (startMinutes - baseMinutes) / 15;
-          const top = (blockIndex / totalBlocks) * 100;
-          const height = ((event.duration || 1) / totalBlocks) * 100;
-          const left = (dayIndex + memberIndex / members.length + 1) * (100 / (days.length + 1));
-          const width = (1 / members.length) * (100 / (days.length + 1));
+          const start = (hour - startHour) * 4 + Math.floor(minute / 15) + 2;
+          const span = event.duration || 1;
+          const columnStart = dayIndex * 3 + memberIndex + 2;
 
-          const block = document.createElement("div");
-          block.className = `event-block ${event.category}`;
-          block.textContent = event.event;
-          block.style.top = `${top}%`;
-          block.style.left = `${left}%`;
-          block.style.height = `${height}%`;
-          block.style.width = `${width}%`;
-
-          containerElement.appendChild(block);
+          const div = document.createElement("div");
+          div.className = `event-block ${event.category}`;
+          div.textContent = event.event;
+          div.style.gridColumn = columnStart;
+          div.style.gridRow = `span ${span}`;
+          containerElement.appendChild(div);
         });
       });
     }
@@ -175,12 +169,11 @@
         const cutoffBlock = 14 * 4 + 4;
 
         (data.calendar || []).forEach(e => {
-          const timeParts = e.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
-          if (!timeParts) return;
-
-          let hour = parseInt(timeParts[1], 10);
-          const minute = parseInt(timeParts[2], 10);
-          const ampm = timeParts[3];
+          const match = e.time.match(/(\d+):(\d+)\s?(AM|PM)/);
+          if (!match) return;
+          let [_, h, m, ampm] = match;
+          let hour = parseInt(h);
+          const minute = parseInt(m);
           if (ampm === "PM" && hour !== 12) hour += 12;
           if (ampm === "AM" && hour === 12) hour = 0;
 
@@ -230,3 +223,4 @@
   </script>
 </body>
 </html>
+
