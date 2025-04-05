@@ -105,7 +105,9 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
-  const timeSlots = {}; // Track what's already rendered (by time + day + label)
+  // Keep track of grid rows used for each time/day
+  const blocked = {};
+  days.forEach(day => blocked[day] = {});
 
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
@@ -116,45 +118,43 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      const key = `${day}_${label}`;
-      if (timeSlots[key]) {
-        // Already processed in a previous span
+      // Skip if this time block is already covered by a previous event's span
+      if (blocked[day][label]) {
         rowHTML += `<div class="day"></div>`;
         return;
       }
 
-      // Find all overlapping events
-      const events = (calendarData || []).filter(e => {
+      const eventsAtTime = (calendarData || []).filter(e => {
         const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
         return isCorrectDay && e.time === label;
       });
 
-      if (events.length > 0) {
-        const width = 100 / events.length;
+      if (eventsAtTime.length > 0) {
+        const width = 100 / eventsAtTime.length;
         let dayCell = `<div class="day" style="position: relative;">`;
 
-        events.forEach((event, i) => {
+        eventsAtTime.forEach((event, i) => {
           const offset = i * width;
           const span = event.duration || 1;
-
-          // Mark the times this event spans so we don't re-render them
-          for (let j = 0; j < span; j++) {
-            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
-            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-            timeSlots[`${day}_${blockLabel}`] = true;
-          }
 
           dayCell += `
             <div class="event-block ${event.category}" style="
               position: absolute;
+              top: 0;
               left: ${offset}%;
               width: ${width}%;
-              top: 0;
-              height: calc(100% * ${span});
+              height: 100%;
             ">
               ${event.event}
             </div>
           `;
+
+          // Mark each 15-min block as taken for this event
+          for (let j = 0; j < span; j++) {
+            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
+            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
+            blocked[day][blockLabel] = true;
+          }
         });
 
         dayCell += `</div>`;
@@ -167,8 +167,6 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
 }
-
-
 
 fetch("assets/data.json")
   .then(res => res.json())
