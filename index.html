@@ -86,44 +86,77 @@
       return `${h}:${m} ${ampm}`;
     }
 
-    function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
-      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    function timeToMinutes(timeStr) {
+      const [time, modifier] = timeStr.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      if (modifier.toUpperCase() === "PM" && hours !== 12) hours += 12;
+      if (modifier.toUpperCase() === "AM" && hours === 12) hours = 0;
+      return hours * 60 + minutes;
+    }
+    
+function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const slotLength = 15; // minutes per slot
+  const slideStart = startHour * 60;
+  const slideEnd = endHour * 60;
+  const totalSlots = (slideEnd - slideStart) / slotLength;
 
-      // Header row
-      containerElement.innerHTML += `<div class="hour-label"></div>`;
-      days.forEach(day => {
-        containerElement.innerHTML += `<div class="day-label">${day}</div>`;
-      });
+  // Clear container and add header row
+  containerElement.innerHTML = '';
+  containerElement.innerHTML += `<div class="hour-label"></div>`;
+  days.forEach(day => {
+    containerElement.innerHTML += `<div class="day-label">${day}</div>`;
+  });
 
-      const blocked = {};
-      days.forEach(day => blocked[day] = {});
-
-      for (let t = startHour * 2; t <= endHour * 2; t++) {
-        const hour = Math.floor(t / 2);
-        const minute = t % 2 === 0 ? 0 : 30;
-        const label = formatTime(hour, minute);
-
-        containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
-
-        days.forEach(day => {
-          if (blocked[day][label]) return;
-
-          const event = (calendarData || []).find(e => e.day === day && e.time === label);
-          if (event) {
-            const span = event.duration || 1;
-            containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
-
-            for (let offset = 1; offset < span; offset++) {
-              const blockTime = new Date(0, 0, 0, hour, minute + offset * 30);
-              const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-              blocked[day][blockLabel] = true;
-            }
-          } else {
-            containerElement.innerHTML += `<div class="day"></div>`;
-          }
+  // Pre-process events: For each day, compute their effective start/stop in this slide
+  const eventsByDay = {};
+  days.forEach(day => {
+    eventsByDay[day] = [];
+    (calendarData || []).filter(event => event.day === day).forEach(event => {
+      const eventStart = timeToMinutes(event.start);
+      const eventEnd = timeToMinutes(event.end);
+      // Find the portion of the event that falls within this slide
+      const effectiveStart = Math.max(eventStart, slideStart);
+      const effectiveEnd = Math.min(eventEnd, slideEnd);
+      if (effectiveStart < effectiveEnd) {
+        // Compute starting slot index relative to the slide's start time
+        const startSlot = Math.floor((effectiveStart - slideStart) / slotLength);
+        // Compute how many slots the event spans on this slide
+        const spanSlots = Math.ceil((effectiveEnd - effectiveStart) / slotLength);
+        eventsByDay[day].push({
+          ...event,
+          effectiveStart,
+          effectiveEnd,
+          startSlot,
+          spanSlots
         });
       }
-    }
+    });
+  });
+
+  // Build the grid rows
+  for (let slot = 0; slot < totalSlots; slot++) {
+    const currentTime = slideStart + slot * slotLength;
+    const hour = Math.floor(currentTime / 60);
+    const minute = currentTime % 60;
+    // Only show a label for times :00 and :30
+    const label = (minute === 0 || minute === 30) ? formatTime(hour, minute) : "";
+    containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
+
+    // Loop over each day column
+    days.forEach(day => {
+      // Check if an event is scheduled to start in this slot
+      const eventForSlot = eventsByDay[day].find(ev => ev.startSlot === slot);
+      if (eventForSlot) {
+        containerElement.innerHTML += `<div class="day" style="grid-row: span ${eventForSlot.spanSlots};">
+          <div class="event-block ${eventForSlot.category}">${eventForSlot.event}</div>
+        </div>`;
+      } else {
+        containerElement.innerHTML += `<div class="day"></div>`;
+      }
+    });
+  }
+}
 
     fetch("assets/data.json")
       .then(res => res.json())
