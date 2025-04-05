@@ -23,9 +23,9 @@
     },
     {
       "day": "Saturday",
-      "time": "12:00 PM",
+      "time": "1:00 PM",
       "event": "Brunch",
-      "duration": 4,
+      "duration": 16,
       "category": "house"
     }
   ],
