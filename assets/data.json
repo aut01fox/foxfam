@@ -1,10 +1,10 @@
 {
   "calendar": [
     {
-      "day": "Monday",
-      "time": "9:00 AM",
-      "event": "test",
-      "duration": 4,
+      "day": "Monday", "Tuesday",
+      "time": "8:00 AM",
+      "event": "Cole: Work",
+      "duration": 18,
       "category": "work"
     },
     {
@@ -23,56 +23,71 @@
     }
   ],
   "dinners": {
-    "Monday": "Tacos",
-    "Tuesday": "Spaghetti",
-    "Wednesday": "Grilled Cheese",
-    "Thursday": "Chicken Stir Fry",
-    "Friday": "Pizza",
-    "Saturday": "Leftovers",
-    "Sunday": "Roast Chicken"
+    "Monday": [
+      "Salisbury Steak",
+      "Mashed Potatoes"
+    ],
+    "Tuesday": [
+      "Cheeseburger Helper"
+    ],
+    "Wednesday": [
+      "free for all"
+    ],
+    "Thursday": [
+      "Lasagna",
+      "Garlic Bread"
+    ],
+    "Friday": [
+      "Pizza Friday"
+    ],
+    "Saturday": [
+      "free for all"
+    ],
+    "Sunday": [
+      "Spaghetti",
+      "Garlic Bread"
+    ]
   },
   "birthdays": [
     {
-      "name": "Autumn",
-      "date": "Monday"
-    },
-    {
-      "name": "Leon",
-      "date": "Wednesday"
+      "name": "Cynthia",
+      "date": "Friday"
     }
   ],
   "chores": {
     "Monday": [
-      "Take out trash",
-      "Feed the dog"
+      "Clean living room",
+      "Take out trash"
     ],
     "Tuesday": [
-      "Laundry"
+      "Clean Living Room"
     ],
     "Wednesday": [
-      "Vacuum living room"
+      "Clean the kitchen"
     ],
     "Thursday": [
-      "Water plants"
-    ],
-    "Friday": [
       "Clean bathroom"
     ],
+    "Friday": [
+      "Misc cleaning"
+    ],
     "Saturday": [
-      "Grocery shopping"
+      "Plan week"
     ],
     "Sunday": [
-      "Meal prep"
+      "Grocery shopping",
+      "Clean bedrooms",
+      "Laundry day"
     ]
   },
   "reminders": {
     "Monday": {
       "title": "Reminder:",
-      "message": "Trash day tomorrow"
+      "message": "Trash day tomorrow!"
     },
     "Saturday": {
       "title": "Heads up!",
-      "message": "Grocery day tomorrow. Make sure to add to the list."
+      "message": "Groceries ordered tomorrow. Make sure to add to the list!"
     }
   }
 }
