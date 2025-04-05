@@ -5,13 +5,13 @@
   <title>Family Calendar</title>
   <style>
     body { margin: 0; font-size: 20px; font-family: sans-serif; background: #f3f2f2; color: #333; }
-    .date-bar { background: #007acc; color: white; padding: 10px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; z-index: 1000; height: 120px }
-    .slide { display: none; padding: 60px 20px 20px; min-height: 100vh; box-sizing: border-box; }
+    .date-bar { background: #007acc; color: white; padding: 10px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; z-index: 1000; height: 75px }
+    .slide { display: none; padding: 100px 20px 20px; min-height: 100vh; box-sizing: border-box; }
     .slide.active { display: block; }
     h2 { text-align: center; margin-bottom: 10px; font-size: 1.2em}
-    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: calc(100vh - 120px); }
+    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(16, 1fr); gap: 0; height: calc(100vh - 75px); }
     .calendar-grid .day { border: 1px solid #ccc; font-size: 1.25em; text-align: center; }
-    .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; }
+    .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; align-items:  }
     .hour-label {
       font-weight: bold;
       text-align: right;
@@ -26,7 +26,7 @@
     }
     .day-label { font-weight: bold; text-align: center; background-color: #eee; padding: 6px; border: 1px solid #ccc; font-size: 1em; }
 
-    .dinner {max-width: 90vw; margin: 0 auto; font-size: 1.4em; text-align: center; min-height: calc(100vh - 120px); padding-bottom: 2vh; overflow-wrap: break-word; }
+    .dinner {max-width: 90vw; margin: 0 auto; font-size: 1.4em; text-align: center; min-height: calc(100vh - 75px); padding-bottom: 2vh; overflow-wrap: break-word; }
     .birthdays, .chores { max-width: 100%; margin: 0 auto; font-size: 2em; text-align: center; }
     .reminder { font-size: 2em; text-align: center; margin-top: 100px; }
     .reminder h2 { font-size: 1em; font-weight: bold; }
