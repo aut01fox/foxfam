@@ -116,7 +116,7 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const members = ["Leo", "Autumn", "Cole"]; // Update as needed
+  const members = ["parent1", "parent2", "leo"];
   containerElement.innerHTML = "";
 
   let headerHTML = `<div class="hour-label"></div>`;
@@ -125,32 +125,44 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
-  for (let t = startHour * 4; t <= endHour * 4; t++) {
-    const hour = Math.floor(t / 4);
-    const minute = (t % 4) * 15;
+  const totalBlocks = (endHour - startHour) * 4 + 1;
+
+  for (let t = 0; t < totalBlocks; t++) {
+    const hour = Math.floor((startHour * 4 + t) / 4);
+    const minute = ((startHour * 4 + t) % 4) * 15;
     const label = formatTime(hour, minute);
     const timeLabel = (minute === 0 || minute === 30) ? label : "";
 
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      rowHTML += `<div class="day">`;
+      rowHTML += `<div class="day" style="position: relative;">`;
 
-      members.forEach(member => {
+      members.forEach((member, index) => {
+        const blockTime = formatTime(hour, minute);
         const event = (calendarData || []).find(e => {
           const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-          return isCorrectDay && e.time === label && e.member === member;
+          return isCorrectDay && e.time === blockTime && e.member === member;
         });
 
         if (event) {
-          const duration = event.duration || 1;
+          const span = event.duration || 1;
+          const top = `${(t / totalBlocks) * 100}%`;
+          const height = `${(span / totalBlocks) * 100}%`;
+          const left = `${(index / members.length) * 100}%`;
+          const width = `${100 / members.length}%`;
+
           rowHTML += `
-            <div class="event-block ${event.category}" style="grid-row: span ${duration};">
+            <div class="event-block ${event.category}" style="
+              position: absolute;
+              top: ${top};
+              left: ${left};
+              width: ${width};
+              height: ${height};
+            ">
               ${event.event}
             </div>
           `;
-        } else {
-          rowHTML += `<div class="event-block" style="background: none;"></div>`;
         }
       });
 
@@ -160,7 +172,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
 }
-
+    
 fetch("assets/data.json")
   .then(res => res.json())
   .then(data => {
