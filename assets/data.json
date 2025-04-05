@@ -2,30 +2,30 @@
   "calendar": [
     {
       "day": "Monday",
-      "time": "10:30 AM",
+      "time": "10:45 AM",
       "event": "Leo: OT",
-      "duration": 2,
+      "duration": 4,
       "category": "appt"
     },
     {
       "day": "Tuesday",
       "time": "6:00 PM",
       "event": "Cole: Tournament",
-      "duration": 4,
+      "duration": 8,
       "category": "house"
     },
     {
       "day": "Wednesday",
       "time": "12:00 PM",
       "event": "Leo: Preschool",
-      "duration": 5,
+      "duration": 10,
       "category": "school"
     },
     {
       "day": "Friday",
       "time": "12:00 PM",
       "event": "Leo: Preschool",
-      "duration": 5,
+      "duration": 10,
       "category": "school"
     }
   ],
