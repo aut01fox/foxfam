@@ -97,9 +97,9 @@
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   containerElement.innerHTML = ""; // Clear it first
-  
+
   // Header row
-   let headerHTML = `<div class="hour-label"></div>`;
+  let headerHTML = `<div class="hour-label"></div>`;
   days.forEach(day => {
     headerHTML += `<div class="day-label">${day}</div>`;
   });
@@ -115,23 +115,38 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     const timeLabel = (minute === 0 || minute === 30) ? label : "";
 
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
-    
-    days.forEach(day => {
-     if (blocked[day][label]) return;
 
-const event = (calendarData || []).find(e => {
-        return (Array.isArray(e.day) ? e.day.includes(day) : e.day === day) && e.time === label;
+    days.forEach(day => {
+      const timeKey = `${hour}:${minute}`;
+
+      if (blocked[day][label]) return;
+
+      // Find all events at this time and day
+      const eventsAtThisTime = (calendarData || []).filter(e => {
+        const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
+        return isCorrectDay && e.time === label;
       });
 
-      if (event) {
-        const span = event.duration || 1;
-        rowHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
-        
-        for (let offset = 1; offset < span; offset++) {
-          const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
-          const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-          blocked[day][blockLabel] = true;
-        }
+      if (eventsAtThisTime.length > 0) {
+        const width = 100 / eventsAtThisTime.length;
+
+        eventsAtThisTime.forEach((event, i) => {
+          const span = event.duration || 1;
+          const offset = i * width;
+          rowHTML += `
+            <div class="day" style="grid-row: span ${span}; position: relative;">
+              <div class="event-block ${event.category}" style="position: absolute; left: ${offset}%; width: ${width}%; height: 100%;">
+                ${event.event}
+              </div>
+            </div>
+          `;
+
+          for (let j = 0; j < span; j++) {
+            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
+            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
+            blocked[day][blockLabel] = true;
+          }
+        });
       } else {
         rowHTML += `<div class="day"></div>`;
       }
