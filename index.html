@@ -100,7 +100,7 @@
 
       for (let t = startHour * 2; t <= endHour * 2; t++) {
         const hour = Math.floor(t / 2);
-        const minute = t % 2 === 0 ? 0 : 30;
+        const minute = t % 2 === 0 ? 0 : 5;
         const label = formatTime(hour, minute);
 
         containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
