@@ -101,68 +101,78 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   const slideEnd = endHour * 60;
   const totalSlots = (slideEnd - slideStart) / slotLength;
   
-  // Clear container and add header row.
   containerElement.innerHTML = '';
+  // Create header row for time labels and day labels.
   containerElement.innerHTML += `<div class="hour-label"></div>`;
   days.forEach(day => {
     containerElement.innerHTML += `<div class="day-label">${day}</div>`;
   });
   
-  // Pre-process events: compute effective start, end, startSlot, and spanSlots for each event
+  // Use a "blocked" map keyed by time label (only for labels we display, e.g. :00 and :30).
+  const blocked = {};
+  days.forEach(day => { blocked[day] = {}; });
+  
+  // Pre-process events: compute effective start/end times and the label for effective start.
   const eventsByDay = {};
   days.forEach(day => {
     eventsByDay[day] = [];
     (calendarData || []).filter(event => event.day === day).forEach(event => {
       const eventStart = timeToMinutes(event.start);
       const eventEnd = timeToMinutes(event.end);
-      // Determine the part of the event that falls within this slide
+      // Determine the part of the event that falls in this slide.
       const effectiveStart = Math.max(eventStart, slideStart);
       const effectiveEnd = Math.min(eventEnd, slideEnd);
       if (effectiveStart < effectiveEnd) {
-        const startSlot = Math.floor((effectiveStart - slideStart) / slotLength);
+        // Get the effective start label (if it falls on a displayed label, i.e. :00 or :30)
+        const effHour = Math.floor(effectiveStart / 60);
+        const effMinute = effectiveStart % 60;
+        const effectiveStartLabel = (effMinute === 0 || effMinute === 30) ? formatTime(effHour, effMinute) : "";
+        // Compute how many 15-minute slots this event occupies.
         const spanSlots = Math.ceil((effectiveEnd - effectiveStart) / slotLength);
         eventsByDay[day].push({
           ...event,
           effectiveStart,
           effectiveEnd,
-          startSlot,
+          effectiveStartLabel,
           spanSlots
         });
       }
     });
   });
   
-  // Prepare a blocked map to track slots that are already covered by an event
-  const blocked = {};
-  days.forEach(day => {
-    blocked[day] = {};
-  });
-  
-  // Build the grid rows
+  // Build each grid row.
   for (let slot = 0; slot < totalSlots; slot++) {
     const currentTime = slideStart + slot * slotLength;
-    const hour = Math.floor(currentTime / 60);
-    const minute = currentTime % 60;
-    // Only display labels for :00 and :30 marks
-    const label = (minute === 0 || minute === 30) ? formatTime(hour, minute) : "";
+    const currentHour = Math.floor(currentTime / 60);
+    const currentMinute = currentTime % 60;
+    // Only show a label for :00 and :30 marks.
+    const label = (currentMinute === 0 || currentMinute === 30) ? formatTime(currentHour, currentMinute) : "";
+    
+    // Always add the time label cell.
     containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
     
-    // Loop through each day for the current slot
     days.forEach(day => {
-      if (blocked[day][slot]) {
-        // If this slot is blocked by an earlier event, output an empty cell.
+      // If this label was blocked for the day, output an empty cell.
+      if (blocked[day][label]) {
         containerElement.innerHTML += `<div class="day"></div>`;
         return;
       }
-      // Find if there's an event that starts exactly at this slot.
-      const eventForSlot = eventsByDay[day].find(ev => ev.startSlot === slot);
+      
+      // Check if an event starts at this label.
+      const eventForSlot = eventsByDay[day].find(ev => ev.effectiveStartLabel === label);
       if (eventForSlot) {
         containerElement.innerHTML += `<div class="day" style="grid-row: span ${eventForSlot.spanSlots};">
           <div class="event-block ${eventForSlot.category}">${eventForSlot.event}</div>
         </div>`;
-        // Mark subsequent slots as blocked for this day.
-        for (let i = slot + 1; i < slot + eventForSlot.spanSlots; i++) {
-          blocked[day][i] = true;
+        // Mark subsequent slots (using their displayed labels) as blocked for this day.
+        for (let offset = 1; offset < eventForSlot.spanSlots; offset++) {
+          const blockTime = currentTime + offset * slotLength;
+          const bHour = Math.floor(blockTime / 60);
+          const bMinute = blockTime % 60;
+          const blockedLabel = (bMinute === 0 || bMinute === 30) ? formatTime(bHour, bMinute) : "";
+          if (blockedLabel) {
+            blocked[day][blockedLabel] = true;
+          }
         }
       } else {
         containerElement.innerHTML += `<div class="day"></div>`;
