@@ -135,9 +135,12 @@
         buildCalendarSection(calendarPM, 15, 22, data.calendar);
 
         const dinners = document.getElementById("dinners");
-        Object.entries(data.dinners || {}).forEach(([day, meal]) => {
-           dinners.innerHTML += `<p>${day}:<br><em>${meal}</em><br></p>`;
-        });
+        const todayDinner = data.dinners?.[dayOfWeek];
+        if (todayDinner) {
+          dinners.innerHTML = `<p>${dayOfWeek}:<br><em>${todayDinner.join(', ')}</em><br></p>`;
+        } else {
+          dinners.innerHTML = `<p>No dinner planned for ${dayOfWeek}.</p>`;
+        }
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays || []).forEach(b => {
