@@ -96,7 +96,7 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  containerElement.innerHTML = ""; // Clear it first
+  containerElement.innerHTML = "";
 
   // Header row
   let headerHTML = `<div class="hour-label"></div>`;
@@ -104,9 +104,6 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     headerHTML += `<div class="day-label">${day}</div>`;
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
-
-  const blocked = {};
-  days.forEach(day => blocked[day] = {});
 
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
@@ -117,36 +114,33 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      const timeKey = `${hour}:${minute}`;
-
-      if (blocked[day][label]) return;
-
-      // Find all events at this time and day
       const eventsAtThisTime = (calendarData || []).filter(e => {
         const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
         return isCorrectDay && e.time === label;
       });
 
       if (eventsAtThisTime.length > 0) {
+        rowHTML += `<div class="day" style="position: relative;">`;
+
         const width = 100 / eventsAtThisTime.length;
 
         eventsAtThisTime.forEach((event, i) => {
-          const span = event.duration || 1;
           const offset = i * width;
+          const span = event.duration || 1;
           rowHTML += `
-            <div class="day" style="grid-row: span ${span}; position: relative;">
-              <div class="event-block ${event.category}" style="position: absolute; left: ${offset}%; width: ${width}%; height: 100%;">
-                ${event.event}
-              </div>
+            <div class="event-block ${event.category}" style="
+              position: absolute;
+              left: ${offset}%;
+              width: ${width}%;
+              height: calc(100% * ${span});
+              top: 0;
+            ">
+              ${event.event}
             </div>
           `;
-
-          for (let j = 0; j < span; j++) {
-            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
-            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-            blocked[day][blockLabel] = true;
-          }
         });
+
+        rowHTML += `</div>`;
       } else {
         rowHTML += `<div class="day"></div>`;
       }
@@ -155,6 +149,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
 }
+
 
 fetch("assets/data.json")
   .then(res => res.json())
