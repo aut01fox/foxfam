@@ -135,8 +135,8 @@
         buildCalendarSection(calendarPM, 15, 22, data.calendar);
 
         const dinners = document.getElementById("dinners");
-        Object.entries(data.dinners || {}).forEach(([day, meal]) => {
-          dinners.innerHTML += `<p>${day}:<br><em>${meal}</em><br></p>`;
+        (data.dinners?.[dayOfWeek] || []).forEach(dinners => {
+          dinners.innerHTML += `<p><em>${meal}</em><br></p>`;
         });
 
         const birthdays = document.getElementById("birthdays");
