@@ -96,7 +96,7 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  containerElement.innerHTML = "";
+  containerElement.innerHTML = ""; // Clear it first
 
   // Header row
   let headerHTML = `<div class="hour-label"></div>`;
@@ -105,8 +105,8 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
-  const gridMap = {};
-  days.forEach(day => gridMap[day] = {});
+  const blocked = {};
+  days.forEach(day => blocked[day] = {});
 
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
@@ -117,45 +117,28 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      const cellKey = `${hour}:${minute}`;
+      if (blocked[day][label]) return;
 
-      // Check for events starting at this time
-      const eventsAtThisTime = (calendarData || []).filter(e => {
-        const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-        return isCorrectDay && e.time === formatTime(hour, minute);
+      const events = (calendarData || []).filter(e => {
+        const matchDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
+        return matchDay && e.time === label;
       });
 
-      if (eventsAtThisTime.length > 0) {
-        const width = 100 / eventsAtThisTime.length;
+      if (events.length > 0) {
+        rowHTML += `<div class="day" style="grid-row: span ${Math.max(...events.map(e => e.duration || 1))}; display: flex; flex-direction: column; gap: 2px;">`;
+        events.forEach(event => {
+          rowHTML += `<div class="event-block ${event.category}" style="flex: 1;">${event.event}</div>`;
 
-        rowHTML += `<div class="day" style="position: relative;">`;
-
-        eventsAtThisTime.forEach((event, i) => {
+          // Block following times for each event
           const span = event.duration || 1;
-          const offset = i * width;
-          rowHTML += `
-            <div class="event-block ${event.category}"
-              style="
-                position: absolute;
-                left: ${offset}%;
-                width: ${width}%;
-                height: calc(${span * 100}%);
-                top: 0;
-              ">
-              ${event.event}
-            </div>
-          `;
-
-          // Mark future rows as blocked for this event
-          for (let j = 0; j < span; j++) {
-            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
+          for (let offset = 0; offset < span; offset++) {
+            const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
             const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-            gridMap[day][blockLabel] = true;
+            blocked[day][blockLabel] = true;
           }
         });
-
         rowHTML += `</div>`;
-      } else if (!gridMap[day][label]) {
+      } else {
         rowHTML += `<div class="day"></div>`;
       }
     });
