@@ -8,56 +8,56 @@
     .date-bar { background: #007acc; color: white; padding: 10px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; }
     .slide { display: none; padding: 60px 20px 0 20px; height: 100vh; box-sizing: border-box; overflow: hidden; }
     .slide.active { display: block; }
-    h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
+    h2 { text-align: center; font-size: 1.5em; margin: 10px 0; }
+
     .calendar-grid {
       display: grid;
-      grid-template-columns: auto repeat(21, 1fr); /* 7 days * 3 members */
+      grid-template-columns: auto repeat(21, 1fr);
       grid-template-rows: auto repeat(32, 1fr);
-      gap: 0;
       height: calc(100vh - 175px);
-    }
-    .day-label {
-      font-weight: bold;
-      text-align: center;
-      background-color: #cdcdd1;
-      padding: 6px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-      grid-column: span 3;
+      position: relative;
     }
     .hour-label {
       font-weight: bold;
       text-align: right;
-      padding-right: 10px;
+      padding: 0 10px;
       border-right: 1px solid #ccc;
       background-color: #f3f2f2;
       font-size: 0.8em;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding-left: 4px;
+    }
+    .day-label {
+      grid-column: span 3;
+      text-align: center;
+      background-color: #cdcdd1;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      padding: 6px;
+      font-weight: bold;
+    }
+    .day {
+      border: 1px solid #ccc;
+      position: relative;
     }
     .event-block {
+      position: absolute;
       padding: 2px;
-      margin: 1px;
       border-radius: 4px;
       box-sizing: border-box;
       color: #000;
       font-size: 0.75em;
       font-weight: bold;
+      text-align: center;
       word-break: break-word;
       white-space: normal;
-      text-align: center;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .dinner {max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
-    .birthdays, .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
-    .reminder { font-size: 2em; text-align: center; margin-top: 100px; }
-    .reminder h2 { font-size: 1em; font-weight: bold; }
-    .reminder p { font-size: .8em; }
-
     .appt { background-color: #ffd966; }
     .school { background-color: #d9ead3; }
     .work { background-color: #f9cb9c; }
@@ -68,35 +68,14 @@
 <body>
   <div class="date-bar" id="dateBar"></div>
   <div id="slides">
-    <div class="slide" id="calendar-am"><h2>Weekly Calendar (AM)</h2><div class="calendar-grid" id="calendarAM"></div></div>
-    <div class="slide" id="calendar-pm"><h2>Weekly Calendar (PM)</h2><div class="calendar-grid" id="calendarPM"></div></div>
-    <div class="slide" id="dinner-slide"><h2>Dinner Today</h2><div class="dinner" id="dinners"></div></div>
-    <div class="slide" id="birthday-slide"><h2>Birthdays This Week</h2><div class="birthdays" id="birthdays"></div></div>
-    <div class="slide" id="reminder-slide">
-      <div class="reminder" id="reminderBox"></div>
+    <div class="slide active" id="calendar-am">
+      <h2>Weekly Calendar (AM)</h2>
+      <div class="calendar-grid" id="calendarAM"></div>
     </div>
-    <div class="slide" id="chores-slide"><h2>Daily Tasks</h2><div class="chores" id="chores"></div></div>
   </div>
-
   <script>
     const dateBar = document.getElementById("dateBar");
-    const today = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateBar.innerText = today.toLocaleDateString(undefined, options);
-
-    const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
-
-    const slides = ["calendar-am", "calendar-pm", "dinner-slide", "birthday-slide", "chores-slide"];
-    let current = 0;
-    function showSlide(index) {
-      slides.forEach(id => document.getElementById(id).classList.remove("active"));
-      document.getElementById(slides[index]).classList.add("active");
-    }
-    showSlide(current);
-    setInterval(() => {
-      current = (current + 1) % slides.length;
-      showSlide(current);
-    }, 5000);
+    dateBar.innerText = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
     function formatTime(hour, minute) {
       const ampm = hour >= 12 ? "PM" : "AM";
@@ -105,120 +84,51 @@
       return `${h}:${m} ${ampm}`;
     }
 
-    function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
+    function buildCalendar(containerId, startHour, endHour, events) {
+      const container = document.getElementById(containerId);
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const members = ["Leo", "Autumn", "Cole"];
-      containerElement.innerHTML = "";
-
-      // Header row
-      containerElement.innerHTML += `<div class="hour-label"></div>`;
-      days.forEach(() => {
-        containerElement.innerHTML += `<div class="day-label">Day</div>`;
-      });
-
       const totalBlocks = (endHour - startHour) * 4 + 1;
+
+      container.innerHTML = '<div class="hour-label"></div>' + days.map(() => '<div class="day-label">Day</div>').join('').repeat(1);
 
       for (let t = 0; t < totalBlocks; t++) {
         const hour = Math.floor((startHour * 4 + t) / 4);
         const minute = ((startHour * 4 + t) % 4) * 15;
-        const label = formatTime(hour, minute);
-        const timeLabel = (minute === 0 || minute === 30) ? label : "";
-
-        containerElement.innerHTML += `<div class="hour-label">${timeLabel}</div>`;
-        for (let i = 0; i < 21; i++) {
-          containerElement.innerHTML += `<div class="day"></div>`;
-        }
+        const timeLabel = (minute === 0 || minute === 30) ? formatTime(hour, minute) : "";
+        container.innerHTML += `<div class="hour-label">${timeLabel}</div>` + '<div class="day"></div>'.repeat(21);
       }
 
-      calendarData.forEach(event => {
-        const eventDays = Array.isArray(event.day) ? event.day : [event.day];
-        eventDays.forEach(day => {
-          const dayIndex = days.indexOf(day);
-          const memberIndex = members.indexOf(event.member);
-          if (dayIndex === -1 || memberIndex === -1) return;
+      (events || []).forEach(event => {
+        const dayIndex = days.indexOf(Array.isArray(event.day) ? event.day[0] : event.day);
+        const memberIndex = members.indexOf(event.member);
+        if (dayIndex === -1 || memberIndex === -1) return;
 
-          const match = event.time.match(/(\d+):(\d+)\s?(AM|PM)/);
-          if (!match) return;
-          let [_, h, m, ampm] = match;
-          let hour = parseInt(h);
-          let minute = parseInt(m);
-          if (ampm === "PM" && hour !== 12) hour += 12;
-          if (ampm === "AM" && hour === 12) hour = 0;
+        const [h, m] = event.time.match(/\d+/g).map(Number);
+        const ampm = event.time.includes("PM") && h !== 12 ? 12 : 0;
+        const startMin = (h % 12 + ampm) * 60 + m;
+        const blockStart = Math.floor((startMin - startHour * 60) / 15);
+        const span = event.duration || 1;
 
-          const start = (hour - startHour) * 4 + Math.floor(minute / 15) + 2;
-          const span = event.duration || 1;
-          const columnStart = dayIndex * 3 + memberIndex + 2;
+        const top = (blockStart / totalBlocks) * 100;
+        const height = (span / totalBlocks) * 100;
+        const col = dayIndex * 3 + memberIndex + 1;
+        const gridColumn = col + 1;
 
-          const div = document.createElement("div");
-          div.className = `event-block ${event.category}`;
-          div.textContent = event.event;
-          div.style.gridColumn = columnStart;
-          div.style.gridRow = `span ${span}`;
-          containerElement.appendChild(div);
-        });
+        const div = document.createElement("div");
+        div.className = `event-block ${event.category}`;
+        div.textContent = event.event;
+        div.style.gridColumn = gridColumn;
+        div.style.gridRow = `${blockStart + 2} / span ${span}`;
+
+        container.appendChild(div);
       });
     }
 
     fetch("assets/data.json")
       .then(res => res.json())
       .then(data => {
-        const calendarAM = document.getElementById("calendarAM");
-        const calendarPM = document.getElementById("calendarPM");
-
-        const splitEvents = [];
-        const cutoffBlock = 14 * 4 + 4;
-
-        (data.calendar || []).forEach(e => {
-          const match = e.time.match(/(\d+):(\d+)\s?(AM|PM)/);
-          if (!match) return;
-          let [_, h, m, ampm] = match;
-          let hour = parseInt(h);
-          const minute = parseInt(m);
-          if (ampm === "PM" && hour !== 12) hour += 12;
-          if (ampm === "AM" && hour === 12) hour = 0;
-
-          const startBlock = hour * 4 + Math.floor(minute / 15);
-          const span = e.duration || 1;
-          const endBlock = startBlock + span;
-
-          if (endBlock <= cutoffBlock - 1) {
-            splitEvents.push(e);
-          } else if (startBlock >= cutoffBlock) {
-            splitEvents.push(e);
-          } else {
-            const amSpan = cutoffBlock - startBlock;
-            const pmSpan = span - amSpan;
-            const eAM = { ...e, duration: amSpan };
-            const ePM = { ...e, duration: pmSpan, time: "3:00 PM" };
-            splitEvents.push(eAM, ePM);
-          }
-        });
-
-        buildCalendarSection(calendarAM, 7, 14.75, splitEvents);
-        buildCalendarSection(calendarPM, 15, 22.75, splitEvents);
-
-        const dinners = document.getElementById("dinners");
-        const todayDinner = data.dinners?.[dayOfWeek];
-        dinners.innerHTML = todayDinner
-          ? `<p><em>${todayDinner.join(', ')}</em></p>`
-          : `<p>free for all</p>`;
-
-        const birthdays = document.getElementById("birthdays");
-        (data.birthdays || []).forEach(b => {
-          birthdays.innerHTML += `<p>${b.name}  —  <em>${b.date}</em><br></p>`;
-        });
-
-        const chores = document.getElementById("chores");
-        (data.chores?.[dayOfWeek] || []).forEach(chore => {
-          chores.innerHTML += `<p>${chore}</p>`;
-        });
-
-        const reminder = data.reminders?.[dayOfWeek];
-        const reminderBox = document.getElementById("reminderBox");
-        if (reminder) {
-          reminderBox.innerHTML = `<h2>${reminder.title}</h2><p>${reminder.message}</p>`;
-          slides.splice(4, 0, "reminder-slide");
-        }
+        buildCalendar("calendarAM", 7, 14.75, data.calendar);
       });
   </script>
 </body>
