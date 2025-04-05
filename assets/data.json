@@ -3,30 +3,34 @@
     {
       "day": "Monday",
       "time": "10:45 AM",
-      "event": "Leo: OT",
+      "event": "OT",
       "duration": 4,
-      "category": "appt"
+      "category": "appt",
+      "member": "Leo"
     },
     {
       "day": "Monday",
       "time": "8:00 AM",
       "event": "Work",
       "duration": 36,
-      "category": "work"
+      "category": "work",
+      "member": "Cole"
     },
     {
       "day": "Tuesday",
       "time": "6:00 PM",
-      "event": "Cole: Tournament",
+      "event": "Tournament",
       "duration": 8,
-      "category": "house"
+      "category": "house",
+      "member": "Cole"
     },
     {
       "day": ["Wednesday", "Friday"],
       "time": "12:00 PM",
-      "event": "Leo: Preschool",
+      "event": "Preschool",
       "duration": 10,
-      "category": "school"
+      "category": "school",
+      "member": "Leo"
     },
     {
       "day": "Saturday",
