@@ -10,8 +10,8 @@
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
     .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
-    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; text-align: center; }
-    .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; align-items:  }
+    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; position: relative; padding: 0; display: flex; flex-direction: row; }
+    .event-block { flex: 1; padding: 2px; margin: 1px; border-radius: 4px; box-sizing: border-box; color: #000; font-size: 0.75em; font-weight: bold; word-break: break-word; white-space: normal; text-align: center; height: 100%; }
     .hour-label {
       font-weight: bold;
       text-align: right;
@@ -96,17 +96,14 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  containerElement.innerHTML = ""; // Clear previous content
+  const members = ["Leo", "Autumn", "Cole"]; // Update as needed
+  containerElement.innerHTML = "";
 
-  // Header row
   let headerHTML = `<div class="hour-label"></div>`;
   days.forEach(day => {
     headerHTML += `<div class="day-label">${day}</div>`;
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
-
-  const blocked = {};
-  days.forEach(day => blocked[day] = {});
 
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
@@ -117,46 +114,27 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      const timeKey = `${hour}:${minute}`;
-      if (blocked[day][label]) return;
+      rowHTML += `<div class="day">`;
 
-      const eventsAtThisTime = (calendarData || []).filter(e => {
-        const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-        return isCorrectDay && e.time === label;
-      });
+      members.forEach(member => {
+        const event = (calendarData || []).find(e => {
+          const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
+          return isCorrectDay && e.time === label && e.member === member;
+        });
 
-      if (eventsAtThisTime.length > 0) {
-        const cellSpan = Math.max(...eventsAtThisTime.map(e => e.duration || 1));
-        rowHTML += `<div class="day" style="grid-row: span ${cellSpan}; position: relative;">`;
-
-        const width = 100 / eventsAtThisTime.length;
-
-        eventsAtThisTime.forEach((event, i) => {
-          const offset = i * width;
+        if (event) {
+          const duration = event.duration || 1;
           rowHTML += `
-            <div class="event-block ${event.category}" style="
-              position: absolute;
-              left: ${offset}%;
-              width: ${width}%;
-              height: 100%;
-            ">
+            <div class="event-block ${event.category}" style="grid-row: span ${duration};">
               ${event.event}
             </div>
           `;
+        } else {
+          rowHTML += `<div class="event-block" style="background: none;"></div>`;
+        }
+      });
 
-          // Block the future time slots that this event spans
-          const span = event.duration || 1;
-          for (let j = 0; j < span; j++) {
-            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
-            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-            blocked[day][blockLabel] = true;
-          }
-        });
-
-        rowHTML += `</div>`;
-      } else {
-        rowHTML += `<div class="day"></div>`;
-      }
+      rowHTML += `</div>`;
     });
 
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
