@@ -96,7 +96,7 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  containerElement.innerHTML = ""; // Clear previous content
+  containerElement.innerHTML = "";
 
   // Header row
   let headerHTML = `<div class="hour-label"></div>`;
@@ -105,46 +105,65 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
-  // Loop through 15-minute time blocks
+  const gridMap = {};
+  days.forEach(day => gridMap[day] = {});
+
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
     const minute = (t % 4) * 15;
     const label = formatTime(hour, minute);
-    const showLabel = (minute === 0 || minute === 30) ? label : "";
-    
-    let rowHTML = `<div class="hour-label">${showLabel}</div>`;
+    const timeLabel = (minute === 0 || minute === 30) ? label : "";
+
+    let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      const eventsStartingNow = (calendarData || []).filter(e => {
-        const matchDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-        return matchDay && e.time === label;
+      const cellKey = `${hour}:${minute}`;
+
+      // Check for events starting at this time
+      const eventsAtThisTime = (calendarData || []).filter(e => {
+        const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
+        return isCorrectDay && e.time === formatTime(hour, minute);
       });
 
-      if (eventsStartingNow.length > 0) {
-        // If multiple events start at the same time, split width
-        const width = 100 / eventsStartingNow.length;
-        let overlappingHTML = "";
+      if (eventsAtThisTime.length > 0) {
+        const width = 100 / eventsAtThisTime.length;
 
-        eventsStartingNow.forEach((event, i) => {
-          const offset = i * width;
+        rowHTML += `<div class="day" style="position: relative;">`;
+
+        eventsAtThisTime.forEach((event, i) => {
           const span = event.duration || 1;
-
-          overlappingHTML += `
+          const offset = i * width;
+          rowHTML += `
             <div class="event-block ${event.category}"
-                 style="position: absolute; left: ${offset}%; width: ${width}%; height: 100%; grid-row: span ${span};">
+              style="
+                position: absolute;
+                left: ${offset}%;
+                width: ${width}%;
+                height: calc(${span * 100}%);
+                top: 0;
+              ">
               ${event.event}
-            </div>`;
+            </div>
+          `;
+
+          // Mark future rows as blocked for this event
+          for (let j = 0; j < span; j++) {
+            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
+            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
+            gridMap[day][blockLabel] = true;
+          }
         });
 
-        rowHTML += `<div class="day" style="position: relative;">${overlappingHTML}</div>`;
-      } else {
-        rowHTML += `<div class="day"> </div>`;
+        rowHTML += `</div>`;
+      } else if (!gridMap[day][label]) {
+        rowHTML += `<div class="day"></div>`;
       }
     });
 
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
 }
+
 
 fetch("assets/data.json")
   .then(res => res.json())
