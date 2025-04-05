@@ -8,6 +8,13 @@
       "category": "appt"
     },
     {
+      "day": "Monday",
+      "time": "8:00 AM",
+      "event": "Work",
+      "duration": 36,
+      "category": "work"
+    },
+    {
       "day": "Tuesday",
       "time": "6:00 PM",
       "event": "Cole: Tournament",
