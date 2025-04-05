@@ -2,24 +2,31 @@
   "calendar": [
     {
       "day": "Monday",
-      "time": "8:00 AM",
-      "event": "Cole: Work",
-      "duration": 18,
-      "category": "work"
-    },
-    {
-      "day": "Wednesday",
-      "time": "1:00 PM",
-      "event": "Doctor Appointment",
-      "duration": 3,
+      "time": "10:45 AM",
+      "event": "Leo: OT",
+      "duration": 2,
       "category": "appt"
     },
     {
-      "day": "Friday",
-      "time": "8:30 AM",
-      "event": "Breakfast Date",
-      "duration": 1,
+      "day": "Tuesday",
+      "time": "6:00 PM",
+      "event": "Cole: Tournament",
+      "duration": 4,
       "category": "house"
+    },
+    {
+      "day": "Wednesday",
+      "time": "12:00 PM",
+      "event": "Leo: Preschool",
+      "duration": 5,
+      "category": "school"
+    },
+    {
+      "day": "Friday",
+      "time": "12:00 PM",
+      "event": "Leo: Preschool",
+      "duration": 5,
+      "category": "school"
     }
   ],
   "dinners": {
