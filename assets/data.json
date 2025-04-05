@@ -3,8 +3,8 @@
     {
       "day": "Monday",
       "time": "9:00 AM",
-      "event": "Team Meeting",
-      "duration": 2,
+      "event": "test",
+      "duration": 4,
       "category": "work"
     },
     {
