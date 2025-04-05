@@ -9,7 +9,7 @@
     .slide { display: none; padding: 60px 20px 20px 20px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
-    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
+    .calendar-grid { position: relative; display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
     .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; position: relative; padding: 0; display: flex; flex-direction: row; align-items: stretch; height: 100%; }
     .event-block { 
       flex: 1;
@@ -115,6 +115,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   const members = ["Leo", "Autumn", "Cole"];
   containerElement.innerHTML = "";
 
+  // Header row
   let headerHTML = `<div class="hour-label"></div>`;
   days.forEach(day => {
     headerHTML += `<div class="day-label">${day}</div>`;
@@ -130,43 +131,48 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     const timeLabel = (minute === 0 || minute === 30) ? label : "";
 
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
-
-    days.forEach(day => {
-      rowHTML += `<div class="day" style="position: relative;">`;
-
-      members.forEach((member, index) => {
-        const blockTime = formatTime(hour, minute);
-        const event = (calendarData || []).find(e => {
-          const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-          return isCorrectDay && e.time === blockTime && e.member === member;
-        });
-
-        if (event) {
-          const span = event.duration || 1;
-          const top = `${(t / totalBlocks) * 100}%`;
-          const height = `${(span / totalBlocks) * 100}%`;
-          const left = `${(index / members.length) * 100}%`;
-          const width = `${100 / members.length}%`;
-
-          rowHTML += `
-            <div class="event-block ${event.category}" style="
-              position: absolute;
-              top: ${top};
-              left: ${left};
-              width: ${width};
-              height: ${height};
-            ">
-              ${event.event}
-            </div>
-          `;
-        }
-      });
-
-      rowHTML += `</div>`;
+    days.forEach(() => {
+      rowHTML += `<div class="day"></div>`; // empty cell
     });
-
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
+
+  // Overlay events
+  (calendarData || []).forEach(event => {
+    const daysToApply = Array.isArray(event.day) ? event.day : [event.day];
+    daysToApply.forEach(day => {
+      const dayIndex = days.indexOf(day);
+      const memberIndex = members.indexOf(event.member);
+
+      if (dayIndex === -1 || memberIndex === -1) return;
+
+      const timeParts = event.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
+      if (!timeParts) return;
+
+      let hour = parseInt(timeParts[1], 10);
+      const minute = parseInt(timeParts[2], 10);
+      const ampm = timeParts[3];
+      if (ampm === "PM" && hour !== 12) hour += 12;
+      if (ampm === "AM" && hour === 12) hour = 0;
+
+      const blockIndex = (hour - startHour) * 4 + Math.floor(minute / 15);
+      const top = (blockIndex / totalBlocks) * 100;
+      const height = ((event.duration || 1) / totalBlocks) * 100;
+      const left = (dayIndex + memberIndex / members.length + 1) * (100 / (days.length + 1));
+      const width = (1 / members.length) * (100 / (days.length + 1));
+
+      const block = document.createElement("div");
+      block.className = `event-block ${event.category}`;
+      block.textContent = event.event;
+      block.style.position = "absolute";
+      block.style.top = `${top}%`;
+      block.style.left = `${left}%`;
+      block.style.height = `${height}%`;
+      block.style.width = `${width}%`;
+
+      containerElement.appendChild(block);
+    });
+  });
 }
 
 fetch("assets/data.json")
