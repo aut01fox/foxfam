@@ -111,7 +111,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
         const minute = t % 2 === 0 ? 0 : 30;
         const label = formatTime(hour, minute);
 
-        containerElement.innerHTML += <div class="hour-label">${label}</div>;
+        containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
 
         days.forEach(day => {
           if (blocked[day][label]) return;
