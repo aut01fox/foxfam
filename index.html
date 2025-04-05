@@ -96,94 +96,48 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
+  containerElement.innerHTML = ""; // Clear it first
+  
   // Header row
-  containerElement.innerHTML += `<div class="hour-label"></div>`;
+   let headerHTML = `<div class="hour-label"></div>`;
   days.forEach(day => {
-    containerElement.innerHTML += `<div class="day-label">${day}</div>`;
+    headerHTML += `<div class="day-label">${day}</div>`;
   });
+  containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
   const blocked = {};
-  const activeEvents = {};
-  days.forEach(day => {
-    blocked[day] = {};
-    activeEvents[day] = Array((endHour - startHour) * 4).fill(0).map(() => []);
-  });
-
-  // Pre-process: mark all time slots with events
-  (calendarData || []).forEach(event => {
-    const dayList = Array.isArray(event.day) ? event.day : [event.day];
-    dayList.forEach(day => {
-      const [hourMin, period] = event.time.split(" ");
-      let [hour, minute] = hourMin.split(":").map(Number);
-      if (period === "PM" && hour !== 12) hour += 12;
-      if (period === "AM" && hour === 12) hour = 0;
-
-      const startIndex = (hour - startHour) * 4 + Math.floor(minute / 15);
-      const span = event.duration || 1;
-
-      for (let i = 0; i < span; i++) {
-        const slot = startIndex + i;
-        if (slot >= 0 && slot < activeEvents[day].length) {
-          activeEvents[day][slot].push(event);
-        }
-      }
-    });
-  });
+  days.forEach(day => blocked[day] = {});
 
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
     const minute = (t % 4) * 15;
     const label = formatTime(hour, minute);
     const timeLabel = (minute === 0 || minute === 30) ? label : "";
-    containerElement.innerHTML += `<div class="hour-label">${timeLabel}</div>`;
 
+    let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
+    
     days.forEach(day => {
-      const slotIndex = t - startHour * 4;
-      const cellEvents = activeEvents[day]?.[slotIndex] || [];
+     if (blocked[day][label]) return;
 
-      // Avoid duplicate blocks
-      const existing = blocked[day][label];
-      if (existing) return;
+const event = (calendarData || []).find(e => {
+        return (Array.isArray(e.day) ? e.day.includes(day) : e.day === day) && e.time === label;
+      });
 
-      if (cellEvents.length === 0) {
-        containerElement.innerHTML += `<div class="day"></div>`;
+      if (event) {
+        const span = event.duration || 1;
+        rowHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
+        
+        for (let offset = 1; offset < span; offset++) {
+          const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
+          const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
+          blocked[day][blockLabel] = true;
+        }
       } else {
-        const blocks = cellEvents.filter(e => {
-          const [h, m] = e.time.split(/[: ]/).map(Number);
-          const isPM = e.time.includes("PM");
-          let eventHour = isPM && h !== 12 ? h + 12 : h;
-          if (e.time.includes("AM") && eventHour === 12) eventHour = 0;
-          const eventMinute = parseInt(e.time.split(":")[1]);
-          const eventStart = (eventHour - startHour) * 4 + Math.floor(eventMinute / 15);
-          return eventStart === slotIndex;
-        });
-
-        let blockHTML = "";
-        blocks.forEach((event, i) => {
-          const widthPercent = 100 / blocks.length;
-          const leftOffset = i * widthPercent;
-          const span = event.duration || 1;
-          const block = `<div class="event-block ${event.category}" style="
-            position: absolute;
-            top: 0;
-            left: ${leftOffset}%;
-            width: ${widthPercent}%;
-            height: 100%;
-          ">${event.event}</div>`;
-          blockHTML += block;
-
-          // Mark this event's blocks as filled
-          for (let offset = 0; offset < span; offset++) {
-            const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
-            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
-            blocked[day][blockLabel] = true;
-          }
-        });
-
-        containerElement.innerHTML += `<div class="day" style="position: relative;">${blockHTML}</div>`;
+        rowHTML += `<div class="day"></div>`;
       }
     });
+
+    containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
 }
 
