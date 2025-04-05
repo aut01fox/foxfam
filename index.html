@@ -105,6 +105,8 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
+  const timeSlots = {}; // Track what's already rendered (by time + day + label)
+
   for (let t = startHour * 4; t <= endHour * 4; t++) {
     const hour = Math.floor(t / 4);
     const minute = (t % 4) * 15;
@@ -114,33 +116,49 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      const eventsAtThisTime = (calendarData || []).filter(e => {
+      const key = `${day}_${label}`;
+      if (timeSlots[key]) {
+        // Already processed in a previous span
+        rowHTML += `<div class="day"></div>`;
+        return;
+      }
+
+      // Find all overlapping events
+      const events = (calendarData || []).filter(e => {
         const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
         return isCorrectDay && e.time === label;
       });
 
-      if (eventsAtThisTime.length > 0) {
-        rowHTML += `<div class="day" style="position: relative;">`;
+      if (events.length > 0) {
+        const width = 100 / events.length;
+        let dayCell = `<div class="day" style="position: relative;">`;
 
-        const width = 100 / eventsAtThisTime.length;
-
-        eventsAtThisTime.forEach((event, i) => {
+        events.forEach((event, i) => {
           const offset = i * width;
           const span = event.duration || 1;
-          rowHTML += `
+
+          // Mark the times this event spans so we don't re-render them
+          for (let j = 0; j < span; j++) {
+            const blockTime = new Date(0, 0, 0, hour, minute + j * 15);
+            const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
+            timeSlots[`${day}_${blockLabel}`] = true;
+          }
+
+          dayCell += `
             <div class="event-block ${event.category}" style="
               position: absolute;
               left: ${offset}%;
               width: ${width}%;
-              height: calc(100% * ${span});
               top: 0;
+              height: calc(100% * ${span});
             ">
               ${event.event}
             </div>
           `;
         });
 
-        rowHTML += `</div>`;
+        dayCell += `</div>`;
+        rowHTML += dayCell;
       } else {
         rowHTML += `<div class="day"></div>`;
       }
@@ -149,6 +167,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
 }
+
 
 
 fetch("assets/data.json")
