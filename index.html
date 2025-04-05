@@ -116,7 +116,10 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
         days.forEach(day => {
           if (blocked[day][label]) return;
 
-          const event = (calendarData || []).find(e => e.day === day && e.time === label);
+          const event = (calendarData || []).find(e => {
+            const eventDays = Array.isArray(e.day) ? e.day : [e.day];
+            return eventDays.includes(day) && e.time === label;
+          });
           if (event) {
             const span = event.duration || 1;
             containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
