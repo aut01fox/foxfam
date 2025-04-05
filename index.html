@@ -106,10 +106,10 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
       const blocked = {};
       days.forEach(day => blocked[day] = {});
 
-      for (let t = startHour * 2; t <= endHour * 2; t++) {
-        const hour = Math.floor(t / 2);
-        const minute = t % 2 === 0 ? 0 : 30;
-        const label = formatTime(hour, minute);
+      for (let t = startHour * 4; t <= endHour * 4; t++) {
+        const hour = Math.floor(t / 4);
+        const minute = (t % 4) * 15;
+        const label = (minute === 0 || minute === 30) ? formatTime(hour, minute) : "";
 
         containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
 
