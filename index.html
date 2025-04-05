@@ -9,7 +9,7 @@
     .slide { display: none; padding: 60px 20px 20px; min-height: 100vh; box-sizing: border-box; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 3px; padding-top: 3px; padding-left: 10px; font-size: 1.5em; }
-    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-auto-rows: 1fr; gap: 0; height: calc(100vh - 175px); }
+    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
     .calendar-grid .day { border: 1px solid #ccc; font-size: 1.25em; text-align: center; }
     .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; align-items:  }
     .hour-label {
@@ -106,12 +106,12 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
       const blocked = {};
       days.forEach(day => blocked[day] = {});
 
-      for (let t = startHour * 2; t <= endHour * 2; t++) {
-        const hour = Math.floor(t / 2);
-        const minute = t % 2 === 0 ? 0 : 30;
+      for (let t = startHour * 4; t <= endHour * 4; t++) {
+        const hour = Math.floor(t / 4);
+        const minute = (t % 4) * 15; // yields 0, 15, 30, or 45 minutes
         const label = formatTime(hour, minute);
-
-        containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
+        const timeLabel = (minute === 0 || minute === 30) ? label : "";
+        containerElement.innerHTML += `<div class="hour-label">${timeLabel}</div>`;
 
         days.forEach(day => {
           if (blocked[day][label]) return;
@@ -122,7 +122,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
             containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};"><div class="event-block ${event.category}">${event.event}</div></div>`;
 
             for (let offset = 1; offset < span; offset++) {
-              const blockTime = new Date(0, 0, 0, hour, minute + offset * 30);
+              const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
               const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
               blocked[day][blockLabel] = true;
             }
