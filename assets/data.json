@@ -15,18 +15,18 @@
       "category": "house"
     },
     {
-      "day": "Wednesday",
+      "day": ["Wednesday", "Friday"],
       "time": "12:00 PM",
       "event": "Leo: Preschool",
       "duration": 10,
       "category": "school"
     },
     {
-      "day": "Friday",
+      "day": "Saturday",
       "time": "12:00 PM",
-      "event": "Leo: Preschool",
-      "duration": 10,
-      "category": "school"
+      "event": "Brunch",
+      "duration": 4,
+      "category": "house"
     }
   ],
   "dinners": {
