@@ -136,14 +136,51 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
       }
     }
 
-    fetch("assets/data.json")
-      .then(res => res.json())
-      .then(data => {
-        const calendarAM = document.getElementById("calendarAM");
-        const calendarPM = document.getElementById("calendarPM");
+fetch("assets/data.json")
+  .then(res => res.json())
+  .then(data => {
+    const calendarAM = document.getElementById("calendarAM");
+    const calendarPM = document.getElementById("calendarPM");
 
-        buildCalendarSection(calendarAM, 7, 14, data.calendar);
-        buildCalendarSection(calendarPM, 15, 22, data.calendar);
+    const splitEvents = [];
+    const cutoffBlock = 14 * 4 + 2; // 14:30 (2:30 PM) in 15-min blocks
+
+    (data.calendar || []).forEach(e => {
+      const timeParts = e.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
+      if (!timeParts) return;
+
+      let hour = parseInt(timeParts[1], 10);
+      const minute = parseInt(timeParts[2], 10);
+      const ampm = timeParts[3];
+      if (ampm === "PM" && hour !== 12) hour += 12;
+      if (ampm === "AM" && hour === 12) hour = 0;
+
+      const startBlock = hour * 4 + Math.floor(minute / 15);
+      const span = e.duration || 1;
+      const endBlock = startBlock + span;
+
+      if (endBlock <= cutoffBlock) {
+        splitEvents.push(e); // All in AM
+      } else if (startBlock >= cutoffBlock) {
+        splitEvents.push(e); // All in PM
+      } else {
+        // Split across AM/PM boundary
+        const amSpan = cutoffBlock - startBlock;
+        const pmSpan = span - amSpan;
+
+        const eAM = { ...e, duration: amSpan };
+        const ePM = {
+          ...e,
+          duration: pmSpan,
+          time: "2:30 PM" // always picks up here
+        };
+
+        splitEvents.push(eAM, ePM);
+      }
+    });
+
+    buildCalendarSection(calendarAM, 7, 14, splitEvents);
+    buildCalendarSection(calendarPM, 15, 22, splitEvents);
 
         const dinners = document.getElementById("dinners");
         const todayDinner = data.dinners?.[dayOfWeek];
