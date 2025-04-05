@@ -10,9 +10,9 @@
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
     .calendar-grid { position: relative; display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
-    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; position: absolute; padding: 0; display: flex; flex-direction: row; align-items: stretch; height: 100%; }
+    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; position: relative; padding: 0; display: flex; flex-direction: row; align-items: stretch; height: 100%; }
     .event-block { 
-      position: absolute;
+      position: relative;
       padding: 0;
       margin: 0;
       border-radius: 4px;
