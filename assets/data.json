@@ -3,28 +3,28 @@
     {
       "day": "Monday",
       "start": "10:45 AM",
-      "end": "11:45 AM"
+      "end": "11:45 AM",
       "event": "Leo: OT",
       "category": "appt"
     },
     {
       "day": "Tuesday",
       "start": "6:00 PM",
-      "end": "8:00 PM"
+      "end": "8:00 PM",
       "event": "Cole: Tournament",
       "category": "house"
     },
     {
       "day": "Wednesday",
       "start": "12:00 PM",
-      "end": "2:30 PM"
+      "end": "2:30 PM",
       "event": "Leo: Preschool",
       "category": "school"
     },
     {
       "day": "Friday",
       "start": "12:00 PM",
-      "end": "2:30 PM"
+      "end": "2:30 PM",
       "event": "Leo: Preschool",
       "category": "school"
     }
