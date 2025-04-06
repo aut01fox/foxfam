@@ -9,7 +9,7 @@
     .slide { display: none; padding: 60px 20px 20px 20px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
-    .calendar-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
+    .calendar-grid { display: grid; grid-template-columns: auto repeat(21, 1fr); grid-template-rows: auto repeat(32, 1fr); gap: 0; height: calc(100vh - 175px); }
     .calendar-grid .day {
       border: 1px solid #ccc;
       font-size: 1em;
@@ -116,7 +116,7 @@
     
 function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const members = ["Leo", "Autumn", "Cole"];
+  const members = ["parent1", "parent2", "leo"]; // Update as needed
   containerElement.innerHTML = "";
 
   let headerHTML = `<div class="hour-label"></div>`;
@@ -125,44 +125,32 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   });
   containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
-  const totalBlocks = (endHour - startHour) * 4 + 1;
-
-  for (let t = 0; t < totalBlocks; t++) {
-    const hour = Math.floor((startHour * 4 + t) / 4);
-    const minute = ((startHour * 4 + t) % 4) * 15;
+  for (let t = startHour * 4; t <= endHour * 4; t++) {
+    const hour = Math.floor(t / 4);
+    const minute = (t % 4) * 15;
     const label = formatTime(hour, minute);
     const timeLabel = (minute === 0 || minute === 30) ? label : "";
 
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
 
     days.forEach(day => {
-      rowHTML += `<div class="day" style="position: relative;">`;
+      rowHTML += `<div class="day">`;
 
-      members.forEach((member, index) => {
-        const blockTime = formatTime(hour, minute);
+      members.forEach(member => {
         const event = (calendarData || []).find(e => {
           const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-          return isCorrectDay && e.time === blockTime && e.member === member;
+          return isCorrectDay && e.time === label && e.member === member;
         });
 
         if (event) {
-          const span = event.duration || 1;
-          const top = `${(t / totalBlocks) * 100}%`;
-          const height = `${(span / totalBlocks) * 100}%`;
-          const left = `${(index / members.length) * 100}%`;
-          const width = `${100 / members.length}%`;
-
+          const duration = event.duration || 1;
           rowHTML += `
-            <div class="event-block ${event.category}" style="
-              position: absolute;
-              top: ${top};
-              left: ${left};
-              width: ${width};
-              height: ${height};
-            ">
+            <div class="event-block ${event.category}" style="grid-row: span ${duration};">
               ${event.event}
             </div>
           `;
+        } else {
+          rowHTML += `<div class="event-block" style="background: none;"></div>`;
         }
       });
 
