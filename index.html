@@ -210,25 +210,25 @@ fetch("assets/data.json")
         const dinners = document.getElementById("dinners");
         const todayDinner = data.dinners?.[dayOfWeek];
         if (todayDinner) {
-          dinners.innerHTML = <p><em>${todayDinner.join(', ')}</em></p>;
+          dinners.innerHTML = `<p><em>${todayDinner.join(', ')}</em></p>`;
         } else {
-          dinners.innerHTML = <p>free for all</p>;
+          dinners.innerHTML = `<p>free for all</p>`;
         }
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays || []).forEach(b => {
-          birthdays.innerHTML += <p>${b.name}  —  <em>${b.date}</em><br></p>;
+          birthdays.innerHTML += `<p>${b.name}  —  <em>${b.date}</em><br></p>`;
         });
 
         const chores = document.getElementById("chores");
         (data.chores?.[dayOfWeek] || []).forEach(chore => {
-          chores.innerHTML += <p>${chore}</p>;
+          chores.innerHTML += `<p>${chore}</p>`;
         });
 
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
-          reminderBox.innerHTML = <h2>${reminder.title}</h2><p>${reminder.message}</p>;
+          reminderBox.innerHTML = `<h2>${reminder.title}</h2><p>${reminder.message}</p>`;
           slides.splice(4, 0, "reminder-slide");
         }
       });
