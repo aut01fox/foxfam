@@ -150,7 +150,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
       const block = document.createElement("div");
       block.className = `event-block ${event.category}`;
       block.textContent = event.event;
-      block.style.position = "relative";
+      block.style.position = "static";
       block.style.top = `${top}%`;
       block.style.left = `${left}%`;
       block.style.width = `${width}%`;
