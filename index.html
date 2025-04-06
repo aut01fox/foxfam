@@ -99,6 +99,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
   const members = ["Leo", "Autumn", "Cole"];
   containerElement.innerHTML = "";
 
+  // Create header row
   let headerHTML = `<div class="hour-label"></div>`;
   days.forEach(day => {
     headerHTML += `<div class="day-label">${day}</div>`;
@@ -107,6 +108,7 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
 
   const totalBlocks = (endHour - startHour) * 4 + 1;
 
+  // Create grid rows
   for (let t = 0; t < totalBlocks; t++) {
     const hour = Math.floor((startHour * 4 + t) / 4);
     const minute = ((startHour * 4 + t) % 4) * 15;
@@ -114,43 +116,49 @@ function buildCalendarSection(containerElement, startHour, endHour, calendarData
     const timeLabel = (minute === 0 || minute === 30) ? label : "";
 
     let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
-
-    days.forEach(day => {
-      rowHTML += `<div class="day" style="position: relative;">`;
-
-      members.forEach((member, index) => {
-        const blockTime = formatTime(hour, minute);
-        const event = (calendarData || []).find(e => {
-          const isCorrectDay = Array.isArray(e.day) ? e.day.includes(day) : e.day === day;
-          return isCorrectDay && e.time === blockTime && e.member === member;
-        });
-
-        if (event) {
-          const span = event.duration || 1;
-          const top = `${(t / totalBlocks) * 100}%`;
-          const height = `${(span / totalBlocks) * 100}%`;
-          const left = `${(index / members.length) * 100}%`;
-          const width = `${100 / members.length}%`;
-
-          rowHTML += `
-            <div class="event-block ${event.category}" style="
-              position: absolute;
-              top: ${top};
-              left: ${left};
-              width: ${width};
-              height: ${height};
-            ">
-              ${event.event}
-            </div>
-          `;
-        }
-      });
-
-      rowHTML += `</div>`;
+    days.forEach(() => {
+      rowHTML += `<div class="day"></div>`;
     });
-
     containerElement.insertAdjacentHTML("beforeend", rowHTML);
   }
+
+  // Overlay event blocks
+  (calendarData || []).forEach(event => {
+    const daysToApply = Array.isArray(event.day) ? event.day : [event.day];
+    daysToApply.forEach(day => {
+      const dayIndex = days.indexOf(day);
+      const memberIndex = members.indexOf(event.member);
+      if (dayIndex === -1 || memberIndex === -1) return;
+
+      const timeParts = event.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
+      if (!timeParts) return;
+
+      let hour = parseInt(timeParts[1], 10);
+      const minute = parseInt(timeParts[2], 10);
+      const ampm = timeParts[3];
+      if (ampm === "PM" && hour !== 12) hour += 12;
+      if (ampm === "AM" && hour === 12) hour = 0;
+
+      const startMinutes = hour * 60 + minute;
+      const baseMinutes = startHour * 60;
+      const blockIndex = (startMinutes - baseMinutes) / 15;
+      const top = (blockIndex / totalBlocks) * 100;
+      const height = ((event.duration || 1) / totalBlocks) * 100;
+      const left = ((dayIndex * members.length + memberIndex + 1) * (100 / (days.length * members.length + 1)));
+      const width = (1 / members.length) * (100 / (days.length + 1));
+
+      const block = document.createElement("div");
+      block.className = `event-block ${event.category}`;
+      block.textContent = event.event;
+      block.style.position = "absolute";
+      block.style.top = `${top}%`;
+      block.style.left = `${left}%`;
+      block.style.width = `${width}%`;
+      block.style.height = `${height}%`;
+
+      containerElement.appendChild(block);
+    });
+  });
 }
 
 fetch("assets/data.json")
