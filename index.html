@@ -4,107 +4,39 @@
   <meta charset="UTF-8">
   <title>Family Calendar</title>
   <style>
-    body { 
-      margin: 0; 
-      font-size: 20px; 
-      font-family: sans-serif; 
-      background: #f3f2f2; 
-      color: #333; 
+    body { margin: 0; font-size: 20px; font-family: sans-serif; background: #f3f2f2; color: #333; }
+    .date-bar { background: #007acc; color: white; padding: 10px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; }
+    .slide { display: none; padding: 60px 20px 20px 10px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
+    .slide.active { display: block; }
+    h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
+    /* Updated grid: one column for time labels + 7 days x 3 member columns */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: auto repeat(21, 1fr);
+      gap: 0;
+      height: calc(100vh - 175px);
     }
-    .date-bar { 
-      background: #007acc; 
-      color: white; 
-      padding: 10px; 
-      text-align: center; 
-      font-size: 1.5em; 
-      position: fixed; 
-      width: 100%; 
-      top: 0; 
-    }
-    .slide { 
-      display: none; 
-      padding: 60px 20px 20px; 
-      min-height: 100vh; 
-      box-sizing: border-box; 
-    }
-    .slide.active { 
-      display: block; 
-    }
-    h2 { 
-      text-align: center; 
-      padding: 3px 10px; 
-      font-size: 1.5em; 
-    }
-    /* Updated grid: one column for time labels + 21 equal member columns (7 days x 3 members) */
-    .calendar-grid { 
-      display: grid; 
-      grid-template-columns: auto repeat(21, minmax(0, 1fr)); 
-      grid-auto-rows: 1fr; /* forces all rows to be equal in height */
-      gap: 0; 
-      height: calc(100vh - 175px); 
-    }
-    .calendar-grid .day, .calendar-grid .day-label, .calendar-grid .hour-label {
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .day { 
-      font-size: 1.25em; 
-      text-align: center; 
-    }
-    .event-block { 
-      padding: 8px; 
-      border-radius: 4px; 
-      display: block; 
-      width: 100%; 
-      box-sizing: border-box; 
-      color: #000; 
-      font-size: 0.9em; 
-      font-weight: bold; 
-      height: 100%; 
-    }
+    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; text-align: center; }
+    .event-block { padding: 8px; border-radius: 4px; display: block; width: 100%; box-sizing: border-box; color: #000; font-size: 0.9em; font-weight: bold; height: 100%; }
     .hour-label {
       font-weight: bold;
-      font-size: 0.8em;
-      padding: 4px;
+      text-align: right;
+      padding-right: 10px;
+      border-right: 1px solid #ccc;
       background-color: #f3f2f2;
+      font-size: 0.8em;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-left: 4px;
     }
-    .day-label { 
-      font-weight: bold; 
-      background-color: #cdcdd1; 
-      font-size: 1em; 
-      padding: 6px; 
-    }
+    .day-label { font-weight: bold; text-align: center; background-color: #cdcdd1; padding: 6px; border: 1px solid #ccc; font-size: 1em; }
     
-    .dinner { 
-      max-width: 90vw; 
-      margin: 50px auto; 
-      font-size: 2em; 
-      text-align: center; 
-      min-height: calc(100vh - 120px); 
-      padding-bottom: 2vh; 
-      overflow-wrap: break-word; 
-    }
-    .birthdays, .chores { 
-      max-width: 100%; 
-      margin: 50px auto; 
-      font-size: 2em; 
-      text-align: center; 
-    }
-    .reminder { 
-      font-size: 2em; 
-      text-align: center; 
-      margin-top: 100px; 
-    }
-    .reminder h2 { 
-      font-size: 1em; 
-      font-weight: bold; 
-    }
-    .reminder p { 
-      font-size: .8em; 
-    }
+    .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
+    .birthdays, .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
+    .reminder { font-size: 2em; text-align: center; margin-top: 100px; }
+    .reminder h2 { font-size: 1em; font-weight: bold; }
+    .reminder p { font-size: .8em; }
     
     .appt { background-color: #ffd966; }
     .school { background-color: #d9ead3; }
@@ -140,15 +72,15 @@
       <div class="chores" id="chores"></div>
     </div>
   </div>
-  
+
   <script>
     const dateBar = document.getElementById("dateBar");
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     dateBar.innerText = today.toLocaleDateString(undefined, options);
-    
+
     const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
-    
+
     const slides = [
       "calendar-am",
       "calendar-pm",
@@ -156,7 +88,7 @@
       "birthday-slide",
       "chores-slide"
     ];
-    
+
     let current = 0;
     function showSlide(index) {
       slides.forEach(id => document.getElementById(id).classList.remove("active"));
@@ -167,14 +99,14 @@
       current = (current + 1) % slides.length;
       showSlide(current);
     }, 5000);
-    
+
     function formatTime(hour, minute) {
       const ampm = hour >= 12 ? "PM" : "AM";
       const h = hour % 12 || 12;
       const m = minute.toString().padStart(2, "0");
       return `${h}:${m} ${ampm}`;
     }
-    
+
     function timeToMinutes(timeStr) {
       const [time, modifier] = timeStr.split(' ');
       let [hours, minutes] = time.split(':').map(Number);
@@ -185,26 +117,31 @@
     
     function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      const members = ["Leo", "Autumn", "Cole"]; // update member names as needed
-      
-      // Clear previous content and build header rows
-      containerElement.innerHTML = '';
-      
-      // First header row: blank cell for time labels, then each day spanning 3 columns
-      containerElement.innerHTML += `<div class="hour-label"></div>`;
+      const members = ["Leo", "Autumn", "Cole"];
+      containerElement.innerHTML = ""; // Clear it first
+
+      // Calculate total rows: 2 header rows + time rows (15-min increments)
+      const timeRowCount = (endHour * 4) - (startHour * 4) + 1;
+      const totalRows = 2 + timeRowCount;
+      containerElement.style.gridTemplateRows = `repeat(${totalRows}, 1fr)`;
+
+      // Header row 1: blank cell then each day spanning 3 columns
+      let headerHTML = `<div class="hour-label"></div>`;
       days.forEach(day => {
-        containerElement.innerHTML += `<div class="day-label" style="grid-column: span 3;">${day}</div>`;
+        headerHTML += `<div class="day-label" style="grid-column: span 3;">${day}</div>`;
       });
-      
-      // Second header row: blank cell, then member names for each day (each in its own cell)
-      containerElement.innerHTML += `<div class="hour-label"></div>`;
+      containerElement.insertAdjacentHTML("beforeend", headerHTML);
+
+      // Header row 2: blank cell then member names for each day
+      let memberHeader = `<div class="hour-label"></div>`;
       days.forEach(day => {
         members.forEach(member => {
-          containerElement.innerHTML += `<div class="day-label">${member}</div>`;
+          memberHeader += `<div class="day-label">${member}</div>`;
         });
       });
-      
-      // Prepare a blocked structure for each day/member to handle multi-slot events
+      containerElement.insertAdjacentHTML("beforeend", memberHeader);
+
+      // Initialize blocked structure per day per member
       const blocked = {};
       days.forEach(day => {
         blocked[day] = {};
@@ -212,54 +149,78 @@
           blocked[day][member] = {};
         });
       });
-      
-      // Loop through time slots (each half-hour)
-      for (let t = startHour * 2; t <= endHour * 2; t++) {
-        const hour = Math.floor(t / 2);
-        const minute = (t % 2 === 0) ? 0 : 30;
+
+      // Loop through time blocks (15-minute increments)
+      for (let t = startHour * 4; t <= endHour * 4; t++) {
+        const hour = Math.floor(t / 4);
+        const minute = (t % 4) * 15;
         const label = formatTime(hour, minute);
-        containerElement.innerHTML += `<div class="hour-label">${label}</div>`;
-        
-        // For each day, create a cell for each member
+        // Display time label only at :00 and :30 for clarity
+        const timeLabel = (minute === 0 || minute === 30) ? label : "";
+        let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
         days.forEach(day => {
           members.forEach(member => {
-            // Skip cell if already blocked by a spanning event
             if (blocked[day][member][label]) return;
-            
-            // Look for an event matching day, time, and member
-            const event = (calendarData || []).find(e =>
-              e.day === day && e.time === label && e.member === member
-            );
+            const event = (calendarData || []).find(e => {
+              const dayMatch = (Array.isArray(e.day) ? e.day.includes(day) : e.day === day);
+              return dayMatch && e.time === label && e.member === member;
+            });
             if (event) {
               const span = event.duration || 1;
-              containerElement.innerHTML += `<div class="day" style="grid-row: span ${span};">
+              rowHTML += `<div class="day" style="grid-row: span ${span};">
                 <div class="event-block ${event.category}">${event.event}</div>
               </div>`;
-              // Block subsequent half-hour slots for this event
               for (let offset = 1; offset < span; offset++) {
-                let totalMinutes = timeToMinutes(label) + offset * 30;
-                let blockHour = Math.floor(totalMinutes / 60);
-                let blockMinute = totalMinutes % 60;
-                let blockLabel = formatTime(blockHour, blockMinute);
+                const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
+                const blockLabel = formatTime(blockTime.getHours(), blockTime.getMinutes());
                 blocked[day][member][blockLabel] = true;
               }
             } else {
-              containerElement.innerHTML += `<div class="day"></div>`;
+              rowHTML += `<div class="day"></div>`;
             }
           });
         });
+        containerElement.insertAdjacentHTML("beforeend", rowHTML);
       }
     }
-    
+
     fetch("assets/data.json")
       .then(res => res.json())
       .then(data => {
         const calendarAM = document.getElementById("calendarAM");
         const calendarPM = document.getElementById("calendarPM");
-    
-        buildCalendarSection(calendarAM, 7, 14, data.calendar);
-        buildCalendarSection(calendarPM, 15, 22, data.calendar);
-    
+
+        // Process events and split those that span from AM to PM
+        const splitEvents = [];
+        const cutoffBlock = 14 * 4 + 4; // 3:00 PM = block 60
+        (data.calendar || []).forEach(e => {
+          const timeParts = e.time.match(/^(\d+):(\d+)\s?(AM|PM)$/);
+          if (!timeParts) return;
+          let hour = parseInt(timeParts[1], 10);
+          const minute = parseInt(timeParts[2], 10);
+          const ampm = timeParts[3];
+          if (ampm === "PM" && hour !== 12) hour += 12;
+          if (ampm === "AM" && hour === 12) hour = 0;
+          const startBlock = hour * 4 + Math.floor(minute / 15);
+          const span = e.duration || 1;
+          const endBlock = startBlock + span;
+          if (endBlock <= cutoffBlock - 1) {
+            splitEvents.push(e); // Entirely in AM
+          } else if (startBlock >= cutoffBlock) {
+            splitEvents.push(e); // Entirely in PM
+          } else {
+            // Split the event at the boundary
+            const amSpan = cutoffBlock - startBlock;
+            const pmSpan = span - amSpan;
+            const eAM = { ...e, duration: amSpan };
+            const ePM = { ...e, duration: pmSpan, time: "3:00 PM" };
+            splitEvents.push(eAM, ePM);
+          }
+        });
+
+        buildCalendarSection(calendarAM, 7, 14.75, splitEvents);  // 7:00 AM – 2:45 PM
+        buildCalendarSection(calendarPM, 15, 22.75, splitEvents);   // 3:00 PM – 10:45 PM
+
         const dinners = document.getElementById("dinners");
         const todayDinner = data.dinners?.[dayOfWeek];
         if (todayDinner) {
@@ -267,17 +228,17 @@
         } else {
           dinners.innerHTML = `<p>free for all</p>`;
         }
-    
+
         const birthdays = document.getElementById("birthdays");
         (data.birthdays || []).forEach(b => {
           birthdays.innerHTML += `<p>${b.name}  —  <em>${b.date}</em><br></p>`;
         });
-    
+
         const chores = document.getElementById("chores");
         (data.chores?.[dayOfWeek] || []).forEach(chore => {
           chores.innerHTML += `<p>${chore}</p>`;
         });
-    
+
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
@@ -288,4 +249,3 @@
   </script>
 </body>
 </html>
-
