@@ -8,7 +8,7 @@
     .date-bar { background: #007acc; color: white; padding: 10px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; }
     .slide { display: none; padding: 60px 20px 20px 10px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
-    h2 { text-align: center; padding-bottom: 2px; padding-top: 2px; padding-left: 10px; font-size: 1.5em; }
+    h2 { text-align: center; padding-bottom: 2px; padding-top: 10px; padding-left: 10px; font-size: 2em; }
     /* Updated grid: one column for time labels + 7 days x 3 member columns */
     .calendar-grid {
       display: grid;
@@ -54,9 +54,9 @@
     .other { background-color: #e0e0e0; }
     
     .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
-    .birthdays { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
+    .birthdays { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
     .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
-    .reminder { font-size: 1em; text-align: center; margin-top: 100px; }
+    .reminder { font-size: 2.5em; text-align: center; margin-top: 100px; }
       .reminder h2 { font-size: 2em; font-weight: bold; }
 
     #birthday-slide {
@@ -65,7 +65,9 @@
       background-position: bottom left, right;
       background-size: 20% auto, auto 70%;
     }
-  
+
+    #reminder-Box { border: 2px double #ffe600; }
+    
   </style>
 </head>
 <body>
@@ -249,7 +251,7 @@
         const dinners = document.getElementById("dinners");
         const todayDinner = data.dinners?.[dayOfWeek];
         if (todayDinner) {
-          dinners.innerHTML = `<p><em>${todayDinner.join(', ')}</em></p>`;
+          dinners.innerHTML = `<p><em>${todayDinner.join(<br>)}</em></p>`;
         } else {
           dinners.innerHTML = `<p>free for all</p>`;
         }
