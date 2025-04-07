@@ -16,7 +16,8 @@
       gap: 0;
       height: calc(100vh - 175px);
     }
-    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; text-align: center; }
+    .calendar-grid .day { border: 1px solid #666; font-size: 1em; text-align: center; }
+    .member-border {border-right: 2px solid #ccc; }
     .event-block {
       padding: 2px;
       border-radius: 0;
@@ -173,6 +174,7 @@
         let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
         days.forEach(day => {
           members.forEach(member => {
+            const extraClass = (member === "Autumn") ? " member-border" : "";
             if (blocked[day][member][label]) return;
             const event = (calendarData || []).find(e => {
               const dayMatch = (Array.isArray(e.day) ? e.day.includes(day) : e.day === day);
@@ -180,7 +182,7 @@
             });
             if (event) {
               const span = event.duration || 1;
-              rowHTML += `<div class="day" style="grid-row: span ${span};">
+              rowHTML += `<div class="day${extraClass}" style="grid-row: span ${span};">
                 <div class="event-block ${event.category}">${event.event}</div>
               </div>`;
               for (let offset = 1; offset < span; offset++) {
@@ -189,7 +191,7 @@
                 blocked[day][member][blockLabel] = true;
               }
             } else {
-              rowHTML += `<div class="day"></div>`;
+              rowHTML += `<div class="day${extraClass}"></div>`;
             }
           });
         });
