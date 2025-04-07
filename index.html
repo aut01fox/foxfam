@@ -259,6 +259,10 @@
           slides.splice(4, 0, "reminder-slide");
         }
       });
+    // Auto-refresh every 1 hour (3600 seconds)
+      setTimeout(() => {
+        location.reload();
+      }, 3600 * 1000); // 3600 seconds * 1000 = 1 hour in milliseconds
   </script>
 </body>
 </html>
