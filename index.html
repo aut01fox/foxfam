@@ -16,8 +16,8 @@
       gap: 0;
       height: calc(100vh - 175px);
     }
-    .calendar-grid .day { border: 1px solid #666; font-size: 1em; text-align: center; }
-    .member-border {border-right: 2px solid #ccc; }
+    .calendar-grid .day { border: 2px solid #666; font-size: 1em; text-align: center; }
+    .day.member-border {border-right: 1px solid #ccc; }
     .event-block {
       padding: 2px;
       border-radius: 0;
@@ -173,9 +173,8 @@
         const timeLabel = (minute === 0 || minute === 30) ? label : "";
         let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
         days.forEach(day => {
-          members.forEach(member => {
-            // If this cell belongs to "Charlie", add an extra class for a darker border.
-            const extraClass = (member === "Autumn") ? " member-border" : "";
+          members.forEach((member, mIndex) => {
+            const extraClass = (mIndex ===  1) ? " member-border" : "";
             if (blocked[day][member][label]) return;
             const event = (calendarData || []).find(e => {
               const dayMatch = (Array.isArray(e.day) ? e.day.includes(day) : e.day === day);
