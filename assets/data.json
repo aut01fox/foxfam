@@ -9,6 +9,14 @@
       "member": "Leo"
     },
     {
+      "day": "Tuesday",
+      "time": "5:00 PM",
+      "event": "School Exam",
+      "duration": 8,
+      "category": "school",
+      "member": "Autumn"
+    },
+    {
       "day": "Monday",
       "time": "8:00 AM",
       "event": "Work",
