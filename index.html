@@ -52,6 +52,10 @@
     .work { background-color: #fad5bb; }
     .house { background-color: #a4c2f4; }
     .other { background-color: #d4d4d4; }
+
+    .Leo { background-color: #faffb0; }
+    .Autumn { background-color: #ddb0ff; }
+    .Cole { background-color: #ffdab0; }
     
     .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
     .birthdays { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
@@ -195,7 +199,7 @@
             if (event) {
               const span = event.duration || 1;
               rowHTML += `<div class="day${classBorder}" style="grid-row: span ${span};">
-                <div class="event-block ${event.category}">${event.event}</div>
+                <div class="event-block ${event.member}">${event.event}</div>
               </div>`;
               for (let offset = 1; offset < span; offset++) {
                 const blockTime = new Date(0, 0, 0, hour, minute + offset * 15);
@@ -269,7 +273,7 @@
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
-          reminderBox.innerHTML = `<h2>${reminder.title}</h2><p>${reminder.message}</p>`;
+          reminderBox.innerHTML = `<h2>${reminder.title}</h2>${reminder.message}`;
           slides.splice(4, 0, "reminder-slide");
         }
       });
