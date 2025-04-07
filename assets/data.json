@@ -17,7 +17,7 @@
       "member": "Autumn"
     },
     {
-      "day": "Monday",
+      "day": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "time": "8:00 AM",
       "event": "Work",
       "duration": 36,
@@ -41,11 +41,28 @@
       "member": "Leo"
     },
     {
-      "day": "Saturday",
-      "time": "1:00 PM",
-      "event": "Brunch",
-      "duration": 16,
-      "category": "house"
+      "day": ["Tuesday", "Thursday"],
+      "time": "10:00 AM",
+      "event": "with Dad",
+      "duration": 44,
+      "category": "other",
+      "member": "Leo"
+    },
+    {
+      "day": ["Tuesday", "Thursday"],
+      "time": "10:30 AM",
+      "event": "Work",
+      "duration": 26,
+      "category": "work",
+      "member": "Autumn"
+    },
+    {
+      "day": ["Wednesday", "Friday"],
+      "time": "12:15 PM",
+      "event": "Work",
+      "duration": 8,
+      "category": "work",
+      "member": "Autumn"
     }
   ],
   "dinners": {
@@ -161,7 +178,7 @@
   },
   "reminders": {
     "Monday": {
-      "title": "Reminder:",
+      "title": "Heads up!",
       "message": "Trash day tomorrow!"
     },
     "Saturday": {
