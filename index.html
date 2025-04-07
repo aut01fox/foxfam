@@ -16,8 +16,9 @@
       gap: 0;
       height: calc(100vh - 175px);
     }
-    .calendar-grid .day { border-left: 2px solid #666; border-right: 2px solid #666; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; font-size: 1em; text-align: center; }
-    .day.member-border {border: 1px solid #ccc; }
+    .calendar-grid .day { border: 1px solid #ccc; font-size: 1em; text-align: center; }
+      .day.first-border {border-left: 2px solid #666; }
+      .day.third-border {border-right: 2px solid #666; }
     .event-block {
       padding: 2px;
       border-radius: 0;
@@ -174,15 +175,15 @@
         let rowHTML = `<div class="hour-label">${timeLabel}</div>`;
         days.forEach(day => {
           members.forEach((member, mIndex) => {
-            const extraClass = (mIndex ===  1) ? " member-border" : "";
+            const classBorder = (mIndex === 0) ? " first-border" : (mIndex === 2 ? " third-border" : "");
             if (blocked[day][member][label]) return;
             const event = (calendarData || []).find(e => {
-              const dayMatch = (Array.isArray(e.day) ? e.day.includes(day) : e.day === day);
+              const dayMatch = (Array.isArray(e.day) ?  e.day.includes(day) : e.day === day);
               return dayMatch && e.time === label && e.member === member;
             });
             if (event) {
               const span = event.duration || 1;
-              rowHTML += `<div class="day${extraClass}" style="grid-row: span ${span};">
+              rowHTML += `<div class="day${classBorder}" style="grid-row: span ${span};">
                 <div class="event-block ${event.category}">${event.event}</div>
               </div>`;
               for (let offset = 1; offset < span; offset++) {
@@ -191,7 +192,7 @@
                 blocked[day][member][blockLabel] = true;
               }
             } else {
-              rowHTML += `<div class="day${extraClass}"></div>`;
+              rowHTML += `<div class="day${classBorder}"></div>`;
             }
           });
         });
