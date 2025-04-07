@@ -4,20 +4,56 @@
   <meta charset="UTF-8">
   <title>Family Calendar</title>
   <style>
-    body { margin: 0; font-size: 20px; font-family: sans-serif; background: #f3f2f2; color: #333; }
-    .date-bar { background: #007acc; color: white; padding: 10px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; }
-    .slide { display: none; padding: 60px 20px 20px; min-height: 100vh; box-sizing: border-box; }
-    .slide.active { display: block; }
-    h2 { text-align: center; padding-bottom: 3px; padding-top: 3px; padding-left: 10px; font-size: 1.5em; }
-    /* Calendar grid: one column for time labels + 7 days x 3 member columns = 22 columns total */
+    body { 
+      margin: 0; 
+      font-size: 20px; 
+      font-family: sans-serif; 
+      background: #f3f2f2; 
+      color: #333; 
+    }
+    .date-bar { 
+      background: #007acc; 
+      color: white; 
+      padding: 10px; 
+      text-align: center; 
+      font-size: 1.5em; 
+      position: fixed; 
+      width: 100%; 
+      top: 0; 
+    }
+    .slide { 
+      display: none; 
+      padding: 60px 20px 20px; 
+      min-height: 100vh; 
+      box-sizing: border-box; 
+    }
+    .slide.active { 
+      display: block; 
+    }
+    h2 { 
+      text-align: center; 
+      padding: 3px 10px; 
+      font-size: 1.5em; 
+    }
+    /* Updated grid: one column for time labels + 21 equal member columns (7 days x 3 members) */
     .calendar-grid { 
       display: grid; 
-      grid-template-columns: auto repeat(21, 1fr); 
-      grid-auto-rows: 1fr; 
+      grid-template-columns: auto repeat(21, minmax(0, 1fr)); 
+      grid-auto-rows: 50px; /* forces all rows to be equal in height */
       gap: 0; 
       height: calc(100vh - 175px); 
     }
-    .calendar-grid .day { border: 1px solid #ccc; font-size: 1.25em; text-align: center; }
+    .calendar-grid .day, .calendar-grid .day-label, .calendar-grid .hour-label {
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .day { 
+      font-size: 1.25em; 
+      text-align: center; 
+    }
     .event-block { 
       padding: 8px; 
       border-radius: 4px; 
@@ -31,23 +67,44 @@
     }
     .hour-label {
       font-weight: bold;
-      text-align: right;
-      padding-right: 10px;
-      border-right: 1px solid #ccc;
-      background-color: #f3f2f2;
       font-size: 0.8em;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-left: 4px;
+      padding: 4px;
+      background-color: #f3f2f2;
     }
-    .day-label { font-weight: bold; text-align: center; background-color: #cdcdd1; padding: 6px; border: 1px solid #ccc; font-size: 1em; }
+    .day-label { 
+      font-weight: bold; 
+      background-color: #cdcdd1; 
+      font-size: 1em; 
+      padding: 6px; 
+    }
     
-    .dinner { max-width: 90vw; margin: 50px auto; font-size: 2em; text-align: center; min-height: calc(100vh - 120px); padding-bottom: 2vh; overflow-wrap: break-word; }
-    .birthdays, .chores { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
-    .reminder { font-size: 2em; text-align: center; margin-top: 100px; }
-    .reminder h2 { font-size: 1em; font-weight: bold; }
-    .reminder p { font-size: .8em; }
+    .dinner { 
+      max-width: 90vw; 
+      margin: 50px auto; 
+      font-size: 2em; 
+      text-align: center; 
+      min-height: calc(100vh - 120px); 
+      padding-bottom: 2vh; 
+      overflow-wrap: break-word; 
+    }
+    .birthdays, .chores { 
+      max-width: 100%; 
+      margin: 50px auto; 
+      font-size: 2em; 
+      text-align: center; 
+    }
+    .reminder { 
+      font-size: 2em; 
+      text-align: center; 
+      margin-top: 100px; 
+    }
+    .reminder h2 { 
+      font-size: 1em; 
+      font-weight: bold; 
+    }
+    .reminder p { 
+      font-size: .8em; 
+    }
     
     .appt { background-color: #ffd966; }
     .school { background-color: #d9ead3; }
@@ -128,7 +185,7 @@
     
     function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      const members = ["Leo", "Autumn", "Cole"]; // update member names as needed
+      const members = ["Alice", "Bob", "Charlie"]; // update member names as needed
       
       // Clear previous content and build header rows
       containerElement.innerHTML = '';
@@ -139,7 +196,7 @@
         containerElement.innerHTML += `<div class="day-label" style="grid-column: span 3;">${day}</div>`;
       });
       
-      // Second header row: blank cell, then member names for each day
+      // Second header row: blank cell, then member names for each day (each in its own cell)
       containerElement.innerHTML += `<div class="hour-label"></div>`;
       days.forEach(day => {
         members.forEach(member => {
@@ -231,3 +288,4 @@
   </script>
 </body>
 </html>
+
