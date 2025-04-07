@@ -135,7 +135,7 @@
 
       // Calculate total rows: 2 header rows + time rows (15-min increments)
       const timeRowCount = (endHour * 4) - (startHour * 4) + 1;
-      const totalRows = 2 + timeRowCount;
+      const totalRows = 1 + timeRowCount; // updated from 2 to 1 to remove member headers
       containerElement.style.gridTemplateRows = `repeat(${totalRows}, 1fr)`;
 
       // Header row 1: blank cell then each day spanning 3 columns
@@ -146,13 +146,13 @@
       containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
       // Header row 2: blank cell then member names for each day
-      let memberHeader = `<div class="hour-label"></div>`;
-      days.forEach(day => {
-        members.forEach(member => {
-          memberHeader += `<div class="day-label">${member}</div>`;
-        });
-      });
-      containerElement.insertAdjacentHTML("beforeend", memberHeader);
+      // let memberHeader = `<div class="hour-label"></div>`;
+      // days.forEach(day => {
+      //   members.forEach(member => {
+      //     memberHeader += `<div class="day-label">${member}</div>`;
+      //   });
+      // });
+      // containerElement.insertAdjacentHTML("beforeend", memberHeader);
 
       // Initialize blocked structure per day per member
       const blocked = {};
