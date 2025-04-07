@@ -74,12 +74,65 @@
       "Garlic Bread"
     ]
   },
-  "birthdays": [
-    {
-      "name": "Cynthia",
-      "date": "Friday"
-    }
-  ],
+  "birthdays": {
+    "January": [
+      { "name": "Kevin", "date": 16 },
+      { "name": "Dason", "date": 17 },
+      { "name": "Jessica", "date": 19 },
+      { "name": "Autumn", "date": 29 }
+    ],
+    "February": [
+      { "name": "Cole D", "date": 13 },
+      { "name": "Cole S", "date": 18 }
+    ],
+    "March": [
+      { "name": "Aeristy", "date": 2 },
+      { "name": "Melinda", "date": 2 },
+      { "name": "Quorra", "date": 10 },
+      { "name": "Leon", "date": 14 },
+      { "name": "Teresa-Mom-Gma", "date": 24 }
+    ],
+    "April": [
+      { "name": "Cynthia", "date": 9 },
+      { "name": "Lily", "date": 12 },
+      { "name": "Becky", "date": 25 },
+      { "name": "Farren", "date": 30 }
+    ],
+    "May": [
+      { "name": "Cory", "date": 22 },
+      { "name": "Gideon", "date": 29 },
+      { "name": "Carson", "date": 30 }
+    ],
+    "June": [
+      { "name": "Mark-Dad-Gpa", "date": 17 }
+    ],
+    "July": [
+      { "name": "Josie", "date": 25 }
+    ],
+    "August": [
+      { "name": "Dalen", "date": 15 }
+    ],
+    "September": [
+      { "name": "Mya", "date": 3 },
+      { "name": "Jay", "date": 4 },
+      { "name": "Josh", "date": 4 },
+      { "name": "Grimm", "date": 20 }
+    ],
+    "October": [
+      { "name": "Damian", "date": 1 },
+      { "name": "Cole Jr", "date": 12 },
+      { "name": "Chad", "date": 13 },
+      { "name": "Lisa", "date": 13 },
+      { "name": "Samantha", "date": 22 }
+    ],
+    "November": [
+      { "name": "", "date": null }
+    ],
+    "December": [
+      { "name": "Cassie", "date": 8 },
+      { "name": "Tonya", "date": 12 }
+    ]
+  },
   "chores": {
     "Monday": [
       "Clean living room",
