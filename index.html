@@ -168,7 +168,7 @@
         let memberHeader = `<div class="hour-label"></div>`;
         days.forEach(day => {
         members.forEach(member => {
-        memberHeader += `<div class="day-label ${member}"><em>${member}</em></div>`;
+        memberHeader += `<div class="member-label ${member}"><em>${member}</em></div>`;
         });
       });
       containerElement.insertAdjacentHTML("beforeend", memberHeader);
