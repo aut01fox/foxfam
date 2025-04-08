@@ -12,7 +12,7 @@
     /* Updated grid: one column for time labels + 7 days x 3 member columns */
     .calendar-grid {
       display: grid;
-      grid-template-columns: auto repeat(21, 1fr);
+      grid-template-columns: auto repeat(15, 1fr);
       gap: 0;
       height: calc(100vh - 175px);
 
@@ -28,7 +28,7 @@
       box-sizing: border-box;
       color: #000;
       font-size: 0.7em;
-      font-weight: bold;
+      /* font-weight: bold; */
       height: 100%;
       overflow-wrap: anywhere;
       white-space: normal;
@@ -147,7 +147,7 @@
     }
     
     function buildCalendarSection(containerElement, startHour, endHour, calendarData) {
-      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
       const members = ["Leo", "Autumn", "Cole"];
       containerElement.innerHTML = ""; // Clear it first
 
