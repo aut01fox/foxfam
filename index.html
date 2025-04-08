@@ -262,7 +262,7 @@
           dinners.innerHTML = `<p>free for all</p>`;
         }
 
-        const birthdayMonth = data.reminders?.[monthOfYear];
+        const birthdayMonth = document.getElementById("birthdayMonth");
           birthdayMonth.innerHTML += `<h2>${monthOfYear} Birthdays</h2>`;
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
