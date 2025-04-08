@@ -61,7 +61,7 @@
     .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
     .birthdays { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
     .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
-    .reminder p{ font-size: 1em; text-align: center; margin-top: 100px; }
+    .message { font-size: 3em; text-align: center; margin-top: 100px; }
 
     #birthday-slide {
       background-image: url("assets/images/birthday-popper.png"), url("assets/images/birthday-balloons.png");
@@ -274,7 +274,7 @@
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
-          reminderBox.innerHTML = `<h2>${reminder.title}</h2><p>${reminder.message}</p>`;
+          reminderBox.innerHTML = `<h2>${reminder.title}</h2>${reminder.message}</p>`;
           slides.splice(4, 0, "reminder-slide");
         }
       });
