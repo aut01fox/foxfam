@@ -129,7 +129,7 @@
     setInterval(() => {
       current = (current + 1) % slides.length;
       showSlide(current);
-    }, 5000);
+    }, 10000); // 1000 = 1 sec
 
     function formatTime(hour, minute) {
       const ampm = hour >= 12 ? "PM" : "AM";
