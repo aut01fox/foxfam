@@ -264,7 +264,7 @@
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
-          birthdays.innerHTML += `<h2>[monthOfYear] Birthdays</h2><p>${b.name}  —  <em>${b.date}</em><br></p>`;
+          birthdays.innerHTML += `<h2>${monthOfYear} Birthdays</h2><p>${b.name}  —  <em>${b.date}</em><br></p>`;
         });
 
         const chores = document.getElementById("chores");
