@@ -163,14 +163,14 @@
       });
       containerElement.insertAdjacentHTML("beforeend", headerHTML);
 
-      // Header row 2: blank cell then member names for each day
-      // let memberHeader = `<div class="hour-label"></div>`;
-      // days.forEach(day => {
-      //   members.forEach(member => {
-      //     memberHeader += `<div class="day-label">${member}</div>`;
-      //   });
-      // });
-      // containerElement.insertAdjacentHTML("beforeend", memberHeader);
+      Header row 2: blank cell then member names for each day
+        let memberHeader = `<div class="hour-label"></div>`;
+        days.forEach(day => {
+        members.forEach(member => {
+        memberHeader += `<div class="day-label">${member}</div>`;
+        });
+      });
+      containerElement.insertAdjacentHTML("beforeend", memberHeader);
 
       // Initialize blocked structure per day per member
       const blocked = {};
