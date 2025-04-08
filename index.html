@@ -263,7 +263,7 @@
         }
 
         const birthdayMonth = document.getElementById("birthdayMonth");
-          birthdayMonth.innerHTML += `<h2>${monthOfYear} Birthdays</h2>`;
+          birthdayMonth.innerHTML += `${monthOfYear} Birthdays`;
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
           birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
