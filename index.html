@@ -55,9 +55,9 @@
     .house { background-color: #a4c2f4; }
     .other { background-color: #d4d4d4; }
 
-    .Leo { background-color: #b1b6de; box-shadow: inset 0 0 5px 3px #9da1c4; }
+    .Leo { background-color: #c3c8e6; box-shadow: inset 0 0 5px 3px #adb1cc; }
     .Autumn { background-color: #dbb2c2; box-shadow: inset 0 0 5px 3px #c29dac; }
-    .Cole { background-color: #b8d7dc; box-shadow: inset 0 0 5px 3px #a3bfc3; }
+    .Cole { background-color: #bdd4d4; box-shadow: inset 0 0 5px 3px #a6bbbb; }
     
     .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
     .birthdays { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
@@ -168,7 +168,7 @@
         let memberHeader = `<div class="hour-label"></div>`;
         days.forEach(day => {
         members.forEach(member => {
-        memberHeader += `<div class="member-label"><em>${member}</em></div>`;
+        memberHeader += `<div class="member-label ${member.member}"><em>${member}</em></div>`;
         });
       });
       containerElement.insertAdjacentHTML("beforeend", memberHeader);
