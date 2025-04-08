@@ -43,13 +43,21 @@
     {
       "day": ["Tuesday", "Thursday"],
       "time": "10:00 AM",
-      "event": "with Dad",
+      "event": "with dad",
       "duration": 44,
       "category": "other",
       "member": "Leo"
     },
     {
-      "day": ["Tuesday", "Thursday"],
+      "day": "Tuesday",
+      "time": "10:30 AM",
+      "event": "Work",
+      "duration": 22,
+      "category": "work",
+      "member": "Autumn"
+    },
+    {
+      "day": "Thursday",
       "time": "10:30 AM",
       "event": "Work",
       "duration": 26,
@@ -63,6 +71,22 @@
       "duration": 8,
       "category": "work",
       "member": "Autumn"
+    },
+    {
+      "day": ["Monday", "Thursday"],
+      "time": "9:00 PM",
+      "event": "Homework",
+      "duration": 8,
+      "category": "school",
+      "member": "Autumn"
+    },
+    {
+      "day": ["Monday", "Thursday"],
+      "time": "9:00 PM",
+      "event": "Server Maintenance",
+      "duration": 8,
+      "category": "house",
+      "member": "Cole"
     }
   ],
   "dinners": {
@@ -110,10 +134,10 @@
       { "name": "Teresa-Mom-Gma", "date": 24 }
     ],
     "April": [
-      { "name": "Cynthia", "date": 9 },
-      { "name": "Lily", "date": 12 },
-      { "name": "Becky", "date": 25 },
-      { "name": "Farren", "date": 30 }
+      { "name": "Cynthia", "date": "9th" },
+      { "name": "Lily", "date": "12th" },
+      { "name": "Becky", "date": "25th" },
+      { "name": "Farren", "date": "30th" }
     ],
     "May": [
       { "name": "Cory", "date": 22 },
