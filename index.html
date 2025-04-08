@@ -66,8 +66,9 @@
     #birthday-slide {
       background-image: url("assets/images/birthday-popper.png"), url("assets/images/birthday-balloons.png");
       background-repeat: no-repeat, no-repeat;
-      background-position: bottom left, right;
+      background-position: bottom left, top right;
       background-size: 25% auto, auto 80%;
+      padding-top: 0, 20px; 
     }
 
     .reminder { border: 2px double #ffe600; }
@@ -207,7 +208,7 @@
                 blocked[day][member][blockLabel] = true;
               }
             } else {
-              rowHTML += `<div class="day${event.member}${classBorder}"></div>`;
+              rowHTML += `<div class="day${classBorder}"></div>`;
             }
           });
         });
