@@ -47,7 +47,7 @@
       padding-left: 4px;
     }
     .day-label { font-weight: bold; text-align: center; background-color: #c4c4c4; padding: 2px; margin-top: 4px; border: 1px solid #c4c4c4; font-size: 1em; }
-    .member-label { font-weight: normal; text-align: center; background-color: #d9d9d9; padding: 1px; border: 1px solid #c4c4c4; font-size: .75em; }
+    .member-label { font-weight: normal; text-align: center; padding: 1px; border: 1px solid #c4c4c4; font-size: .75em; }
     #calendar-am h2, #calendar-pm h2 { text-align: center; padding-bottom: 0; padding-top: 0; padding-left: 10px; font-size: 1.5em; }
     .appt { background-color: #fcf262; }
     .school { background-color: #bdfaa7; }
@@ -92,7 +92,7 @@
       <div class="dinner" id="dinners"></div>
     </div>
     <div class="slide" id="birthday-slide">
-       <div class="birthdayHeader" id="birthdayMonth"></div>
+       <div class=h2 id="birthdayMonth"></div>
       <div class="birthdays" id="birthdays"></div>
     </div>
     <div class="slide" id="reminder-slide">
@@ -168,7 +168,7 @@
         let memberHeader = `<div class="hour-label"></div>`;
         days.forEach(day => {
         members.forEach(member => {
-        memberHeader += `<div class="member-label ${member.member}"><em>${member}</em></div>`;
+        memberHeader += `<div class="member-label${member}"><em>${member}</em></div>`;
         });
       });
       containerElement.insertAdjacentHTML("beforeend", memberHeader);
@@ -263,7 +263,7 @@
         }
 
         const birthdayMonth = data.reminders?.[monthOfYear];
-          birthdayMonth.innerHTML = `<h2>${monthOfYear} Birthdays</h2>`;
+          birthdayMonth.innerHTML += `<h2>${monthOfYear} Birthdays</h2>`;
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
           birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
