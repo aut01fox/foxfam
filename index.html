@@ -55,9 +55,9 @@
     .house { background-color: #a4c2f4; }
     .other { background-color: #d4d4d4; }
 
-    .Leo { background-color: #e9f0d1; box-shadow: inset 1 1 0 3px #e3e8c5; }
-    .Autumn { background-color: #e7d1f0; box-shadow: inset 1 1 0 3px #dbc5e8; }
-    .Cole { background-color: #f0e4d1; box-shadow: inset 1 1 0 3px #e8d9c5; }
+    .Leo { background-color: #b1b6de; box-shadow: inset 0 0 5px 3px #9da1c4; }
+    .Autumn { background-color: #dbb2c2; box-shadow: inset 0 0 5px 3px #c29dac; }
+    .Cole { background-color: #b8d7dc; box-shadow: inset 0 0 5px 3px #a3bfc3; }
     
     .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
     .birthdays { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
@@ -92,7 +92,7 @@
       <div class="dinner" id="dinners"></div>
     </div>
     <div class="slide" id="birthday-slide">
-       <!--<h2>Birthdays This Month</h2>-->
+       <div class="birthdayHeader" id="birthdayMonth"></div>
       <div class="birthdays" id="birthdays"></div>
     </div>
     <div class="slide" id="reminder-slide">
@@ -262,9 +262,11 @@
           dinners.innerHTML = `<p>free for all</p>`;
         }
 
+        const birthdayMonth = data.reminders?.[monthOfYear];
+          birthdayMonth.innerHTML = `<h2>${monthOfYear} Birthdays</h2>`;
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
-          birthdays.innerHTML += `<div><h2>${monthOfYear} Birthdays</h2></div><p>${b.name}  —  <em>${b.date}</em><br></p>`;
+          birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
         });
 
         const chores = document.getElementById("chores");
