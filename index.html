@@ -99,7 +99,7 @@
       <div class="reminder" id="reminderBox"></div>
     </div>
     <div class="slide" id="chores-slide">
-      <h2>Daily Tasks</h2>
+      <h2>Daily Cleaning Tasks</h2>
       <div class="chores" id="chores"></div>
     </div>
   </div>
@@ -264,7 +264,7 @@
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
-          birthdays.innerHTML += `<p>${b.name}  —  <em>${b.date}</em><br></p>`;
+          birthdays.innerHTML += `<h2>[monthOfYear] Birthdays</h2><p>${b.name}  —  <em>${b.date}</em><br></p>`;
         });
 
         const chores = document.getElementById("chores");
