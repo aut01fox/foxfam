@@ -13,9 +13,9 @@
     .calendar-grid {
       display: grid;
       grid-template-columns: auto repeat(15, 1fr);
+      grid-template-rows: auto auto repeat(36, 1fr);
       gap: 0;
       height: calc(100vh - 175px);
-
     }
     .calendar-grid .day { border: thin solid #c4c4c4; font-size: 1em; text-align: center; }
       .day.first-border {border-left: 1.5px solid #666; }
@@ -47,6 +47,7 @@
       padding-left: 4px;
     }
     .day-label { font-weight: bold; text-align: center; background-color: #c4c4c4; padding: 6px; border: 1px solid #c4c4c4; font-size: 1em; }
+    .day-label .member{ font-weight: normal; text-align: center; background-color: #ccc; padding: 2px; border: 1px solid #ccc; font-size: .75em; }
     #calendar-am h2, #calendar-pm h2 { text-align: center; padding-bottom: 0; padding-top: 0; padding-left: 10px; font-size: 1.5em; }
     .appt { background-color: #fcf262; }
     .school { background-color: #bdfaa7; }
@@ -153,7 +154,7 @@
 
       // Calculate total rows: 2 header rows + time rows (15-min increments)
       const timeRowCount = (endHour * 4) - (startHour * 4) + 1;
-      const totalRows = 1 + timeRowCount; // updated from 2 to 1 to remove member headers
+      const totalRows = 2 + timeRowCount; // updated from 2 to 1 to remove member headers
       containerElement.style.gridTemplateRows = `repeat(${totalRows}, 1fr)`;
 
       // Header row 1: blank cell then each day spanning 3 columns
