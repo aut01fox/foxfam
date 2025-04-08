@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Family Calendar</title>
+  <title>Fox Fam</title>
   <style>
     body { margin: 0; font-size: 20px; font-family: sans-serif; background: #f3f2f2; color: #333; }
     .date-bar { background: #007acc; color: white; padding: 15px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; }
@@ -264,7 +264,7 @@
 
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
-          birthdays.innerHTML += `<h2>${monthOfYear} Birthdays</h2><p>${b.name}  —  <em>${b.date}</em><br></p>`;
+          birthdays.innerHTML += `<div><h2>${monthOfYear} Birthdays</h2></div><p>${b.name}  —  <em>${b.date}</em><br></p>`;
         });
 
         const chores = document.getElementById("chores");
