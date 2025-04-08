@@ -168,7 +168,7 @@
         let memberHeader = `<div class="hour-label"></div>`;
         days.forEach(day => {
         members.forEach(member => {
-        memberHeader += `<div class="member-label"><em>${member}</em></div>`;
+        memberHeader += `<div class="day-label"><em>${member}</em></div>`;
         });
       });
       containerElement.insertAdjacentHTML("beforeend", memberHeader);
@@ -263,7 +263,7 @@
         }
 
         const birthdayMonth = document.getElementById("birthdayMonth");
-          birthdayMonth.innerHTML += `${monthOfYear} Birthdays`;
+          birthdayMonth.innerHTML += `<div>${monthOfYear} Birthdays</div>`;
         const birthdays = document.getElementById("birthdays");
         (data.birthdays?.[monthOfYear] || []).forEach(b => {
           birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
