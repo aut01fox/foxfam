@@ -274,7 +274,7 @@
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
-          reminderBox.innerHTML = `<h2>${reminder.title}</h2>${reminder.message}</p>`;
+          reminderBox.innerHTML = `<h2>${reminder.title}</h2><p>${reminder.message}</p>`;
           slides.splice(4, 0, "reminder-slide");
         }
       });
