@@ -99,7 +99,7 @@
       <div class="reminder" id="reminderBox"></div>
     </div>
     <div class="slide" id="chores-slide">
-      <h2>Daily Cleaning Tasks</h2>
+      <h2>Weekly Cleaning Tasks</h2>
       <div class="chores" id="chores"></div>
     </div>
   </div>
@@ -168,7 +168,7 @@
         let memberHeader = `<div class="hour-label"></div>`;
         days.forEach(day => {
         members.forEach(member => {
-        memberHeader += `<div class="day-label"><em>${member}</em></div>`;
+        memberHeader += `<div class="day-label"><em>${member.member}</em></div>`;
         });
       });
       containerElement.insertAdjacentHTML("beforeend", memberHeader);
