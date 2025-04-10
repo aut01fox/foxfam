@@ -74,15 +74,22 @@
       margin-left: 100px, 0;
     }
     
+    #forecastContainer {
+      display: flex;
+      justify-content: space-evenly; /* Distributes items evenly across the full width */
+      align-items: center;           /* Vertically centers items */
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
     .forecast-day {
-      display: inline-block;
-      margin: 10px;
+      flex: 1;                      /* Makes each forecast-day take equal space */
+      text-align: center;           /* Centers content within each block */
+      margin: 0 10px;               /* Optional: adds horizontal spacing between blocks */
       padding: 10px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      width: calc(100%-100px/5)
-      background-color: #dedede; 
-      text-align: center; ;
+      background-color: #bcdfeb; 
     }
     
   </style>
