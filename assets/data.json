@@ -9,14 +9,6 @@
       "member": "Leo"
     },
     {
-      "day": "Tuesday",
-      "time": "5:00 PM",
-      "event": "School Exam",
-      "duration": 8,
-      "category": "school",
-      "member": "Autumn"
-    },
-    {
       "day": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "time": "8:00 AM",
       "event": "Work",
@@ -49,21 +41,14 @@
       "member": "Leo"
     },
     {
-      "day": "Tuesday",
-      "time": "10:30 AM",
+      "day": ["Tuesday", "Thursday"],
+      "time": "11:00 AM",
       "event": "Work",
-      "duration": 22,
+      "duration": 24,
       "category": "work",
       "member": "Autumn"
     },
-    {
-      "day": "Thursday",
-      "time": "10:30 AM",
-      "event": "Work",
-      "duration": 26,
-      "category": "work",
-      "member": "Autumn"
-    },
+
     {
       "day": ["Wednesday", "Friday"],
       "time": "12:15 PM",
@@ -88,6 +73,7 @@
       "category": "house",
       "member": "Cole"
     }
+    
   ],
   "dinners": {
     "Monday": [
