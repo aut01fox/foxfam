@@ -73,6 +73,24 @@
       background-size: 45vh auto, auto 85vh;
       margin-left: 100px, 0;
     }
+    #weather-slide {
+      text-align: center;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+    
+    .forecast-day {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100px;
+    }
     
   </style>
 </head>
@@ -98,6 +116,10 @@
     <div class="slide" id="reminder-slide">
       <div class="reminder" id="reminderBox"></div>
     </div>
+    <div class="slide" id="weather-slide">
+      <h2>Weekly Weather Forecast</h2>
+      <div id="forecastContainer"><p>Loading forecast...</p></div>
+    </div>
     <div class="slide" id="chores-slide">
       <h2>Daily Cleaning Tasks</h2>
       <div class="chores" id="chores"></div>
@@ -118,7 +140,8 @@
       "calendar-pm",
       "dinner-slide",
       "birthday-slide",
-      "chores-slide"
+      "chores-slide",
+      "weather-slide"
     ];
 
     let current = 0;
@@ -281,6 +304,85 @@
           slides.splice(4, 0, "reminder-slide");
         }
       });
+
+      // ----- Weather Forecast Setup -----
+    
+      // Set your coordinates (update these with your actual values)
+      const lat = "40.7387";    // e.g., New York City latitude
+      const lon = "85.1716";   // e.g., New York City longitude
+      const API_KEY = "9ecc2ae2d8c56491dec841339e6bbfc7"; // Insert your OpenWeatherMap API key
+    
+      // Construct the One Call API URL for a 7-day forecast (excluding minutely/hourly/current/alerts)
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,current,alerts&units=metric&appid=${API_KEY}`;
+    
+      // Keys for local storage
+      const localStorageKey = "weeklyForecast";
+      const localStorageTimestampKey = "weeklyForecastTimestamp";
+      const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    
+      // Function to display the forecast in the weather slide
+      function displayForecast(data) {
+        const forecastContainer = document.getElementById("forecastContainer");
+        forecastContainer.innerHTML = ""; // clear the loading message
+    
+        // Loop through daily forecast (data.daily is an array) - limit to 7 days
+        data.daily.slice(0, 7).forEach(dayData => {
+          // Convert Unix timestamp to a Date, get weekday
+          const date = new Date(dayData.dt * 1000);
+          const dayName = date.toLocaleDateString(undefined, { weekday: 'short' });
+          
+          // Build icon URL and extract weather description and temperature extremes
+          const iconCode = dayData.weather[0].icon;
+          const description = dayData.weather[0].description;
+          const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+          const minTemp = Math.round(dayData.temp.min);
+          const maxTemp = Math.round(dayData.temp.max);
+    
+          // Create a day block div
+          const dayDiv = document.createElement("div");
+          dayDiv.classList.add("forecast-day");
+          dayDiv.innerHTML = `
+            <h4>${dayName}</h4>
+            <img src="${iconUrl}" alt="${description}" width="50" height="50">
+            <p>${minTemp}°C / ${maxTemp}°C</p>
+          `;
+          forecastContainer.appendChild(dayDiv);
+        });
+      }
+    
+      // Function to fetch weather forecast data
+      function fetchWeather() {
+        fetch(weatherUrl)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Save fetched data and a timestamp in localStorage
+            localStorage.setItem(localStorageKey, JSON.stringify(data));
+            localStorage.setItem(localStorageTimestampKey, Date.now());
+            displayForecast(data);
+          })
+          .catch(error => {
+            console.error("Error fetching forecast data:", error);
+            document.getElementById("forecastContainer").innerHTML = "<p>Error loading forecast.</p>";
+          });
+      }
+    
+      // Check localStorage for cached forecast data
+      const storedData = localStorage.getItem(localStorageKey);
+      const storedTimestamp = localStorage.getItem(localStorageTimestampKey);
+      const now = Date.now();
+    
+      if (storedData && storedTimestamp && now - storedTimestamp < oneDay) {
+        console.log("Using cached weather forecast.");
+        displayForecast(JSON.parse(storedData));
+      } else {
+        fetchWeather();
+      }
+
     // Auto-refresh every 1 hour (3600 seconds)
       setTimeout(() => {
         location.reload();
