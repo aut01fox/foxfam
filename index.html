@@ -80,7 +80,8 @@
       padding: 10px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      width: 100px;
+      width: calc(90vw-100px/5)
+      background-color: #dedede; ;
     }
     
   </style>
@@ -368,7 +369,7 @@
           ${summary.day}<br>
           <span style="font-size:0.8em;">${summary.fullDate}</span>
         </h4>
-        <img src="${iconUrl}" alt="${summary.description}" width="50" height="50">
+        <img src="${iconUrl}" alt="${summary.description}" width="100" height="100">
         <p>${summary.minTemp}°F / ${summary.maxTemp}°F</p>
       `;
       forecastContainer.appendChild(dayDiv);
