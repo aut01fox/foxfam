@@ -314,25 +314,30 @@
   
   function computeDailySummaries(dailyData) {
     const summaries = [];
-    for (const date in dailyData) {
-      const items = dailyData[date];
+    for (const dateKey in dailyData) {
+      const items = dailyData[dateKey];
       let minTemp = Infinity;
       let maxTemp = -Infinity;
       
+      // Loop through all items to determine the min and max temps of that day
       items.forEach(item => {
         const temp = item.main.temp;
         if (temp < minTemp) minTemp = temp;
         if (temp > maxTemp) maxTemp = temp;
       });
       
-      const { icon, description } = items[0].weather[0];
+      // Create a Date object from the first item to derive the day of the week
+      const d = new Date(items[0].dt * 1000);
+      // This will give you the full day name (e.g., "Monday")
+      const dayName = d.toLocaleDateString(undefined, { weekday: 'long' });
       
       summaries.push({
-        date,
+        date: dateKey,  // Original date string from grouping, if you need it
+        day: dayName,   // The actual day of the week
         minTemp: Math.round(minTemp),
         maxTemp: Math.round(maxTemp),
-        icon,
-        description
+        icon: items[0].weather[0].icon,
+        description: items[0].weather[0].description
       });
     }
     return summaries;
@@ -357,7 +362,7 @@
       const iconUrl = `https://openweathermap.org/img/wn/${summary.icon}@2x.png`;
       
       dayDiv.innerHTML = `
-        <h4>${summary.date}</h4>
+        <h4>${summary.day}</h4>
         <img src="${iconUrl}" alt="${summary.description}" width="50" height="50">
         <p>${summary.minTemp}°C / ${summary.maxTemp}°C</p>
       `;
