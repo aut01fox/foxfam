@@ -319,21 +319,23 @@
       let minTemp = Infinity;
       let maxTemp = -Infinity;
       
-      // Loop through all items to determine the min and max temps of that day
+      // Loop to determine daily min and max temperatures
       items.forEach(item => {
         const temp = item.main.temp;
         if (temp < minTemp) minTemp = temp;
         if (temp > maxTemp) maxTemp = temp;
       });
       
-      // Create a Date object from the first item to derive the day of the week
+      // Use the first item to capture the timestamp
       const d = new Date(items[0].dt * 1000);
-      // This will give you the full day name (e.g., "Monday")
       const dayName = d.toLocaleDateString(undefined, { weekday: 'long' });
+      // Format the full date (you can adjust options as needed)
+      const fullDate = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
       
       summaries.push({
-        date: dateKey,  // Original date string from grouping, if you need it
-        day: dayName,   // The actual day of the week
+        date: dateKey,       // Original key from grouping (optional)
+        day: dayName,        // Weekday name (e.g., "Monday")
+        fullDate: fullDate,  // Full date (e.g., "Jun 15, 2025")
         minTemp: Math.round(minTemp),
         maxTemp: Math.round(maxTemp),
         icon: items[0].weather[0].icon,
@@ -362,7 +364,10 @@
       const iconUrl = `https://openweathermap.org/img/wn/${summary.icon}@2x.png`;
       
       dayDiv.innerHTML = `
-        <h4>${summary.day}</h4>
+        <h4>
+          ${summary.day}<br>
+          <span style="font-size:0.8em;">${summary.fullDate}</span>
+        </h4>
         <img src="${iconUrl}" alt="${summary.description}" width="50" height="50">
         <p>${summary.minTemp}°C / ${summary.maxTemp}°C</p>
       `;
