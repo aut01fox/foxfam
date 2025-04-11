@@ -5,7 +5,9 @@
   <title>Fox Fam</title>
   <style>
     body { margin: 0; font-size: 20px; font-family: sans-serif; background: #f3f2f2; color: #333; }
-    .date-bar { background: #007acc; color: white; padding: 15px; text-align: center; font-size: 1.5em; position: fixed; width: 100%; top: 0; }
+    .date-bar { background: #007acc; color: white; padding: 15px; font-size: 1.5em; position: fixed; width: 50%; top: 0;  float: left; text-align: left; }
+    .time-bar { background: #007acc; color: white; padding: 15px; font-size: 1.5em; position: fixed; width: 50%; top: 0;  float: left; text-align: right; }
+    .barTime { float: left; width: 50%; padding: 10px; text-align: right; }
     .slide { display: none; padding: 60px 20px 20px 10px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 10px; padding-left: 10px; font-size: 2em; }
@@ -95,7 +97,9 @@
   </style>
 </head>
 <body>
-  <div class="date-bar" id="dateBar"></div>
+  <div class="date-bar" id="dateBar">
+    <div class="time-bar" id="timeBar">
+  </div>
   <div id="slides">
     <div class="slide" id="calendar-am">
       <h2>Week at a Glance (AM)</h2>
@@ -131,7 +135,11 @@
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     dateBar.innerText = today.toLocaleDateString(undefined, options);
-
+    
+    const timeBar = document.getElementById("timeBar");
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
+    timeBar.innerText = today.toLocaleDateString(undefined, timeOptions);
+    
     const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
     const monthOfYear = today.toLocaleDateString(undefined, { month: 'long' });
 
