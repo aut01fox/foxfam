@@ -85,7 +85,7 @@
     .Autumn { background-color: #dbb2c2; box-shadow: inset 0 0 5px 3px #c29dac; }
     .Cole { background-color: #bdd4d4; box-shadow: inset 0 0 5px 3px #a6bbbb; }
     
-    .dinner { max-width: 90vw; margin: 100px auto; font-size: 2.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
+    .dinner { max-width: 90vw; margin: 100px auto; font-size: 1em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
         .dinner > .dinner-today,
         .dinner > .dinner-week {
           display: inline-block;
@@ -379,7 +379,7 @@
         if (data.dinners) {
           let weekOverview = "";
           Object.keys(data.dinners).forEach(day => {
-            weekOverview += `<p>${day}: ${data.dinners[day].join(", ")}</p>`;
+            weekOverview += `<p><strong>${day}:</strong> ${data.dinners[day].join(", ")}</p>`;
           });
           dinnerWeekOverview.innerHTML = weekOverview;
         }
