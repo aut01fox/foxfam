@@ -5,9 +5,18 @@
   <title>Fox Fam</title>
   <style>
     body { margin: 0; font-size: 20px; font-family: sans-serif; background: #f3f2f2; color: #333; }
-    .date-bar { background: #007acc; color: white; padding: 15px; font-size: 1.5em; position: fixed; width: 100%; top: 0; text-align: left; }
-    .time-bar { background: #007acc; color: white; padding: 15px; font-size: 1.5em; position: fixed; width: 100%; top: 0; text-align: right; }
-    .barTime { float: left; width: 50%; padding: 10px; text-align: right; }
+.date-bar {
+  background: #007acc;
+  color: white;
+  padding: 15px;
+  font-size: 1.5em;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  display: flex;                  /* Activate flex layout */
+  justify-content: space-between; /* Date on left, time on right */
+  align-items: center;            /* Vertically center the children */
+}
     .slide { display: none; padding: 60px 20px 20px 10px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 10px; padding-left: 10px; font-size: 2em; }
@@ -98,7 +107,9 @@
 </head>
 <body>
   <div class="date-bar" id="dateBar">
-    <div class="time-bar" id="timeBar"></div></div>
+      <div id="dateDisplay"></div>
+      <div id="timeDisplay"></div>
+    </div>
   <div id="slides">
     <div class="slide" id="calendar-am">
       <h2>Week at a Glance (AM)</h2>
@@ -133,11 +144,15 @@
     const dateBar = document.getElementById("dateBar");
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateBar.innerText = today.toLocaleDateString(undefined, options);
+    const dateDisplay = document.getElementById("dateDisplay");
+    const timeDisplay = document.getElementById("timeDisplay");
     
-    const timeBar = document.getElementById("timeBar");
+    // Set the date using your existing options
+    dateDisplay.innerText = today.toLocaleDateString(undefined, options);
+    
+    // Set up time options (new constant, doesn't conflict with your options)
     const timeOptions = { hour: '2-digit', minute: '2-digit' };
-    timeBar.innerText = today.toLocaleDateString(undefined, timeOptions);
+    timeDisplay.innerText = today.toLocaleTimeString(undefined, timeOptions);
     
     const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
     const monthOfYear = today.toLocaleDateString(undefined, { month: 'long' });
