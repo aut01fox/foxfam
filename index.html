@@ -184,11 +184,11 @@
         .then(data => {
           const temperature = Math.round(data.main.temp);
           const description = data.weather[0].description;
-          document.getElementById("currentWeatherDisplay").innerText = 
-            `${temperature}°F`;
+          const weatherDisplay = document.getElementById("weatherDisplay");
+          weatherDisplay.innerText = `${temperature}°F`;
         })
         .catch(() => {
-          document.getElementById("currentWeatherDisplay").innerText = "";
+          weatherDisplay.innerText = "";
         });
     }
     
