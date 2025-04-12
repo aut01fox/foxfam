@@ -95,7 +95,7 @@
         }
         .dinner > .dinner-week {
           display: inline-block;
-          border-left: 1px solid #ccc;
+          border-left: 1px solid #828282;
           vertical-align: top;
           width: 45%;
           box-sizing: border-box;
@@ -256,7 +256,7 @@
     setInterval(() => {
       current = (current + 1) % slides.length;
       showSlide(current);
-    }, 5000); // 1000 = 1 sec
+    }, 2000); // 1000 = 1 sec
 
     function formatTime(hour, minute) {
       const ampm = hour >= 12 ? "PM" : "AM";
