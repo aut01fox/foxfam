@@ -164,7 +164,7 @@
     function updateTime() {
       const now = new Date();
       const timeOptions = { hour: '2-digit', minute: '2-digit' };
-      timeDisplay.innerText = today.toLocaleTimeString(undefined, timeOptions);
+      timeDisplay.innerText = now.toLocaleTimeString(undefined, timeOptions);
     }
     updateTime();
     
