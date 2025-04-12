@@ -117,13 +117,13 @@
       align-items: center;           /* Vertically centers items */
       width: 100%;
       box-sizing: border-box;
-      font-size: 3em;
+      font-size: 1.2em;
     }
     
     .forecast-day {
       flex: 1;                      /* Makes each forecast-day take equal space */
       text-align: center; 
-      font-size: 1.3em;
+      font-size: 1.1em;
       margin: 0 10px;               /* Optional: adds horizontal spacing between blocks */
       padding: 10px;
       border: 1px solid #ddd;
@@ -471,7 +471,7 @@
       dayDiv.innerHTML = `
         <h4>
           ${summary.day}<br>
-          <span style="font-size:1em;">${summary.fullDate}</span>
+          <span style="font-size:.8em;">${summary.fullDate}</span>
         </h4>
         <img src="${iconUrl}" alt="${summary.description}" width="150" height="150">
         <p>${summary.minTemp}°F / ${summary.maxTemp}°F</p>
