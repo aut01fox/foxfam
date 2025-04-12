@@ -19,10 +19,9 @@
       align-items: center;            /* Vertically center the children */
     }
     #dateDisplay {
-      margin-left: 10px;
+      /*margin-left: 10px;*/
       font-size: .9em;
     }
-    
     #timeDisplay {
       margin-right: 10px; /* increase this value if needed */
     }
@@ -119,6 +118,7 @@
 </head>
 <body>
   <div class="date-bar" id="dateBar">
+      <div id="weatherDisplay"></div>
       <div id="dateDisplay"></div>
       <div id="timeDisplay"></div>
     </div>
@@ -153,12 +153,15 @@
   </div>
 
   <script>
+    //date bar
+      //date
     const dateBar = document.getElementById("dateBar");
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const dateDisplay = document.getElementById("dateDisplay");
     dateDisplay.innerText = today.toLocaleDateString(undefined, options);
-
+    
+      //time
     const timeDisplay = document.getElementById("timeDisplay");
     
     function updateTime() {
@@ -167,6 +170,30 @@
       timeDisplay.innerText = now.toLocaleTimeString(undefined, timeOptions);
     }
     updateTime();
+
+      //weather
+    const lat = "40.7387";
+    const lon = "85.1716";
+    const API_KEY = "9ecc2ae2d8c56491dec841339e6bbfc7";
+    
+    // Function to fetch and display the current weather
+    function fetchCurrentWeather() {
+      const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${API_KEY}`;
+      fetch(currentWeatherUrl)
+        .then(response => response.json())
+        .then(data => {
+          const temperature = Math.round(data.main.temp);
+          const description = data.weather[0].description;
+          document.getElementById("currentWeatherDisplay").innerText = 
+            `${temperature}°F`;
+        })
+        .catch(() => {
+          document.getElementById("currentWeatherDisplay").innerText = "";
+        });
+    }
+    
+    // Call once on page load (and the auto-refresh every hour will update everything)
+    fetchCurrentWeather();
     
     const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
     const monthOfYear = today.toLocaleDateString(undefined, { month: 'long' });
