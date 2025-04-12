@@ -29,6 +29,7 @@
     .slide { display: none; padding: 60px 20px 20px 10px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
     h2 { text-align: center; padding-bottom: 2px; padding-top: 10px; padding-left: 10px; font-size: 2em; }
+    h4 {font-size: 1.5em; }
     /* Updated grid: one column for time labels + 7 days x 3 member columns */
     .calendar-grid {
       display: grid;
@@ -411,7 +412,7 @@
       dayDiv.innerHTML = `
         <h4>
           ${summary.day}<br>
-          <span style="font-size:0.8em;">${summary.fullDate}</span>
+          <span style="font-size:.85em;">${summary.fullDate}</span>
         </h4>
         <img src="${iconUrl}" alt="${summary.description}" width="100" height="100">
         <p>${summary.minTemp}°F / ${summary.maxTemp}°F</p>
