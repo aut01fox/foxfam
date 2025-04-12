@@ -138,8 +138,16 @@
       <div class="calendar-grid" id="calendarPM"></div>
     </div>
     <div class="slide" id="dinner-slide">
-      <h2>Dinner Today</h2>
-      <div class="dinner" id="dinners"></div>
+      <h2>Dinner This Week</h2>
+      <div class="dinner" id="dinners">
+        <div class="dinner-today">
+          <h4>Tonight</h4>
+          <div id="dinnerTodayDisplay"></div>
+        </div>
+        <div class="dinner-week">
+          <div id="dinnerWeekOverview"></div>
+        </div>
+      </div>
     </div>
     <div class="slide" id="birthday-slide">
        <h2 id="birthdayMonth"></h2>
@@ -347,14 +355,23 @@
         buildCalendarSection(calendarAM, 7, 14.75, splitEvents);  // 7:00 AM – 2:45 PM
         buildCalendarSection(calendarPM, 15, 22.75, splitEvents);   // 3:00 PM – 10:45 PM
 
-        const dinners = document.getElementById("dinners");
         const todayDinner = data.dinners?.[dayOfWeek];
-        if (todayDinner) {
-          dinners.innerHTML = `<p><em>${todayDinner.join("<p></p>")}</em></p>`;
+        const dinnerTodayDisplay = document.getElementById("dinnerTodayDisplay");
+        if (todayDinner && todayDinner[0].trim() !== "") {
+          dinnerTodayDisplay.innerHTML = `<p><em>${todayDinner.join(", ")}</em></p>`;
         } else {
-          dinners.innerHTML = `<p>free for all</p>`;
+          dinnerTodayDisplay.innerHTML = `<p>free for all</p>`;
         }
-
+        
+        const dinnerWeekOverview = document.getElementById("dinnerWeekOverview");
+        if (data.dinners) {
+          let weekOverview = "";
+          Object.keys(data.dinners).forEach(day => {
+            weekOverview += `<p>${day}: ${data.dinners[day].join(", ")}</p>`;
+          });
+          dinnerWeekOverview.innerHTML = weekOverview;
+        }
+        
         const birthdayMonth = document.getElementById("birthdayMonth");
           birthdayMonth.innerHTML += `<div>${monthOfYear} Birthdays</div>`;
         const birthdays = document.getElementById("birthdays");
