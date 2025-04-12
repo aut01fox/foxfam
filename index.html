@@ -13,9 +13,17 @@
       position: fixed;
       width: 100%;
       top: 0;
+      box-sizing: border-box;
       display: flex;                  /* Activate flex layout */
       justify-content: space-between; /* Date on left, time on right */
       align-items: center;            /* Vertically center the children */
+    }
+    #dateDisplay {
+      margin-left: 10px;
+    }
+    
+    #timeDisplay {
+      margin-right: 10px; /* increase this value if needed */
     }
     .slide { display: none; padding: 60px 20px 20px 10px; height: 100vh; box-sizing: border-box; overflow-y: hidden; }
     .slide.active { display: block; }
