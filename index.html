@@ -156,14 +156,16 @@
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const dateDisplay = document.getElementById("dateDisplay");
+    dateDisplay.innerText = today.toLocaleDateString(undefined, options);
+
     const timeDisplay = document.getElementById("timeDisplay");
     
-    // Set the date using your existing options
-    dateDisplay.innerText = today.toLocaleDateString(undefined, options);
-    
-    // Set up time options (new constant, doesn't conflict with your options)
-    const timeOptions = { hour: '2-digit', minute: '2-digit' };
-    timeDisplay.innerText = today.toLocaleTimeString(undefined, timeOptions);
+    function updateDateBar() {
+      const now = new Date();
+      const timeOptions = { hour: '2-digit', minute: '2-digit' };
+      timeDisplay.innerText = today.toLocaleTimeString(undefined, timeOptions);
+    }
+    updateTime();
     
     const dayOfWeek = today.toLocaleDateString(undefined, { weekday: 'long' });
     const monthOfYear = today.toLocaleDateString(undefined, { month: 'long' });
@@ -179,6 +181,7 @@
 
     let current = 0;
     function showSlide(index) {
+      updateTime();
       slides.forEach(id => document.getElementById(id).classList.remove("active"));
       document.getElementById(slides[index]).classList.add("active");
     }
@@ -186,7 +189,7 @@
     setInterval(() => {
       current = (current + 1) % slides.length;
       showSlide(current);
-    }, 20000); // 1000 = 1 sec
+    }, 5000); // 1000 = 1 sec
 
     function formatTime(hour, minute) {
       const ampm = hour >= 12 ? "PM" : "AM";
