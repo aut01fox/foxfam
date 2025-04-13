@@ -25,9 +25,17 @@
       "member": "Cole"
     },
     {
-      "day": ["Wednesday", "Friday"],
+      "day": "Wednesday",
       "time": "12:00 PM",
       "event": "Preschool",
+      "duration": 10,
+      "category": "school",
+      "member": "Leo"
+    },
+    {
+      "day": "Friday",
+      "time": "12:00 PM",
+      "event": "Good Friday - No school",
       "duration": 10,
       "category": "school",
       "member": "Leo"
@@ -72,23 +80,35 @@
       "duration": 8,
       "category": "house",
       "member": "Cole"
+    },
+    {
+      "day": "Thursday",
+      "time": "9:30 AM",
+      "event": "Doctor Appt",
+      "duration": 6,
+      "category": "appt",
+      "member": "Leo"
     }
     
   ],
   "dinners": {
+    "Sunday": [
+      "Spaghetti",
+      "Garlic Bread"
+    ],
     "Monday": [
-      ""
-    ],
-    "Tuesday": [
-      "Cheeseburger Helper"
-    ],
-    "Wednesday": [
-      "Salisbury Steak",
-      "Mashed Potatoes"
-    ],
-    "Thursday": [
       "Lasagna",
       "Garlic Bread"
+    ],
+    "Tuesday": [
+      "Chicken and Rice"
+    ],
+    "Wednesday": [
+      "Free for All"
+    ],
+    "Thursday": [
+      "Chicken Patty Sandwiches",
+      "Curly Fries"
     ],
     "Friday": [
       "Pizza Friday"
@@ -96,9 +116,8 @@
     "Saturday": [
       "free for all"
     ],
-    "Sunday": [
-      "Spaghetti",
-      "Garlic Bread"
+    "Next Sunday": [
+      "Beef Stew"
     ]
   },
   "birthdays": {
