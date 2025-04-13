@@ -392,7 +392,7 @@
         if (data.dinners) {
           let weekOverview = "";
           Object.keys(data.dinners).forEach(day => {
-            weekOverview += `<p><strong>${day}:</strong> ${data.dinners[day]}</p>`;
+            weekOverview += `<p><strong>${day}:</strong> ${data.dinners[day].join(", ")}</p>`;
           });
           dinnerWeekOverview.innerHTML = weekOverview;
         }
