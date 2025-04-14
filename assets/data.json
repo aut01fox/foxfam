@@ -92,10 +92,6 @@
     
   ],
   "dinners": {
-    "Sunday": [
-      "Spaghetti",
-      "Garlic Bread"
-    ],
     "Monday": [
       "Lasagna",
       "Garlic Bread"
@@ -116,7 +112,7 @@
     "Saturday": [
       "free for all"
     ],
-    "Next Sunday": [
+    "Sunday": [
       "Beef Stew"
     ]
   },
