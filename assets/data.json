@@ -9,7 +9,7 @@
       "member": "Leo"
     },
     {
-      "day": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "day": ["Monday", "Tuesday", "Wednesday", "Thursday"],
       "time": "8:00 AM",
       "event": "Work",
       "duration": 36,
@@ -17,25 +17,9 @@
       "member": "Cole"
     },
     {
-      "day": "Tuesday",
-      "time": "6:00 PM",
-      "event": "Tournament",
-      "duration": 8,
-      "category": "house",
-      "member": "Cole"
-    },
-    {
-      "day": "Wednesday",
+      "day": ["Wednesday","Friday"],
       "time": "12:00 PM",
       "event": "Preschool",
-      "duration": 10,
-      "category": "school",
-      "member": "Leo"
-    },
-    {
-      "day": "Friday",
-      "time": "12:00 PM",
-      "event": "Good Friday - No school",
       "duration": 10,
       "category": "school",
       "member": "Leo"
@@ -56,9 +40,8 @@
       "category": "work",
       "member": "Autumn"
     },
-
     {
-      "day": ["Wednesday", "Friday"],
+      "day": ["Wednesday"],
       "time": "12:15 PM",
       "event": "Work",
       "duration": 8,
@@ -88,13 +71,28 @@
       "duration": 6,
       "category": "appt",
       "member": "Leo"
+    },
+    {
+      "day": "Friday",
+      "time": "12:30 PM",
+      "event": "Tennessee",
+      "duration": 42,
+      "category": "house",
+      "member": "Cole"
+    },
+    {
+      "day": "Friday",
+      "time": "12:30 PM",
+      "event": "Tennessee",
+      "duration": 42,
+      "category": "house",
+      "member": "Autumn"
     }
     
   ],
   "dinners": {
     "Monday": [
-      "Lasagna",
-      "Garlic Bread"
+      "Hamburger Helper"
     ],
     "Tuesday": [
       "Chicken and Rice"
@@ -103,17 +101,18 @@
       "Free for All"
     ],
     "Thursday": [
-      "Chicken Patty Sandwiches",
-      "Curly Fries"
+      "Breaded Chicken",
+      "Mashed Potatoes",
+      "Green Beans"
     ],
     "Friday": [
-      "Pizza Friday"
+      "free for all"
     ],
     "Saturday": [
       "free for all"
     ],
     "Sunday": [
-      "Beef Stew"
+      "free for all"
     ]
   },
   "birthdays": {
@@ -137,6 +136,7 @@
     "April": [
       { "name": "Cynthia", "date": "9th" },
       { "name": "Lily", "date": "12th" },
+      { "name": "Lucas", "date": "18th" },
       { "name": "Becky", "date": "25th" },
       { "name": "Farren", "date": "30th" }
     ],
@@ -205,17 +205,9 @@
       "title": "Heads up!",
       "message": "Trash gets picked up tomorrow morning!"
     },
-    "Saturday": {
-      "title": "Heads up!",
-      "message": "Groceries will be ordered tomorrow<br>Make sure to add to the list!"
-    },
-    "Sunday": {
+    null: {
       "title": "Heads up!",
       "message": "Groceries are being ordered today<br>Make sure to add to the list!"
-    },
-    "Thursday": {
-      "title": "Heads up!",
-      "message": "No school tomorrow - Good Friday"
     }
   }
 }
