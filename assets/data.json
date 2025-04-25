@@ -205,7 +205,7 @@
       "title": "Heads up!",
       "message": "Trash gets picked up tomorrow morning!"
     },
-    null: {
+    "": {
       "title": "Heads up!",
       "message": "Groceries are being ordered today<br>Make sure to add to the list!"
     }
