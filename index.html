@@ -145,6 +145,14 @@
       align-items: center;
     }
     
+    #vacation-slide {
+      background-image: url("assets/images/vacation-pic1.png"), url("assets/images/vacation-pic2.png"), url("assets/images/vacation-pic3.png"), url("assets/images/vacation-pic4.png");
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+      background-position: bottom left, top-left, bottom-right, top-right;
+      background-size: 50vh 50vh, 50vh 50vh, 50vh 50vh, 50vh 50vh;
+      /* margin-left: 100px, 0; */
+    }
+    
   </style>
 </head>
 <body>
@@ -189,6 +197,10 @@
       <h2>Daily Cleaning Tasks</h2>
       <div class="chores" id="chores"></div>
     </div> -->
+    <div class="slide" id="vacation-slide">
+      <h2 id="vacationSlide"></h2>
+      <div class="vacation" id="vacation"></div>
+    </div>
   </div>
 
   <script>
@@ -243,7 +255,8 @@
       "dinner-slide",
       "birthday-slide",
       /* "chores-slide", */
-      "weather-slide"
+      "weather-slide",
+      "vacation-slide"
     ];
 
     let current = 0;
