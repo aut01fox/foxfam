@@ -185,10 +185,10 @@
       <h2>Weather Forecast</h2>
       <div id="forecastContainer"><p>Loading forecast...</p></div>
     </div>
-    <div class="slide" id="chores-slide">
+      <!-- <div class="slide" id="chores-slide">
       <h2>Daily Cleaning Tasks</h2>
       <div class="chores" id="chores"></div>
-    </div>
+    </div> -->
   </div>
 
   <script>
@@ -242,7 +242,7 @@
       "calendar-pm",
       "dinner-slide",
       "birthday-slide",
-      "chores-slide",
+      /* "chores-slide", */
       "weather-slide"
     ];
 
@@ -404,10 +404,10 @@
           birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
         });
 
-        const chores = document.getElementById("chores");
+        /* const chores = document.getElementById("chores");
         (data.chores?.[dayOfWeek] || []).forEach(chore => {
           chores.innerHTML += `<p>${chore}</p>`;
-        });
+        }); */
 
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
