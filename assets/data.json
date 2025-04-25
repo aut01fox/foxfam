@@ -65,19 +65,11 @@
       "member": "Cole"
     },
     {
-      "day": "Thursday",
-      "time": "9:30 AM",
-      "event": "Doctor Appt",
-      "duration": 6,
-      "category": "appt",
-      "member": "Leo"
-    },
-    {
       "day": "Friday",
       "time": "12:30 PM",
       "event": "Tennessee",
       "duration": 42,
-      "category": "house",
+      "category": "other",
       "member": "Cole"
     },
     {
@@ -85,9 +77,17 @@
       "time": "12:30 PM",
       "event": "Tennessee",
       "duration": 42,
-      "category": "house",
+      "category": "other",
       "member": "Autumn"
-    }
+    },
+    {
+    "day": "Friday",
+    "time": "2:30 PM",
+    "event": "with dad",
+    "duration": 34,
+    "category": "other",
+    "member": "Leo"
+  }
     
   ],
   "dinners": {
