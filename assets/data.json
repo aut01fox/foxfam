@@ -25,91 +25,44 @@
       "member": "Leo"
     },
     {
-      "day": ["Tuesday", "Thursday"],
-      "time": "10:00 AM",
-      "event": "with dad",
-      "duration": 44,
-      "category": "other",
-      "member": "Leo"
+      "day": ["Tuesday", "Wednesday", "Thursday", "Friday"],
+      "time": "9:00 AM",
+      "event": "Work",
+      "duration": 30,
+      "category": "work",
+      "member": "Autumn"
     },
     {
-      "day": ["Tuesday", "Thursday"],
-      "time": "11:00 AM",
+      "day": ["Monday"],
+      "time": "10:30 AM",
       "event": "Work",
       "duration": 24,
       "category": "work",
       "member": "Autumn"
-    },
-    {
-      "day": ["Wednesday"],
-      "time": "12:15 PM",
-      "event": "Work",
-      "duration": 8,
-      "category": "work",
-      "member": "Autumn"
-    },
-    {
-      "day": ["Monday", "Thursday"],
-      "time": "9:00 PM",
-      "event": "Homework",
-      "duration": 8,
-      "category": "school",
-      "member": "Autumn"
-    },
-    {
-      "day": ["Monday", "Thursday"],
-      "time": "9:00 PM",
-      "event": "Server Maintenance",
-      "duration": 8,
-      "category": "house",
-      "member": "Cole"
-    },
-    {
-      "day": "Friday",
-      "time": "12:30 PM",
-      "event": "Tennessee",
-      "duration": 42,
-      "category": "other",
-      "member": "Cole"
-    },
-    {
-      "day": "Friday",
-      "time": "12:30 PM",
-      "event": "Tennessee",
-      "duration": 42,
-      "category": "other",
-      "member": "Autumn"
-    },
-    {
-    "day": "Friday",
-    "time": "2:30 PM",
-    "event": "with dad",
-    "duration": 34,
-    "category": "other",
-    "member": "Leo"
-  }
+    }
     
   ],
   "dinners": {
     "Monday": [
-      "Hamburger Helper"
+      "free for all"
     ],
     "Tuesday": [
-      "Chicken and Rice"
+      "Hamburger Helper"
     ],
     "Wednesday": [
       "free for all"
     ],
     "Thursday": [
-      "Breaded Chicken",
+      "Salisbury Steak",
       "Mashed Potatoes",
-      "Green Beans"
+      "Corn on the Cob"
     ],
     "Friday": [
-      "free for all"
+      "Pizza Friday"
     ],
     "Saturday": [
-      "free for all"
+      "Pigs in a Blanket",
+      "Curly Fries"
     ],
     "Sunday": [
       "free for all"
@@ -205,9 +158,13 @@
       "title": "Heads up!",
       "message": "Trash gets picked up tomorrow morning!"
     },
-    "Tuesday": {
+    "Saturday": {
       "title": "Heads up!",
-      "message": "Groceries are being ordered today<br>Make sure to add to the list!"
+      "message": "Groceries are being ordered tomorrow<br>Make sure to add to the list!"
+    },
+    "Sunday": {
+      "title": "Indy 500 Today!",
+      "message": "vroooooooooom"
     }
   }
 }
