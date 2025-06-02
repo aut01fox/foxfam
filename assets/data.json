@@ -17,23 +17,7 @@
       "member": "Cole"
     },
     {
-      "day": ["Wednesday","Friday"],
-      "time": "12:00 PM",
-      "event": "Preschool",
-      "duration": 10,
-      "category": "school",
-      "member": "Leo"
-    },
-    {
       "day": ["Tuesday", "Wednesday", "Thursday", "Friday"],
-      "time": "9:00 AM",
-      "event": "Work",
-      "duration": 30,
-      "category": "work",
-      "member": "Autumn"
-    },
-    {
-      "day": ["Monday"],
       "time": "10:30 AM",
       "event": "Work",
       "duration": 24,
@@ -44,25 +28,23 @@
   ],
   "dinners": {
     "Monday": [
-      "free for all"
-    ],
-    "Tuesday": [
       "Hamburger Helper"
     ],
+    "Tuesday": [
+      "Spaghetti",
+      "Garlic Bread"
+    ],
     "Wednesday": [
-      "free for all"
+      "Chicken Fried Rice"
     ],
     "Thursday": [
-      "Salisbury Steak",
-      "Mashed Potatoes",
-      "Corn on the Cob"
+      "free for all"
     ],
     "Friday": [
       "Pizza Friday"
     ],
     "Saturday": [
-      "Pigs in a Blanket",
-      "Curly Fries"
+      "free for all"
     ],
     "Sunday": [
       "free for all"
@@ -161,10 +143,6 @@
     "Saturday": {
       "title": "Heads up!",
       "message": "Groceries are being ordered tomorrow<br>Make sure to add to the list!"
-    },
-    "Sunday": {
-      "title": "Indy 500 Today!",
-      "message": "vroooooooooom"
     }
   }
 }
