@@ -28,25 +28,29 @@
   ],
   "dinners": {
     "Monday": [
-      "Fettuccine Alfredo"
+      "free for all"
     ],
     "Tuesday": [
       "Bummies"
     ],
     "Wednesday": [
-      "Mini Chicken Sandwiches"
+      "free for all"
     ],
     "Thursday": [
-      "free for all"
+      "Pulled Pork",
+      "Baked Potatoes",
+      "Mac and Cheese
     ],
     "Friday": [
-      "free for all"
+      "Pizza Friday"
     ],
     "Saturday": [
       "free for all"
     ],
     "Sunday": [
-      "Beef Stew"
+      "Salisbury Steak",
+      "Mashed Potatoes",
+      "Broccoli"
     ]
   },
   "birthdays": {
@@ -143,10 +147,6 @@
     "Saturday": {
       "title": "Heads up!",
       "message": "Groceries are being ordered tomorrow<br>Make sure to add to the list!"
-    },
-    "Sunday": {
-      "title": "Happy",
-      "message": "FATHER'S DAY!"
     }
   }
 }
