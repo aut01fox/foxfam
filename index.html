@@ -568,7 +568,7 @@ fetch('assets/status.json')
 
     for (const key in data) {
       const row = document.createElement('div');
-      row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+      row.innerHTML = `<strong>${key}:</strong> ${data[key]}<br><br>`;
       statusBox.appendChild(row);
     }
   })
