@@ -157,7 +157,7 @@
     }
     
     #sidebar {
-      flex: 0.8; /* slightly thinner */
+      flex: 0.7; /* slightly thinner */
       background-color: #1a2a40; /* dark blue-neutral */
       color: white;
       padding: 1rem;
@@ -567,8 +567,8 @@ fetch('assets/status.json')
 
   const icons = {
     "Door": "door.png",
-    "Downstairs Temp": "dTemp.png",
-    "Upstairs Temp": "uTemp.png",
+    "Downstairs Temp": "temperature.png",
+    "Upstairs Temp": "temperature.png",
     "Lights": "light.png"
   };
   
@@ -578,7 +578,7 @@ fetch('assets/status.json')
     const iconFile = icons[key];
   
     row.innerHTML = `
-      <img src="Assets/icons/${iconFile}" alt="${key}" style="width: 20px; vertical-align: middle; margin-right: 8px;">
+      <img src="assets/icons/${iconFile}" alt="${key}" style="width: 20px; vertical-align: middle; margin-right: 8px;">
       ${data[key]}
     `;
     row.style.marginBottom = '0.75rem';
