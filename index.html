@@ -548,6 +548,23 @@
       setTimeout(() => {
         location.reload();
       }, 3600 * 1000); // 3600 seconds * 1000 = 1 hour in milliseconds
+
+  // Load Home Status
+fetch('assets/status.json')
+  .then(res => res.json())
+  .then(data => {
+    const statusBox = document.getElementById('statusBox');
+    statusBox.innerHTML = ''; // clear loading text
+
+    for (const key in data) {
+      const row = document.createElement('div');
+      row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+      statusBox.appendChild(row);
+    }
+  })
+  .catch(err => {
+    document.getElementById('statusBox').textContent = 'Failed to load status.';
+  });
   </script>
 </body>
 </html>
