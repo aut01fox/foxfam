@@ -216,10 +216,10 @@
     </div>
   </div>
 
-  <div id="sidebar">
-    <h2 id="statusTitle">At a Glance</h2>
-    <div id="statusBox">Loading...</div>
-  </div>
+<div id="sidebar">
+  <h2 id="statusTitle">At a Glance</h2>
+  <div id="statusBox">Loading...</div>
+</div>
 </div> <!-- closes #main-wrapper -->
 
 <script>
@@ -560,7 +560,6 @@
       }, 3600 * 1000); // 3600 seconds * 1000 = 1 hour in milliseconds
 
 // Load Home Status
-<script>
   fetch('assets/status.json')
     .then(response => response.json())
     .then(data => {
