@@ -559,16 +559,33 @@
         location.reload();
       }, 3600 * 1000); // 3600 seconds * 1000 = 1 hour in milliseconds
 
-  // Load Home Status
-fetch('Assets/status.json')
+// Load Home Status
+fetch('assets/status.json')
   .then(res => res.json())
   .then(data => {
     const statusBox = document.getElementById('statusBox');
-    statusBox.innerHTML = ''; // clear loading text
+    statusBox.innerHTML = ''; // Clear loading placeholder
+
+    const icons = {
+      "Door": "door.png",
+      "Downstairs Temp": "temperature.png",
+      "Upstairs Temp": "temperature.png",
+      "Lights": "light.png",
+    };
 
     for (const key in data) {
+      if (!icons[key]) continue;
+
       const row = document.createElement('div');
-      row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+      const iconFile = icons[key];
+
+      row.innerHTML = `
+        <img src="assets/icons/${iconFile}" alt="${key}" style="width: 20px; vertical-align: middle; margin-right: 8px;">
+        ${data[key]}
+      `;
+      row.style.display = 'flex';
+      row.style.alignItems = 'center';
+      row.style.marginBottom = '0.75rem';
       statusBox.appendChild(row);
     }
   })
