@@ -560,39 +560,22 @@
       }, 3600 * 1000); // 3600 seconds * 1000 = 1 hour in milliseconds
 
 // Load Home Status
-  fetch('assets/status.json')
-    .then(response => response.json())
-    .then(data => {
-      const statusBox = document.getElementById('statusBox');
-      statusBox.innerHTML = '';
+fetch('assets/status.json')
+  .then(res => res.json())
+  .then(data => {
+    const statusBox = document.getElementById('statusBox');
+    statusBox.innerHTML = ''; // clear loading text
 
-      const icons = {
-        "Door": "door.png",
-        "Downstairs Temp": "temperature.png",
-        "Upstairs Temp": "temperature.png",
-        "Lights": "light.png",
-        "Fan": "fan.png"
-      };
+    for (const key in data) {
+      const row = document.createElement('div');
+      row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+      statusBox.appendChild(row);
+    }
+  })
+  .catch(err => {
+    document.getElementById('statusBox').textContent = 'Failed to load status.';
+  });
 
-      for (const key in data) {
-        if (!icons[key]) continue;
-
-        const row = document.createElement('div');
-        row.style.display = 'flex';
-        row.style.alignItems = 'center';
-        row.style.marginBottom = '0.75rem';
-
-        row.innerHTML = `
-          <img src="assets/icons/${icons[key]}" alt="${key}" style="width: 20px; margin-right: 8px;">
-          <span>${data[key]}</span>
-        `;
-
-        statusBox.appendChild(row);
-      }
-    })
-    .catch(() => {
-      document.getElementById('statusBox').textContent = 'Status unavailable.';
-    });
 </script>
 </body>
 </html>
