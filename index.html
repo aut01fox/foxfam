@@ -144,7 +144,29 @@
       background-color: #bcdfeb;
       align-items: center;
     }
+
+    #main-wrapper {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+    }
     
+    #slides {
+      flex: 3;
+      overflow: hidden;
+    }
+    
+    #sidebar {
+      flex: 1;
+      background-color: #1e1e1e;
+      color: white;
+      padding: 1rem;
+      box-shadow: -4px 0 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-width: 200px;
+    }
   </style>
 </head>
 <body>
@@ -153,6 +175,7 @@
       <div id="dateDisplay"></div>
       <div id="timeDisplay"></div>
     </div>
+ <div id="main-wrapper">
   <div id="slides">
     <div class="slide" id="dinner-slide">
       <h2>Dinner This Week</h2>
@@ -183,7 +206,13 @@
     </div>
   </div>
 
-  <script>
+  <div id="sidebar">
+    <h2>Home Status</h2>
+    <div id="statusBox">Loading...</div>
+  </div>
+</div> <!-- closes #main-wrapper -->
+
+<script>
     //date bar
       //date
     const dateBar = document.getElementById("dateBar");
