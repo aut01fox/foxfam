@@ -559,31 +559,17 @@
       }, 3600 * 1000); // 3600 seconds * 1000 = 1 hour in milliseconds
 
   // Load Home Status
-fetch('assets/status.json')
+fetch('Assets/status.json')
   .then(res => res.json())
   .then(data => {
     const statusBox = document.getElementById('statusBox');
     statusBox.innerHTML = ''; // clear loading text
 
-  const icons = {
-    "Door": "door.png",
-    "Downstairs Temp": "temperature.png",
-    "Upstairs Temp": "temperature.png",
-    "Lights": "light.png"
-  };
-  
-  for (const key in data) {
-    if (!icons[key]) continue;
-    const row = document.createElement('div');
-    const iconFile = icons[key];
-  
-    row.innerHTML = `
-      <img src="assets/icons/${iconFile}" alt="${key}" style="width: 20px; vertical-align: middle; margin-right: 8px;">
-      ${data[key]}
-    `;
-    row.style.marginBottom = '0.75rem';
-    statusBox.appendChild(row);
-  }
+    for (const key in data) {
+      const row = document.createElement('div');
+      row.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+      statusBox.appendChild(row);
+    }
   })
   .catch(err => {
     document.getElementById('statusBox').textContent = 'Failed to load status.';
