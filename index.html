@@ -573,10 +573,24 @@ fetch('assets/status.json')
     statusBox.innerHTML = ''; // clear loading text
 
     for (const key in data) {
-      const row = document.createElement('div');
-      row.innerHTML = `<strong>${key}:</strong> ${data[key]}<br><br>`;
-      statusBox.appendChild(row);
-    }
+  const row = document.createElement('div');
+
+  const icons = {
+    "Door": "door.png",
+    "Downstairs Temp": "temperature.png",
+    "Upstairs Temp": "temperature.png",
+    "Lights": "light.png"
+  };
+
+  if (!icons[key]) continue;
+
+  row.innerHTML = `
+    <img src="assets/icons/${icons[key]}" alt="${key}" style="width: 20px; vertical-align: middle; margin-right: 8px;">
+    ${data[key]}<br><br>
+  `;
+
+  statusBox.appendChild(row);
+}
   })
   .catch(err => {
     document.getElementById('statusBox').textContent = 'Failed to load status.';
