@@ -423,27 +423,23 @@
           dinnerTodayDisplay.innerHTML = `<p>free for all</p>`;
         }
         
-      // Load grocery list
       fetch('assets/grocery.json')
         .then(res => res.json())
-        .then(groceryData => {
-          const groceryListDisplay = document.getElementById("groceryList");
-          if (groceryData.grocery && groceryData.grocery.length > 0) {
-            let listHTML = "<h4>Grocery List</h4><ul>";
-            groceryData.grocery.forEach(item => {
-              listHTML += `<li>${item}</li>`;
-            });
-            listHTML += "</ul>";
-            groceryListDisplay.innerHTML = listHTML;
+        .then(data => {
+          const groceryBox = document.getElementById('groceryList');
+          groceryBox.innerHTML = ''; // Clear any existing content
+      
+          const items = data.Groceries || [];
+          if (items.length > 0) {
+            groceryBox.innerHTML = `<p>${items.join("<br>")}</p>`;
           } else {
-            groceryListDisplay.innerHTML = "<p>No grocery items.</p>";
+            groceryBox.innerHTML = `<p>No items on the list</p>`;
           }
         })
         .catch(err => {
-          console.error("Failed to load grocery list:", err);
-          document.getElementById("groceryList").innerHTML = "<p>Failed to load grocery list.</p>";
+          document.getElementById('groceryList').textContent = 'Failed to load grocery list.';
         });
-        
+  
         const birthdayMonth = document.getElementById("birthdayMonth");
           birthdayMonth.innerHTML += `<div>${monthOfYear} Birthdays</div>`;
         const birthdays = document.getElementById("birthdays");
