@@ -200,8 +200,8 @@
           <h4>Tonight</h4>
           <div id="dinnerTodayDisplay"></div>
         </div>
-        <div class="dinner-week">
-          <div id="dinnerWeekOverview"></div>
+        <div class="grocery">
+          <div id="groceryList"></div>
         </div>
       </div>
     </div>
@@ -423,14 +423,26 @@
           dinnerTodayDisplay.innerHTML = `<p>free for all</p>`;
         }
         
-        const dinnerWeekOverview = document.getElementById("dinnerWeekOverview");
-        if (data.dinners) {
-          let weekOverview = "";
-          Object.keys(data.dinners).forEach(day => {
-            weekOverview += `<p><strong>${day}:</strong> ${data.dinners[day].join(", ")}</p>`;
-          });
-          dinnerWeekOverview.innerHTML = weekOverview;
-        }
+      // Load grocery list
+      fetch('assets/grocery.json')
+        .then(res => res.json())
+        .then(groceryData => {
+          const groceryListDisplay = document.getElementById("groceryList");
+          if (groceryData.grocery && groceryData.grocery.length > 0) {
+            let listHTML = "<h4>Grocery List</h4><ul>";
+            groceryData.grocery.forEach(item => {
+              listHTML += `<li>${item}</li>`;
+            });
+            listHTML += "</ul>";
+            groceryListDisplay.innerHTML = listHTML;
+          } else {
+            groceryListDisplay.innerHTML = "<p>No grocery items.</p>";
+          }
+        })
+        .catch(err => {
+          console.error("Failed to load grocery list:", err);
+          document.getElementById("groceryList").innerHTML = "<p>Failed to load grocery list.</p>";
+        });
         
         const birthdayMonth = document.getElementById("birthdayMonth");
           birthdayMonth.innerHTML += `<div>${monthOfYear} Birthdays</div>`;
