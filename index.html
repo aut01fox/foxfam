@@ -87,7 +87,7 @@
     
     .dinner { max-width: 90vw; margin: 75px auto; font-size: 1.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
       .dinner h4 { font-size: 2em; text-decoration: underline; }
-      .grocery h4 { font-size: 1.5em; }
+      .dinner > .grocery h4 { font-size: 1.5em; }
     .dinner > .dinner-today, .dinner > .grocery {
           display: inline-block;
           vertical-align: top;
@@ -181,6 +181,11 @@
     }
     
       #statusBox {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+          #groceryList {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
