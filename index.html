@@ -319,7 +319,7 @@
     setInterval(() => {
       current = (current + 1) % slides.length;
       showSlide(current);
-    }, 20000); // 1000 = 1 sec
+    }, 10000); // 1000 = 1 sec
 
     function formatTime(hour, minute) {
       const ampm = hour >= 12 ? "PM" : "AM";
@@ -475,10 +475,10 @@
           birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
         });
 
-        /* const chores = document.getElementById("chores");
+        const chores = document.getElementById("chores");
         (data.chores?.[dayOfWeek] || []).forEach(chore => {
-          chores.innerHTML += `<p>${chore}</p>`;
-        }); */
+         chores.innerHTML += `<p>${chore}</p>`;
+        });
         
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
