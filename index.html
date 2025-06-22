@@ -457,7 +457,7 @@
         const todayDinner = data.dinners?.[dayOfWeek];
         const dinnerTodayDisplay = document.getElementById("dinnerTodayDisplay");
         if (todayDinner && todayDinner[0].trim() !== "") {
-          dinnerTodayDisplay.innerHTML = `<p><em>${todayDinner.join("<br><span style="margin: 75px auto;">")}</em></p>`;
+          dinnerTodayDisplay.innerHTML = `<p><em>${todayDinner.join("<br>")}</em></p>`;
         } else {
           dinnerTodayDisplay.innerHTML = `<p>free for all</p>`;
         }
