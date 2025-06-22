@@ -87,7 +87,7 @@
     .Cole { background-color: #bdd4d4; box-shadow: inset 0 0 5px 3px #a6bbbb; }
     
     .dinner { max-width: 90vw; margin: 75px auto; font-size: 1.5em; text-align: center; min-height: calc(100vh - 300px); padding-bottom: 2vh; overflow-wrap: break-word; }
-      .grocery h4 { font-size: 1.1em; text-decoration: none; vertical-align: top; text-align: center; }
+      .grocery h4 { font-size: 1.1em; text-decoration: none; vertical-align: top; }
     .dinner > .dinner-today, .dinner > .grocery {
           display: inline-block;
           vertical-align: top;
@@ -104,7 +104,7 @@
           padding-top: 25px;
           padding-left: 25px;
           font-size: 1em;
-          left-padding: 20px;
+          left-margin: 20px;
           
         }
         .dinner > .dinner-today {
@@ -113,7 +113,7 @@
           width: 60%;
           box-sizing: border-box;
         }
-        #dinnerTodayDisplay { font-size: 2em; text-align: right; right-padding; 20px; }
+        #dinnerTodayDisplay { font-size: 2em; text-align: right; right-margin; 20px; }
     .birthdays { max-width: 100%; margin: 50px auto; font-size: 2em; text-align: center; }
     .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
     .reminder { padding: 0 200px; }
@@ -218,7 +218,7 @@
  <div id="main-wrapper">
   <div id="slides">
     <div class="slide" id="dinner-slide">
-      <h2>Dinner Tonight</h2>
+      <h2><strong>Dinner Tonight</strong></h2>
       <div class="dinner" id="dinners">
         <div class="dinner-today">
           <div id="dinnerTodayDisplay"></div>
@@ -241,7 +241,7 @@
       <div id="forecastContainer"><p>Loading forecast...</p></div>
     </div>
       <div class="slide" id="chores-slide">
-      <h2>Daily Tasks</h2>
+      <h2><strong>Daily Tasks</strong></h2>
       <div class="chores" id="chores"></div>
     </div>
   </div>
