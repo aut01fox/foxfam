@@ -84,8 +84,8 @@
       { "name": "Carson", "date": "30th" }
     ],
     "June": [
-      { "name": "Mark-Dad-Gpa", "date": "17th" },
-      { "name": "Neo", "date": "16th" }
+      { "name": "Neo", "date": "16th" },
+      { "name": "Dad", "date": "17th" }
     ],
     "July": [
       { "name": "Josie", "date": "25th" }
@@ -116,27 +116,25 @@
   },
   "chores": {
     "Monday": [
-      "Living Room",
-      "Trash"
+      ""
     ],
     "Tuesday": [
-      "Office"
+      ""
     ],
     "Wednesday": [
-      "Kitchen"
+      ""
     ],
     "Thursday": [
-      "Bathrooms"
+      ""
     ],
     "Friday": [
-      "Miscellaneous"
+      ""
     ],
     "Saturday": [
-      "free day"
+      ""
     ],
     "Sunday": [
-      "Bedrooms",
-      "Laundry"
+      ""
     ]
   },
   "reminders": {
