@@ -632,7 +632,7 @@ fetch('assets/status.json')
   if (!icons[key]) continue;
 
   row.innerHTML = `
-    <img src="assets/images/${icons[key]}" alt="${key}" style="width: 40px; vertical-align: middle; margin-right: 8px;">
+    <img src="assets/images/${icons[key]}" alt="${key}" style="width: 40px; vertical-align: middle; margin-right: 8px; opacity: .75;">
     ${data[key]}<br><br>
   `;
 
