@@ -148,5 +148,9 @@
       "title": "Heads up!",
       "message": "Groceries are being ordered tomorrow<br>Make sure to add to the list!"
     }
-  }
+  },
+  "wifi": {
+    "name": "FoxHome",
+    "pass": "password"
+    }
 }
