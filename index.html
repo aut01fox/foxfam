@@ -186,10 +186,18 @@
         gap: 1.5rem;
     }
     
-      #wifi {
+      #wifi div {
         font-size: 1rem;
         text-align: left;
         vertical-align: bottom;
+          display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.right-align {
+  text-align: right;
+}
     }
       #statusContent {
         flex-grow: 1;
@@ -239,7 +247,10 @@
   <h2 id="statusTitle">At a Glance</h2>
   <div id="statusBox">Loading...</div>
   </div>
-  <div id="wifi">Wi-Fi: FoxHome<br>Password: password</div>
+<div id="wifi">
+  <div>Wi-Fi: <span class="right-align">FoxHome</span></div>
+  <div>Password: <span class="right-align">password</span></div>
+</div>
 </div>
 </div> <!-- closes #main-wrapper -->
 
