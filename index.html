@@ -173,8 +173,7 @@
     #statusTitle {
       margin-top: 1.5rem;
       margin-bottom: 1rem;
-      padding-top: 100px;
-      padding-bottom: 75px;
+      padding-top: 125px;
       font-size: 1.4rem;
       color: #1a2a40;
       font-weight: 600;
@@ -185,6 +184,12 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+    }
+    
+      #wifi {
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        text-align: left;
     }
   </style>
 </head>
@@ -229,6 +234,7 @@
 <div id="sidebar">
   <h2 id="statusTitle">At a Glance</h2>
   <div id="statusBox">Loading...</div>
+  <div id="wifi"></div>
 </div>
 </div> <!-- closes #main-wrapper -->
 
@@ -455,7 +461,7 @@
         (data.chores?.[dayOfWeek] || []).forEach(chore => {
           chores.innerHTML += `<p>${chore}</p>`;
         }); */
-
+        
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
@@ -586,7 +592,7 @@ fetch('assets/status.json')
 
     for (const key in data) {
   const row = document.createElement('div');
-
+  
   const icons = {
     "Door": "door.png",
     "Downstairs Temp": "temperature.png",
@@ -603,7 +609,17 @@ fetch('assets/status.json')
 
   statusBox.appendChild(row);
 }
+    const wifi = document.getElementById("wifi");
+    if (data.name && data.pass) {
+      wifi.innerHTML = `
+        <hr style="margin: 1rem 0;">
+        <p><strong>Wi-Fi:</strong> ${data.name}<br>
+        <strong>Pass:</strong> ${data.pass}</p>
+      `;
+    }
+
   })
+
   .catch(err => {
     document.getElementById('statusBox').textContent = 'Failed to load status.';
   });
@@ -611,3 +627,4 @@ fetch('assets/status.json')
 </script>
 </body>
 </html>
+=
