@@ -502,21 +502,15 @@
 fetch('assets/word.json')
   .then(res => res.json())
   .then(data => {
-    const wordText = document.getElementById('wordText');
-    const wordDef = document.getElementById('wordDef');
-
-    wordText.innerHTML = '';
-    wordDef.innerHTML = '';
-
-    if (data.word && data.definition) {
-      wordText.innerHTML = `<p><em>${data.word}</em></p>`;
-      wordDef.innerHTML = `<p>${data.definition}</p>`;
-    } else {
-      wordText.innerHTML = `<p><em>No word available today.</em></p>`;
-    }
+    const wordContainer = document.getElementById('word');
+    wordContainer.innerHTML = `
+      <div class="word-text">${data.word}</div>
+      <div class="word-definition">${data.definition}</div>
+    `;
   })
   .catch(err => {
-    document.getElementById('wordText').innerHTML = 'Failed to load word.';
+    console.error("Failed to load word.json", err);
+    document.getElementById('word').textContent = "Unable to load Word of the Day.";
   });
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
