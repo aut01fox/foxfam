@@ -248,10 +248,11 @@
       <h2><strong>Weather Forecast</strong></h2>
       <div id="forecastContainer"><p>Loading forecast...</p></div>
     </div>
-      <div class="slide" id="word-slide">
-      <h2><strong>Word of the Day</strong></h2>
-      <div class="word" id="word"></div>
-    </div>
+<div class="slide" id="word-slide">
+  <h2><strong>Word of the Day</strong></h2>
+  <div id="wordText" class="word-text"></div>
+  <div id="wordDef" class="word-def"></div>
+</div>
   </div>
 
 <div id="sidebar">
@@ -488,20 +489,21 @@
 fetch('assets/word.json')
   .then(res => res.json())
   .then(data => {
-    const word = document.getElementById('word');
-    word.innerHTML = ''; // Clear existing content
+    const wordText = document.getElementById('wordText');
+    const wordDef = document.getElementById('wordDef');
+
+    wordText.innerHTML = '';
+    wordDef.innerHTML = '';
 
     if (data.word && data.definition) {
-      word.innerHTML = `
-        <p><strong>Word of the Day:</strong> <em>${data.word}</em></p>
-        <p>${data.definition}</p>
-      `;
+      wordText.innerHTML = `<p><em>${data.word}</em></p>`;
+      wordDef.innerHTML = `<p>${data.definition}</p>`;
     } else {
-      word.innerHTML = `<p><em>No word available today.</em></p>`;
+      wordText.innerHTML = `<p><em>No word available today.</em></p>`;
     }
   })
   .catch(err => {
-    document.getElementById('word').innerHTML = 'Failed to load word.';
+    document.getElementById('wordText').innerHTML = 'Failed to load word.';
   });
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
