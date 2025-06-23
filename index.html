@@ -250,8 +250,7 @@
     </div>
 <div class="slide" id="word-slide">
   <h2><strong>Word of the Day</strong></h2>
-  <div id="wordText"></div>
-  <div id="wordDef"></div>
+  <div id="word"></div>
 </div>
 </div>
 <div id="sidebar">
@@ -488,15 +487,15 @@
 fetch('assets/word.json')
   .then(res => res.json())
   .then(data => {
-    const wordContainer = document.getElementById('word');
-    wordContainer.innerHTML = `
-      <div class="word-text">${data.word}</div>
-      <div class="word-definition">${data.definition}</div>
+    const wordBox = document.getElementById('word');
+    wordBox.innerHTML = `
+      <p><strong>${data.word}</strong></p>
+      <p>${data.definition}</p>
     `;
   })
   .catch(err => {
-    console.error("Failed to load word.json", err);
-    document.getElementById('word').textContent = "Unable to load Word of the Day.";
+    console.error("Word fetch failed:", err);
+    document.getElementById('word').textContent = 'Failed to load word.';
   });
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
