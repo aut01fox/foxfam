@@ -117,7 +117,7 @@
         }
         #dinnerTodayDisplay { font-size: 2em; text-align: right; margin: 50px auto; }
     .birthdays { max-width: 100%; margin: 100px auto; font-size: 2em; text-align: center; }
-    .chores { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
+    .word { max-width: 100%; margin: 100px auto; font-size: 2.5em; text-align: center; }
     .reminder { padding: 0 200px; }
       .reminder h2 { max-width: 100%; margin: 100px auto; padding-bottom: 25px; font-size: 2.5em; text-align: center; }
       .reminder p { font-size: 2.75em; text-align: center; padding: 100px 0; border: 15px double #ffe600; }
@@ -248,9 +248,9 @@
       <h2><strong>Weather Forecast</strong></h2>
       <div id="forecastContainer"><p>Loading forecast...</p></div>
     </div>
-      <div class="slide" id="chores-slide">
-      <h2><strong>Daily Tasks</strong></h2>
-      <div class="chores" id="chores"></div>
+      <div class="slide" id="word-slide">
+      <h2><strong>Word of the Day</strong></h2>
+      <div class="word" id="word"></div>
     </div>
   </div>
 
@@ -485,11 +485,24 @@
           birthdays.innerHTML += `<p>${b.date}  —  <em>${b.name}</em></p>`;
         });
 
-        const chores = document.getElementById("chores");
-        (data.chores?.[dayOfWeek] || []).forEach(chore => {
-         chores.innerHTML += `<p>${chore}</p>`;
-        });
-        
+fetch('assets/word.json')
+  .then(res => res.json())
+  .then(data => {
+    const word = document.getElementById('word');
+    word.innerHTML = ''; // Clear existing content
+
+    if (data.word && data.definition) {
+      word.innerHTML = `
+        <p><strong>Word of the Day:</strong> <em>${data.word}</em></p>
+        <p>${data.definition}</p>
+      `;
+    } else {
+      word.innerHTML = `<p><em>No word available today.</em></p>`;
+    }
+  })
+  .catch(err => {
+    document.getElementById('word').innerHTML = 'Failed to load word.';
+  });
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
         if (reminder) {
