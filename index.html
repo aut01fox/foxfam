@@ -503,7 +503,7 @@ fetch('assets/word.json')
     const wordBox = document.getElementById('word');
     wordBox.innerHTML = `
       <p style="text-align: center; font-style: bold; font-size: 2em;">${data.word}</p>
-       <p style="text-align: center; font-style: italic;">${data.definition}</p>
+       <p style="text-align: center; font-style: italic; font-size: 1.25em;">${data.definition}</p>
     `;
   })
   .catch(err => {
