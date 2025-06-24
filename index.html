@@ -264,7 +264,6 @@
 <div class="slide" id="word-slide">
   <h2><strong>Word of the Day</strong></h2>
   <div id="word"></div>
-  <div id="definition"></div>
 </div>
 </div>
 <div id="sidebar">
@@ -504,19 +503,13 @@ fetch('assets/word.json')
     const wordBox = document.getElementById('word');
     wordBox.innerHTML = `
       <p><strong>${data.word}</strong></p>
+       <p>${data.definition}</p>
     `;
   })
   .catch(err => {
     console.error("Word fetch failed:", err);
-    
-        const defBox = document.getElementById('definition');
-    defBox.innerHTML = `
-      <p>${data.definition}</p>
-    `;
-  })
-  .catch(err => {
-    console.error("Def fetch failed:", err);
-    document.getElementById('definition').textContent = 'Failed to load definition.';
+
+document.getElementById('word').textContent = 'Failed to load word.';
   });
         const reminder = data.reminders?.[dayOfWeek];
         const reminderBox = document.getElementById("reminderBox");
