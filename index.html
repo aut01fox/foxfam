@@ -206,6 +206,34 @@
       #wifi {
         padding: 25px 25px 125px 25px;
     }
+.task-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.task-column {
+  flex: 1 1 200px;
+  min-width: 200px;
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
+}
+
+.task-column h3 {
+  margin-top: 0;
+}
+
+.color-0 { background-color: #78a1bb; } /* Section 1 */
+.color-1 { background-color: #a88fac; } /* Section 2 */
+.color-2 { background-color: #7ba27d; } /* Section 3 */
+.color-3 { background-color: #d3a15d; } /* Section 4 */
+.color-default { background-color: #333; }
+
+.task-column ul {
+  padding-left: 1.5rem;
+}
 }
 
 .right-align {
@@ -241,6 +269,10 @@
        <h2 id="birthdayMonth"></h2>
       <div class="birthdays" id="birthdays"></div>
     </div>
+<div class="slide" id="tasks-slide">
+  <h2><strong>Weekly Tasks</strong></h2>
+  <div id="tasks-columns" class="task-grid"></div>
+</div>
     <div class="slide" id="reminder-slide">
       <div class="reminder" id="reminderBox"></div>
     </div>
@@ -650,7 +682,53 @@ fetch('assets/status.json')
   .catch(err => {
     document.getElementById('statusBox').textContent = 'Failed to load status.';
   });
+  function getWeekNumberInMonth(date) {
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const dayOfWeek = firstDay.getDay();
+    const offsetDate = date.getDate() + dayOfWeek;
+    return Math.ceil(offsetDate / 7);
+  }
 
+  function getTodayName() {
+    return new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  }
+
+  fetch('assets/tasks.json')
+    .then(res => res.json())
+    .then(data => {
+      const weekNum = getWeekNumberInMonth(new Date());
+      const today = getTodayName();
+      const weekKey = `Week ${weekNum}`;
+      const tasksToday = data?.[weekKey]?.[today] || {};
+      const container = document.getElementById('tasks-columns');
+      container.innerHTML = ""; // clear previous content
+
+      const people = Object.keys(tasksToday);
+      if (people.length === 0) {
+        container.innerHTML = "<p>No tasks for today.</p>";
+        return;
+      }
+
+      people.forEach((person, index) => {
+        const colorClass = `color-${index}`; // fallback will be added if needed
+        const tasks = tasksToday[person] || [];
+        const div = document.createElement('div');
+        div.classList.add('task-column');
+        div.classList.add(document.querySelector(`.${colorClass}`) ? colorClass : 'color-default');
+
+        const title = `<h3>${person}</h3>`;
+        const taskList = tasks.length > 0
+          ? `<ul>${tasks.map(task => `<li>${task}</li>`).join('')}</ul>`
+          : `<p>No tasks today.</p>`;
+
+        div.innerHTML = title + taskList;
+        container.appendChild(div);
+      });
+    })
+    .catch(err => {
+      console.error("Failed to load tasks:", err);
+      document.getElementById('tasks-columns').innerHTML = 'Error loading tasks.';
+    });
 </script>
 </body>
 </html>
