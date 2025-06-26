@@ -1,1 +1,122 @@
-{}
+{
+  "Week 1": {
+    "Sunday": {
+      "Autumn": ["Order groceries", "Laundry"],
+      "Cole": ["Pick up groceries", "Bathroom trash"]
+    },
+    "Monday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Tuesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Wednesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Thursday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Friday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Saturday": {
+      "Autumn": [],
+      "Cole": []
+    }
+  },
+  "Week 2": {
+    "Sunday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Monday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Tuesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Wednesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Thursday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Friday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Saturday": {
+      "Autumn": [],
+      "Cole": []
+    }
+  },
+  "Week 3": {
+    "Sunday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Monday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Tuesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Wednesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Thursday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Friday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Saturday": {
+      "Autumn": [],
+      "Cole": []
+    }
+  },
+  "Week 4": {
+    "Sunday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Monday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Tuesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Wednesday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Thursday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Friday": {
+      "Autumn": [],
+      "Cole": []
+    },
+    "Saturday": {
+      "Autumn": [],
+      "Cole": []
+    }
+  }
+}
