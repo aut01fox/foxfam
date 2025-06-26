@@ -206,37 +206,34 @@
       #wifi {
         padding: 25px 25px 125px 25px;
     }
-  #tasks-columns {
-    display: flex;
-    gap: 2rem;
-    justify-content: space-between;
-    width: 100%;
-  }
+.task-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+}
 
-  .task-column {
-    flex: 1;
-    padding: 1rem;
-    border-radius: 10px;
-    color: white;
-    min-width: 200px;
-  }
+.task-column {
+  width: 48%;
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
+}
 
-  .task-column h3 {
-    margin-top: 0;
-    font-size: 1.5rem;
-  }
+.task-column h3 {
+  margin-top: 0;
+}
 
-  .task-item {
-    margin: 0.5rem 0;
-    font-size: 1.2rem;
-  }
+.autumn {
+  background-color: #78a1bb; /* pick your Autumn color */
+}
 
-  .color-0 { background-color: #78a1bb !important; }  /* Autumn */
-  .color-1 { background-color: #a88fac !important; }  /* Cole */
-  .color-2 { background-color: #7ba27d !important; }
-  .color-3 { background-color: #d3a15d !important; }
-  .color-4 { background-color: #999999 !important; }
+.cole {
+  background-color: #a88fac; /* pick your Cole color */
+}
 
+.task-column ul {
+  padding-left: 1.5rem;
+}
 
 .right-align {
   text-align: right;
@@ -273,7 +270,10 @@
     </div>
 <div class="slide" id="tasks-slide">
   <h2><strong>Weekly Tasks</strong></h2>
-  <div id="tasks-columns" class="task-grid"></div>
+  <div id="tasks-columns" class="task-grid">
+    <div id="autumn-tasks" class="task-column autumn"></div>
+    <div id="cole-tasks" class="task-column cole"></div>
+  </div>
 </div>
     <div class="slide" id="reminder-slide">
       <div class="reminder" id="reminderBox"></div>
@@ -689,40 +689,36 @@ fetch('assets/status.json')
   function getTodayName() {
     return new Date().toLocaleDateString('en-US', { weekday: 'long' });
   }
-  function getTodayName() {
-    return new Date().toLocaleDateString('en-US', { weekday: 'long' });
-  }
 
   fetch('assets/tasks.json')
     .then(res => res.json())
     .then(data => {
       const weekNum = data?.CurrentWeek || 1;
       const today = getTodayName();
-      const tasksToday = data?.[`Week ${weekNum}`]?.[today] || {};
-      const container = document.getElementById('tasks-columns');
-      container.innerHTML = '';
+      const weekKey = `Week ${weekNum}`;
+      const tasksToday = data?.[weekKey]?.[today] || {};
 
-      const people = Object.keys(tasksToday);
-      if (people.length === 0) {
-        container.innerHTML = "<p>No tasks for today.</p>";
-        return;
+      const autumnBox = document.getElementById('autumn-tasks');
+      const coleBox = document.getElementById('cole-tasks');
+
+      // Set section titles
+      autumnBox.innerHTML = `<h3>Autumn</h3>`;
+      coleBox.innerHTML = `<h3>Cole</h3>`;
+
+      const autumnTasks = tasksToday["Autumn"] || [];
+      const coleTasks = tasksToday["Cole"] || [];
+
+      if (autumnTasks.length === 0) {
+        autumnBox.innerHTML += `<p>No tasks today.</p>`;
+      } else {
+        autumnBox.innerHTML += `<ul>${autumnTasks.map(task => `<li>${task}</li>`).join('')}</ul>`;
       }
 
-      people.forEach((person, index) => {
-        const column = document.createElement('div');
-        column.className = `task-column color-${index}`;
-        const tasks = tasksToday[person];
-
-        let html = `<h3>${person}</h3>`;
-        if (!tasks || tasks.length === 0) {
-          html += `<div class="task-item">No tasks today.</div>`;
-        } else {
-          html += tasks.map(task => `<div class="task-item">${task}</div>`).join('');
-        }
-
-        column.innerHTML = html;
-        container.appendChild(column);
-      });
+      if (coleTasks.length === 0) {
+        coleBox.innerHTML += `<p>No tasks today.</p>`;
+      } else {
+        coleBox.innerHTML += `<ul>${coleTasks.map(task => `<li>${task}</li>`).join('')}</ul>`;
+      }
     })
     .catch(err => {
       console.error("Failed to load tasks:", err);
