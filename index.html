@@ -225,12 +225,16 @@
   margin-top: 0;
 }
 
-.color-0 { background-color: #78a1bb; } /* Section 1 */
-.color-1 { background-color: #a88fac; } /* Section 2 */
-.color-2 { background-color: #7ba27d; } /* Section 3 */
-.color-3 { background-color: #d3a15d; } /* Section 4 */
-.color-default { background-color: #333; }
+/* Color slots (assigned by index) */
+.color-0 { background-color: #78a1bb; }  /* Autumn */
+.color-1 { background-color: #a88fac; }  /* Cole */
+.color-2 { background-color: #7ba27d; }
+.color-3 { background-color: #d3a15d; }
 
+/* Fallback for any .color-N higher than 3 */
+[class*="color-"]:not(.color-0):not(.color-1):not(.color-2):not(.color-3) {
+  background-color: #333;
+}
 .task-column ul {
   padding-left: 1.5rem;
 }
@@ -715,7 +719,8 @@ fetch('assets/status.json')
         const tasks = tasksToday[person] || [];
         const div = document.createElement('div');
         div.classList.add('task-column');
-        div.classList.add(document.querySelector(`.${colorClass}`) ? colorClass : 'color-default');
+        
+        div.classList.add(`color-${index}`); // we’ll handle fallback in CSS
 
         const title = `<h3>${person}</h3>`;
         const taskList = tasks.length > 0
