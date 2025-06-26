@@ -683,12 +683,6 @@ fetch('assets/status.json')
   .catch(err => {
     document.getElementById('statusBox').textContent = 'Failed to load status.';
   });
-  function getWeekNumberInMonth(date) {
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const dayOfWeek = firstDay.getDay();
-    const offsetDate = date.getDate() + dayOfWeek;
-    return Math.ceil(offsetDate / 7);
-  }
 
   function getTodayName() {
     return new Date().toLocaleDateString('en-US', { weekday: 'long' });
@@ -697,7 +691,7 @@ fetch('assets/status.json')
   fetch('assets/tasks.json')
     .then(res => res.json())
     .then(data => {
-      const weekNum = getWeekNumberInMonth(new Date());
+      const weekNum = data?.CurrentWeek || 1;
       const today = getTodayName();
       const weekKey = `Week ${weekNum}`;
       const tasksToday = data?.[weekKey]?.[today] || {};
