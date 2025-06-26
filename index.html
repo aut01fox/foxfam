@@ -208,33 +208,36 @@
     }
 .task-grid {
   display: flex;
-  gap: 2rem;
   justify-content: space-between;
-  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
 }
 
 .task-column {
-  flex: 1 1 200px;
-  min-width: 200px;
+  flex: 1;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   color: white;
+  box-sizing: border-box;
+  min-width: 200px;
 }
 
 .task-column h3 {
   margin-top: 0;
+  font-size: 1.5rem;
 }
 
-/* Color slots (assigned by index) */
+.task-item {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+/* Person colors by order */
 .color-0 { background-color: #78a1bb; }  /* Autumn */
 .color-1 { background-color: #a88fac; }  /* Cole */
 .color-2 { background-color: #7ba27d; }
 .color-3 { background-color: #d3a15d; }
-
-.task-column ul {
-  padding-left: 1.5rem;
-}
-}
+.color-4 { background-color: #999999; }
 
 .right-align {
   text-align: right;
@@ -687,16 +690,18 @@ fetch('assets/status.json')
   function getTodayName() {
     return new Date().toLocaleDateString('en-US', { weekday: 'long' });
   }
+  function getTodayName() {
+    return new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  }
 
   fetch('assets/tasks.json')
     .then(res => res.json())
     .then(data => {
       const weekNum = data?.CurrentWeek || 1;
       const today = getTodayName();
-      const weekKey = `Week ${weekNum}`;
-      const tasksToday = data?.[weekKey]?.[today] || {};
+      const tasksToday = data?.[`Week ${weekNum}`]?.[today] || {};
       const container = document.getElementById('tasks-columns');
-      container.innerHTML = ""; // clear previous content
+      container.innerHTML = '';
 
       const people = Object.keys(tasksToday);
       if (people.length === 0) {
@@ -705,20 +710,19 @@ fetch('assets/status.json')
       }
 
       people.forEach((person, index) => {
-        const colorClass = `color-${index}`; // fallback will be added if needed
-        const tasks = tasksToday[person] || [];
-        const div = document.createElement('div');
-        div.classList.add('task-column');
-        
-        div.classList.add(`color-${index}`); // we’ll handle fallback in CSS
+        const column = document.createElement('div');
+        column.className = `task-column color-${index}`;
+        const tasks = tasksToday[person];
 
-        const title = `<h3>${person}</h3>`;
-        const taskList = tasks.length > 0
-          ? `<ul>${tasks.map(task => `<li>${task}</li>`).join('')}</ul>`
-          : `<p>No tasks today.</p>`;
+        let html = `<h3>${person}</h3>`;
+        if (!tasks || tasks.length === 0) {
+          html += `<div class="task-item">No tasks today.</div>`;
+        } else {
+          html += tasks.map(task => `<div class="task-item">${task}</div>`).join('');
+        }
 
-        div.innerHTML = title + taskList;
-        container.appendChild(div);
+        column.innerHTML = html;
+        container.appendChild(column);
       });
     })
     .catch(err => {
