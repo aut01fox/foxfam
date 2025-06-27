@@ -2,27 +2,27 @@
   "CurrentWeek": 1,
   "Week 1": {
     "Sunday": {
-      "Autumn": ["Order groceries", "Laundry"],
-      "Cole": ["Pick up groceries", "Bathroom trash"]
+      "Autumn": ["Order groceries", "Laundry", "Pantry"],
+      "Cole": ["Pick up groceries", "Bathroom trash","Refrigerator"]
     },
     "Monday": {
       "Autumn": [],
-      "Cole": []
+      "Cole": ["Take out trash","Dishes","Kitchen trash","Clean kitchen"]
     },
     "Tuesday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Sweep","Mop", "Clean living room"],
+      "Cole": ["Yard work"]
     },
     "Wednesday": {
       "Autumn": [],
       "Cole": []
     },
     "Thursday": {
-      "Autumn": ["task"],
-      "Cole": []
+      "Autumn": ["Clean office"],
+      "Cole": ["Dishes","Kitchen trash","Clean kitchen","Living room trash","Office trash","Clean office"]
     },
     "Friday": {
-      "Autumn": [],
+      "Autumn": ["Clean living room"],
       "Cole": []
     },
     "Saturday": {
@@ -32,16 +32,16 @@
   },
   "Week 2": {
     "Sunday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Order groceries","Laundry"],
+      "Cole": ["Pick up groceries"]
     },
     "Monday": {
       "Autumn": [],
-      "Cole": []
+      "Cole": ["Take out trash","Dishes","Kitchen trash","Clean kitchen"]
     },
     "Tuesday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Sweep","Clean living room"],
+      "Cole": ["Yard work"]
     },
     "Wednesday": {
       "Autumn": [],
@@ -49,11 +49,11 @@
     },
     "Thursday": {
       "Autumn": [],
-      "Cole": []
+      "Cole": ["Dishes","Kitchen trash","Clean kitchen"]
     },
     "Friday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Clean living room","Clean Leon's room"],
+      "Cole": ["Clean bedroom","Bedroom trash"]
     },
     "Saturday": {
       "Autumn": [],
@@ -62,27 +62,27 @@
   },
   "Week 3": {
     "Sunday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Order groceries","Laundry"],
+      "Cole": ["Pick up groceries"]
     },
     "Monday": {
       "Autumn": [],
-      "Cole": []
+      "Cole": ["Take out trash","Dishes","Kitchen trash","Clean kitchen"]
     },
     "Tuesday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Sweep","Mop","Clean living room"],
+      "Cole": ["Yard work"]
     },
     "Wednesday": {
       "Autumn": [],
       "Cole": []
     },
     "Thursday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Clean office"],
+      "Cole": ["Living room trash","Clean office"]
     },
     "Friday": {
-      "Autumn": [],
+      "Autumn": ["Clean living room"],
       "Cole": []
     },
     "Saturday": {
@@ -92,15 +92,15 @@
   },
   "Week 4": {
     "Sunday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Order groceries","Laundry"],
+      "Cole": ["Pick up groceries"]
     },
     "Monday": {
       "Autumn": [],
-      "Cole": []
+      "Cole": ["Take out trash","Dishes","Kitchen trash","Clean kitchen"]
     },
     "Tuesday": {
-      "Autumn": [],
+      "Autumn": ["Sweep","Clean living room"],
       "Cole": []
     },
     "Wednesday": {
@@ -109,11 +109,11 @@
     },
     "Thursday": {
       "Autumn": [],
-      "Cole": []
+      "Cole": ["Dishes","Kitchen trash","Clean kitchen"]
     },
     "Friday": {
-      "Autumn": [],
-      "Cole": []
+      "Autumn": ["Clean living room","Clean Leon's eoom"],
+      "Cole": ["Clean bedroom","Bedroom trash"]
     },
     "Saturday": {
       "Autumn": [],
