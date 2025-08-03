@@ -28,27 +28,30 @@
   ],
   "dinners": {
     "Monday": [
-      "free for all"
+      "Spaghetti",
+      "Garlic Bread"
     ],
     "Tuesday": [
-      "Beef Stew"
+      "Meatloaf",
+      "Mashed Potatoes",
+      "Corn"
     ],
     "Wednesday": [
       "free for all"
     ],
     "Thursday": [
-      "Pulled Pork",
-      "Baked Potatoes",
-      "Mac and Cheese"
+      "Chicken Kiev",
+      "Sweet Potatoes",
+      "Green Beans"
     ],
     "Friday": [
-      "free for all"
+      "Bummies"
     ],
     "Saturday": [
       "free for all"
     ],
     "Sunday": [
-      "Hamburger Helper"
+      "free for all"
     ]
   },
   "birthdays": {
